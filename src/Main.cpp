@@ -1,5 +1,7 @@
 // Custom includes
 #include <PDE.hpp>
+#include <Corrections.hpp>
+#include <Confih.hpp>
 
 // Standard C++ includes
 #include <complex>
