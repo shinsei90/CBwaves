@@ -1,18 +1,14 @@
-#include <iostream>
+#include <Config.hpp>
 
-/*
-** Lambda expressions of the acceleration corrections. **
-*/
+#include <Corrections.hpp>
+
+#include <iostream>
+#include <array>
+
 
 auto sq = [](auto const& a){ return a*a; };
 auto cb = [](auto const& a){ return a*a*a; };
 
-auto r = [&]( auto t, const auto f, const CBwavesAccODE&  ode, const ObserverParameters& ode ) {
-
-    double rx = ...;
-    double ry = ...;
-    double rz = ...;
-
-    return std::hypot(rx,ry,rz);
-
+std::array<double, 3> dr(const double r, const mass_type m)
+{
 }
