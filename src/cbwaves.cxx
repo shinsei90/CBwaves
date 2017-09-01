@@ -30,7 +30,7 @@ static const char* H_NAMES[H_COUNT] = {
     // order is important!
 };
 
-#define C_COUNT       12
+#define C_COUNT       11
 #define C_PN         (1<<0)
 #define C_2PN        (1<<1)
 #define C_SO         (1<<2)

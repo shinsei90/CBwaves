@@ -4,6 +4,7 @@
         "algorithm": "cpp",
         "list": "cpp",
         "bitset": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "sstream": "cpp"
     }
 }

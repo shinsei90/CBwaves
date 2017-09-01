@@ -1,0 +1,11 @@
+
+########################
+# Submission file for CBwaves
+########################
+Executable              = ../../CBwaves/cbwaves
+Universe                = vanilla
+Arguments               = test_cbwaves_2_2.ini
+Output                  = test_cbwaves_2_2.out
+Error                   = test_cbwaves_2_2.err
+Log                     = test_cbwaves_2_2.log
+Queue 1
