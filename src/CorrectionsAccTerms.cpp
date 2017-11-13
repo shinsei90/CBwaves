@@ -194,19 +194,19 @@ mass e_PostNewtonianSO(mass m, mass r, Vector<mass, 3> const& Spin, Vector<mass,
 
 }
 
-Vector<mass, 3> l_PostNewtonian(){
+Vector<mass, 3> l_PostNewtonian(mass m, mass r, Vector<mass, 3> const& LN){
 
     return Vectro<mass, 3> lPN= LN/SI_c2*(1/2*sq(length(v))*(1 - 3*eta) + (3 + eta)*(SI_G*m)/r); 
 
 }
-Vector<mass, 3> l_2PostNewtonian(){
+Vector<mass, 3> l_2PostNewtonian(mass m, mass r, Vector<mass, 3> const& LN){
 
     Vector<mass, 3> l2PN = LN/std::pow(SI_c,4)*(3/8*(1 - 7*eta + 13*sq(eta))*std::pow(length(v), 4) - 1/2*eta*(2 + 5*eta)*(SI_G*m)/r*sq(rdot) 
                          + 1/2*(7 - 10*eta  - 9*sq(eta))*(SI_G*m)/r*sq(length(v)) + 1/4*(14 - 41*eta + 4*sq(eta))*sq((SI_G*m)/r));
     return l2PN;
 
 }
-Vector<mass, 3> l_3PostNewtonian(){
+Vector<mass, 3> l_3PostNewtonian(mass m, mass r, Vector<mass, 3> const& LN){
 
     Vector<mass, 3> l3PN = LN/std::pow(SI_c, 6)*((5/2 - (5199/280 - 41/32*sq(PI))*eta - 7*sq(eta) + cb(eta))*cb((SI_G*m)/r)
                          + 1/16*(5 - 59*eta + 238*sq(eta) - 323*cb(eta))*std::pow(length(v),6)
@@ -218,7 +218,7 @@ Vector<mass, 3> l_3PostNewtonian(){
     return l3PN;
 
 }
-Vector<mass, 3> l_SpinOrbit(){
+Vector<mass, 3> l_SpinOrbit(mass m, mass r, Vector<mass, 3> const& Spin, Vector<mass, 3> const& sigma){
 
     return lSO = mu/(SI_c2*m)*((SI_G*m)/r*cross(n, cross(n, (2*Spin + sigma))) - 1/2*cross(v, cross(v, sigma)));
 
