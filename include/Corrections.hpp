@@ -1,7 +1,9 @@
 #include "Config.hpp"
 #include "Vector.hpp"
 
-std::array<double, 3> dr(const double r, const mass_type m);
+std::array<double, 3> dr(const double r, const mass m);
+
+//Corrections of the orbit
 
 Vector<mass, 3> c_Newtonian(mass m, mass r);
 Vector<mass, 3> c_PostNewtonian(mass m, mass r);
@@ -27,3 +29,19 @@ Vector<mass, 3> l_PostNewtonian();
 Vector<mass, 3> l_2PostNewtonian();
 Vector<mass, 3> l_3PostNewtonian();
 Vector<mass, 3> l_SpinOrbit();
+
+//Spin equations
+
+Vector<mass, 3> Spin1(mass m, mass r);
+Vector<mass, 3> Spin2(mass m, mass r);
+
+//Corrections of the Waveform
+
+Vector<mass, 3> h_Q(mass m, mass r);
+Vector<mass, 3> h_P05Q(mass m, mass r);
+Vector<mass, 3> h_PQ(mass m, mass r);
+Vector<mass, 3> h_P15Q(mass m, mass r);
+Vector<mass, 3> h_P2Q(mass m, mass r);
+Vector<mass, 3> h_PQSO(mass r, Vector<mass,3> const& Delta);
+Vector<mass, 3> h_P15QSO(mass m, mass r, Vector<mass,3> const& Delta);
+Vector<mass, 3> h_P2QSS(mass r, Vector<mass,3> const& Spin1, Vector<mass,3> const& Spin2);

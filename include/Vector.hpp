@@ -1,5 +1,8 @@
+#pragma once
+
 #include <iostream>
 #include <type_traits>
+#include <cmath>
 
 auto add = [](auto const& x, auto const& y) { return x + y; };
 auto sub = [](auto const& x, auto const& y) { return x - y; };

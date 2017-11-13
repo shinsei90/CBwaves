@@ -31,7 +31,7 @@ int main()
 {
     // Type aliases
     using mass_type = double;               // mass_needs to be precise
-    using phase_type = std::complex<float>; // phase calculation can be less precise
+    using phase_type = std::complex<double>; // phase calculation can be less precise
     using solver_internal = double;         // scalars used inside the solver
 
     using state = PDE::StateVector<mass_type, phase_type>;

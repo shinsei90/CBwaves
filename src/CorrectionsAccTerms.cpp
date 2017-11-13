@@ -1,9 +1,10 @@
 #include <Corrections.hpp>
+#include <Vector.hpp>
 
 #include <iostream>
 #include <cmath>
 
-dm = m1 - m2;
+mass dm = m1 - m2;
 mass m = m1 + m2;
 mass mu = m1*m2/m;
 mass eta = mu/m;
@@ -220,5 +221,56 @@ Vector<mass, 3> l_3PostNewtonian(){
 Vector<mass, 3> l_SpinOrbit(){
 
     return lSO = mu/(SI_c2*m)*((SI_G*m)/r*cross(n, cross(n, (2*Spin + sigma))) - 1/2*cross(v, cross(v, sigma)));
+
+}
+
+
+Vector<mass, 3> Spin1(mass m, mass r){
+
+    mass alpha1PN;
+    mass alpha2PN;
+    mass alpha3PN;
+    
+    alpha1PN = (SI_G*m)/sq(r)*(3/4 + 1/2*eta - 3/4*dm/m);
+    
+    alpha2PN = (SI_G*m)/sq(r)*((-3/2*eta + 3/4*sq(eta) - 3/2*eta*dm/m)*sq(length(n)*length(v)) 
+             + (1/16 + 1/18*eta - 3/8*sq(eta) + dm/m*(-1/16 + 1/2*eta))*sqlength(v)))
+             + sq(SI_G*m)/cb(r)*(-1/4 - 3/8*eta + 1/2*sq(eta) + dm/m*(1/4 - 1/8*eta));
+    
+    alpha2PN = (SI_G*m)/sq(r)*((15/8*eta - 195/32*sq(eta) + 15/16*cb(eta) + dm/m*(15/8*eta - 75/32*sq(eta)))*std::pow(length(n)length(v), 4)
+             + (-3*eta + 291/32*sq(eta) - 45/16*cb(eta) + dm/m*(-3*eta + 177/32*sq(eta)))*sq(length(n)*length(v))*sqlength(v)
+             + (1/32 + 19/16*eta - 31/8*sq(eta) + 17/16*cb(eta) + dm/m*(-1/32 + 3/4*eta - 11/8*sq(eta)))*std::pow(length(v),4))
+             + sq(SI_G*m)/cb(r)*((1/4 - 525/32*eta - 159/16*sq(eta) + 13/4*cb(eta) + dm/m*(-1/4 - 75/32*eta - 87/16*sq(eta)))*sq(length(n)*length(v)
+             + (3/16 + 27/4*eta + 75/32*sq(eta) - 9/8*cb(eta) + dm/m*(-3/16 + 9/8*eta + 35/32*sq(eta)))*sqlength(v))
+             + cb(SI_G*m)/std::pow(r,4)*(7/16 - 9/4*eta - 9/8*sq(eta) 1/2*cb(eta) + dm/m*(-7/16 - 1/8*eta - 1/8*sq(eta)));
+
+    Vector<mass, 3> spin1 = cross(n,v)*(1/SI_c2 alpha1PN + 1/sq(SI_c2) alpha2PN + 1/cb(SI_c2) alpha3PN);
+
+    return spin1;
+
+}
+
+Vector<mass, 3> Spin2(mass m, mass r){
+
+    mass alpha1PN;
+    mass alpha2PN;
+    mass alpha3PN;
+    
+    alpha1PN = (SI_G*m)/sq(r)*(3/4 + 1/2*eta + 3/4*dm/m);
+    
+    alpha2PN = (SI_G*m)/sq(r)*((-3/2*eta + 3/4*sq(eta) + 3/2*eta*dm/m)*sq(length(n)*length(v)) 
+             + (1/16 + 1/18*eta - 3/8*sq(eta) - dm/m*(-1/16 + 1/2*eta))*sqlength(v)))
+             + sq(SI_G*m)/cb(r)*(-1/4 - 3/8*eta + 1/2*sq(eta) - dm/m*(1/4 - 1/8*eta));
+    
+    alpha2PN = (SI_G*m)/sq(r)*((15/8*eta - 195/32*sq(eta) + 15/16*cb(eta) - dm/m*(15/8*eta - 75/32*sq(eta)))*std::pow(length(n)length(v), 4)
+             + (-3*eta + 291/32*sq(eta) - 45/16*cb(eta) - dm/m*(-3*eta + 177/32*sq(eta)))*sq(length(n)*length(v))*sqlength(v)
+             + (1/32 + 19/16*eta - 31/8*sq(eta) + 17/16*cb(eta) - dm/m*(-1/32 + 3/4*eta - 11/8*sq(eta)))*std::pow(length(v),4))
+             + sq(SI_G*m)/cb(r)*((1/4 - 525/32*eta - 159/16*sq(eta) + 13/4*cb(eta) - dm/m*(-1/4 - 75/32*eta - 87/16*sq(eta)))*sq(length(n)*length(v)
+             + (3/16 + 27/4*eta + 75/32*sq(eta) - 9/8*cb(eta) - dm/m*(-3/16 + 9/8*eta + 35/32*sq(eta)))*sqlength(v))
+             + cb(SI_G*m)/std::pow(r,4)*(7/16 - 9/4*eta - 9/8*sq(eta) 1/2*cb(eta) - dm/m*(-7/16 - 1/8*eta - 1/8*sq(eta)));
+
+    Vector<mass, 3> spin1 = cross(n,v)*(1/SI_c2 alpha1PN + 1/sq(SI_c2) alpha2PN + 1/cb(SI_c2) alpha3PN);
+
+    return spin2;
 
 }

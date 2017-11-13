@@ -1,0 +1,25 @@
+[
+{
+  "directory": "/Users/b/Documents/CppProjects/cbwaves-verziok/cbwaves-2.0.0/build",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -I../include  -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk   -std=gnu++14 -o CMakeFiles/RK4_Test.dir/src/Main.cpp.o -c /Users/b/Documents/CppProjects/cbwaves-verziok/cbwaves-2.0.0/src/Main.cpp",
+  "file": "/Users/b/Documents/CppProjects/cbwaves-verziok/cbwaves-2.0.0/src/Main.cpp"
+},
+
+{
+  "directory": "/Users/b/Documents/CppProjects/cbwaves-verziok/cbwaves-2.0.0/build",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -I../include  -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk   -std=gnu++14 -o CMakeFiles/RK4_Test.dir/src/CorrectionsAccTerms.cpp.o -c /Users/b/Documents/CppProjects/cbwaves-verziok/cbwaves-2.0.0/src/CorrectionsAccTerms.cpp",
+  "file": "/Users/b/Documents/CppProjects/cbwaves-verziok/cbwaves-2.0.0/src/CorrectionsAccTerms.cpp"
+},
+
+{
+  "directory": "/Users/b/Documents/CppProjects/cbwaves-verziok/cbwaves-2.0.0/build",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -I../include  -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk   -std=gnu++14 -o CMakeFiles/RK4_Test.dir/src/CorrectionsHTerms.cpp.o -c /Users/b/Documents/CppProjects/cbwaves-verziok/cbwaves-2.0.0/src/CorrectionsHTerms.cpp",
+  "file": "/Users/b/Documents/CppProjects/cbwaves-verziok/cbwaves-2.0.0/src/CorrectionsHTerms.cpp"
+},
+
+{
+  "directory": "/Users/b/Documents/CppProjects/cbwaves-verziok/cbwaves-2.0.0/build",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -I../include  -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk   -std=gnu++14 -o CMakeFiles/RK4_Test.dir/src/CorrectionsHamiltonian.cpp.o -c /Users/b/Documents/CppProjects/cbwaves-verziok/cbwaves-2.0.0/src/CorrectionsHamiltonian.cpp",
+  "file": "/Users/b/Documents/CppProjects/cbwaves-verziok/cbwaves-2.0.0/src/CorrectionsHamiltonian.cpp"
+}
+]

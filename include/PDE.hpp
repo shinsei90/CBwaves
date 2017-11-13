@@ -2,7 +2,7 @@
 //                                                                  //
 // Unexported templated PDE solver to be used by client codebase    //
 //                                                                  //
-// Author: Nagy-Egri Máté Ferenc                                    //
+// Author: Nagy-Egri Mï¿½tï¿½ Ferenc                                    //
 //                                                                  //
 //////////////////////////////////////////////////////////////////////
 
@@ -664,10 +664,8 @@ namespace PDE
     }
 
     template <typename... P> auto make_equation(P... equations) { return Proxy<P...>(equations...); }
-    
-} // namespace PDE
-
-///////////////////////////////////////////
+  
+    ///////////////////////////////////////////
 // PDE::StateVector non-member operators //
 ///////////////////////////////////////////
 
@@ -694,3 +692,6 @@ template <typename Scalar, typename... T> auto operator*(const PDE::StateVector<
 
 template <typename Scalar, typename E, typename... T> auto operator/(const PDE::ConstExpression<E, T...>& v, const Scalar alpha) { return PDE::map(v, [=](const auto& val) { return val / alpha; }); }
 template <typename Scalar, typename... T> auto operator/(const PDE::StateVector<T...>& v, const Scalar alpha) { return PDE::map(PDE::ConstView<T...>(v), [=](const auto& val) { return val / alpha; }); }
+} // namespace PDE
+
+

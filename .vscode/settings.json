@@ -4,6 +4,13 @@
         "__locale": "cpp",
         "__string": "cpp",
         "string": "cpp",
-        "string_view": "cpp"
+        "string_view": "cpp",
+        "iostream": "cpp",
+        "ios": "cpp",
+        "mutex": "cpp",
+        "__mutex_base": "cpp",
+        "__threading_support": "cpp",
+        "cassert": "cpp",
+        "complex": "cpp"
     }
 }
