@@ -21,16 +21,15 @@ Vector<mass, 3> LN = mu*cross(x, v);
 Vector<mass, 3> Delta = m*(Spin2/m2 - Spin1/m1);
 
 
-auto sq = [](auto const& a){ return a*a;
-
-};
+auto sq = [](auto const& a){ return a*a;};
 auto cb = [](auto const& a){ return a*a*a; };
 
 
 
 Vector<mass, 3> c_Newtonian(mass m, mass r){
 
-    return Vector<mass, 3> rN = -(SI_G*m)/sq(r) * n;
+    Vector<mass, 3> rN = -(SI_G*m)/sq(r) * n;
+    return rN;
 
 }
 Vector<mass, 3> c_PostNewtonian(mass m, mass r){
@@ -42,8 +41,8 @@ Vector<mass, 3> c_PostNewtonian(mass m, mass r){
 Vector<mass, 3> c_2PostNewtonian(mass m, mass r){
 
     Vector<mass, 3> r2PN = -(SI_G*m)/(sq(SI_c2*r)) * (n*(3/4*(12 + 29*eta)*sq((SI_G*m)/r) + eta*(3 - 4*eta)*std::pow(length(v),4) 
-                         + 15/8*eta*(1 - 3*eta)*satd::pow(rdot,4) - 3/2*eta*(3 - 4*eta)*sq(length(v)*rdot) 
-                         - 1/2*eta*(13 - 4*eta)*(SI_G*m)/r*sq(length(v)) - (2 + 25*eta + 2*sq(eta))(SI_G*m)/r*sq(rdot)) 
+                         + 15/8*eta*(1 - 3*eta)*std::pow(rdot,4) - 3/2*eta*(3 - 4*eta)*sq(length(v)*rdot) 
+                         - 1/2*eta*(13 - 4*eta)*(SI_G*m)/r*sq(length(v)) - (2 + 25*eta + 2*sq(eta))*(SI_G*m)/r*sq(rdot)) 
                          - 1/2*rdot*v*(eta*(15 + 4*eta)*sq(length(v)) - (4 + 41*eta + 8*sq(eta))*(SI_G*m)/r -3*eta*(3 + 2*eta)*sq(rdot)));
     return r2PN;
 
@@ -83,7 +82,7 @@ Vector<mass, 3> c_SpinSpin(mass m, mass r, Vector<mass, 3> const& Spin1, Vector<
 Vector<mass, 3> c_BT_RR(mass m, mass r){
 
     Vector<mass, 3> rBTRR = 8/5*eta*sq(SI_G*m)/(std::pow(SI_c,5)*cb(r))*(rdot*n*(18*sq(length(v)) + 2/3*(SI_G*m)/r - 25*sq(rdot)) 
-                          - v*(6*sq(length(v)) - 2(SI_G*m)/r - 15*sq(rdot)));
+                          - v*(6*sq(length(v)) - 2*(SI_G*m)/r - 15*sq(rdot)));
     return rBTRR;
 
 }
@@ -94,7 +93,7 @@ Vector<mass, 3> c_PostNewtonianSO(mass m, mass r, Vector<mass, 3> const& Spin, V
                           - (SI_G*m)/r*(24 + 29/2*eta))) + rdot*v*(dot(cross(n, v),Spin)*(-9 + 9*eta) + dm/m*dot(cross(n,v), Delta)*(-3 - 6*eta)) 
                           + cross(n, v)*(3/2*rdot*dot(v, Spin)*(-1 + eta) - 8*(SI_G*m)/r*eta*dot(n, Spin) 
                           - dm/m*(4*(SI_G*m)/r*eta*dot(n, Delta) + 3/2*rdot*dot(v, Delta))) 
-                          + rodt*cross(n, Spin)*(-45/2*eta*sq(rdot) + 21*eta*sq(length(v)) - (SI_G*m)/r*(28 + 21*eta)) 
+                          + rdot*cross(n, Spin)*(-45/2*eta*sq(rdot) + 21*eta*sq(length(v)) - (SI_G*m)/r*(28 + 21*eta)) 
                           + dm/m*rdot*cross(n, Delta)*(-15*eta*sq(rdot) + 12*eta*sq(length(v)) - (SI_G*m)/r*(12 + 23/2*eta)) 
                           + cross(v,Spin)*(33/2*eta*sq(rdot) + (SI_G*m)/r*(24 + 11*eta) - 14*eta*sq(length(v))) 
                           + dm/m*cross(v, Delta)*(9*eta*sq(rdot) - 7*eta*sq(length(v)) + (SI_G*m)/r*(12 + 11/2*eta)));
@@ -121,7 +120,7 @@ Vector<mass, 3> c_RRSO(mass m, mass r, Vector<mass, 3> const& Spin, Vector<mass,
                           - 2/3*rdot*cross(v, Spin)*(48*sq(length(v)) + 15*sq(rdot) + 364*(SI_G*m)/r) 
                           + 1/3*rdot*cross(v, sigma)*(291*sq(length(v)) - 705*sq(rdot) - 772*(SI_G*m)/r) 
                           + 1/2*cross(n, Spin)*(31*std::pow(length(v), 4) - 260*sq(length(v)*rdot) + 245*std::pow(rdot, 4) 
-                          + 537*sq(rdot)*(SI_G*m)/r + 4/3*sq((SI_G*m)/r)) + 1/2*cross(n,sigma)*(115*std::pow(length(v4)) 
+                          + 537*sq(rdot)*(SI_G*m)/r + 4/3*sq((SI_G*m)/r)) + 1/2*cross(n,sigma)*(115*std::pow(length(v),4) 
                           - 1130*sq(length(v)*rdot) + 1295*std::pow(rdot, 4) - 869/3*sq(length(v))*(SI_G*m)/r +849*sq(rdot)*(SI_G*m)/r 
                           + 44/3*sq((SI_G*m)/r)));
     return rRRSO;
@@ -144,7 +143,8 @@ Vector<mass, 3> c_RRSS(mass m, mass r, Vector<mass, 3> const& Spin1, Vector<mass
 
 mass e_Newtonian(mass m, mass r){
 
-    return mass eN = mu*(1/2*sq(length(v)) - (SI_G*m)/r);
+    mass eN = mu*(1/2*sq(length(v)) - (SI_G*m)/r);
+    return eN;
 
 }
 mass e_PostNewtonian(mass m, mass r){
@@ -163,7 +163,7 @@ mass e_2PostNewtonian(mass m, mass r){
 }
 mass e_3PostNewtonian(mass m, mass r){
 
-    mass e3PN = mu/std::pow(SI_c, 6)*((3/8 + 18469/840*eta)std::pow((SI_G*m)/r, 4) + (5/4 - (6747/280 - 41/64*sq(PI))*eta 
+    mass e3PN = mu/std::pow(SI_c, 6)*((3/8 + 18469/840*eta)*std::pow((SI_G*m)/r, 4) + (5/4 - (6747/280 - 41/64*sq(PI))*eta 
               - 21/4*sq(eta) + 1/2*cb(eta))*cb((SI_G*m)/r)*sq(length(v))
               + (3/2 + (2321/280 - 123/64*sq(PI))*eta + 51/4*sq(eta) + 7/2*cb(eta))*cb((SI_G*m)/r)*sq(rdot )
               + 1/128*(35 - 413*eta + 1666*sq(eta) - 2261*cb(eta))*std::pow(length(v), 8) 
@@ -178,12 +178,14 @@ mass e_3PostNewtonian(mass m, mass r){
 }
 mass e_SpinOrbit(mass r, Vector<mass, 3> const& sigma, Vector<mass, 3> const& LN){
 
-    return mass eSO = SI_G/(SI_c2*cb(r))*dot(LN, sigma);
+    mass eSO = SI_G/(SI_c2*cb(r))*dot(LN, sigma);
+    return eSO;
 
 }
 mass e_SpinSpin(mass r, Vector<mass, 3> const& Spin1, Vector<mass, 3> const& Spin2){
 
-    return mass eSS = SI_G/(SI_c2*cb(r))*(3*dot(n, Spin1)*dot(n, Spin2) - dot(Spin1, Spin2));
+    mass eSS = SI_G/(SI_c2*cb(r))*(3*dot(n, Spin1)*dot(n, Spin2) - dot(Spin1, Spin2));
+    return eSS;
 
 }
 mass e_PostNewtonianSO(mass m, mass r, Vector<mass, 3> const& Spin, Vector<mass, 3> const& Delta){
@@ -196,7 +198,8 @@ mass e_PostNewtonianSO(mass m, mass r, Vector<mass, 3> const& Spin, Vector<mass,
 
 Vector<mass, 3> l_PostNewtonian(mass m, mass r, Vector<mass, 3> const& LN){
 
-    return Vectro<mass, 3> lPN= LN/SI_c2*(1/2*sq(length(v))*(1 - 3*eta) + (3 + eta)*(SI_G*m)/r); 
+    Vector<mass, 3> lPN= LN/SI_c2*(1/2*sq(length(v))*(1 - 3*eta) + (3 + eta)*(SI_G*m)/r);
+    return  lPN;
 
 }
 Vector<mass, 3> l_2PostNewtonian(mass m, mass r, Vector<mass, 3> const& LN){
@@ -220,12 +223,13 @@ Vector<mass, 3> l_3PostNewtonian(mass m, mass r, Vector<mass, 3> const& LN){
 }
 Vector<mass, 3> l_SpinOrbit(mass m, mass r, Vector<mass, 3> const& Spin, Vector<mass, 3> const& sigma){
 
-    return lSO = mu/(SI_c2*m)*((SI_G*m)/r*cross(n, cross(n, (2*Spin + sigma))) - 1/2*cross(v, cross(v, sigma)));
+    Vector<mass, 3> lSO = mu/(SI_c2*m)*((SI_G*m)/r*cross(n, cross(n, (2*Spin + sigma))) - 1/2*cross(v, cross(v, sigma)));
+    return lSO;
 
 }
 
 
-Vector<mass, 3> Spin1(mass m, mass r){
+Vector<mass, 3> spin1(mass m, mass r){
 
     mass alpha1PN;
     mass alpha2PN;
@@ -242,15 +246,15 @@ Vector<mass, 3> Spin1(mass m, mass r){
              + (1/32 + 19/16*eta - 31/8*sq(eta) + 17/16*cb(eta) + dm/m*(-1/32 + 3/4*eta - 11/8*sq(eta)))*std::pow(length(v),4))
              + sq(SI_G*m)/cb(r)*((1/4 - 525/32*eta - 159/16*sq(eta) + 13/4*cb(eta) + dm/m*(-1/4 - 75/32*eta - 87/16*sq(eta)))*sq(length(n)*length(v)
              + (3/16 + 27/4*eta + 75/32*sq(eta) - 9/8*cb(eta) + dm/m*(-3/16 + 9/8*eta + 35/32*sq(eta)))*sqlength(v))
-             + cb(SI_G*m)/std::pow(r,4)*(7/16 - 9/4*eta - 9/8*sq(eta) 1/2*cb(eta) + dm/m*(-7/16 - 1/8*eta - 1/8*sq(eta)));
+             + cb(SI_G*m)/std::pow(r,4)*(7/16 - 9/4*eta - 9/8*sq(eta)*1/2*cb(eta) + dm/m*(-7/16 - 1/8*eta - 1/8*sq(eta)));
 
-    Vector<mass, 3> spin1 = cross(n,v)*(1/SI_c2 alpha1PN + 1/sq(SI_c2) alpha2PN + 1/cb(SI_c2) alpha3PN);
+    Vector<mass, 3> Spin1 = cross(n,v)*(1/SI_c2*alpha1PN + 1/sq(SI_c2)*alpha2PN + 1/cb(SI_c2)*alpha3PN);
 
-    return spin1;
+    return Spin1;
 
 }
 
-Vector<mass, 3> Spin2(mass m, mass r){
+Vector<mass, 3> spin2(mass m, mass r){
 
     mass alpha1PN;
     mass alpha2PN;
@@ -267,10 +271,10 @@ Vector<mass, 3> Spin2(mass m, mass r){
              + (1/32 + 19/16*eta - 31/8*sq(eta) + 17/16*cb(eta) - dm/m*(-1/32 + 3/4*eta - 11/8*sq(eta)))*std::pow(length(v),4))
              + sq(SI_G*m)/cb(r)*((1/4 - 525/32*eta - 159/16*sq(eta) + 13/4*cb(eta) - dm/m*(-1/4 - 75/32*eta - 87/16*sq(eta)))*sq(length(n)*length(v)
              + (3/16 + 27/4*eta + 75/32*sq(eta) - 9/8*cb(eta) - dm/m*(-3/16 + 9/8*eta + 35/32*sq(eta)))*sqlength(v))
-             + cb(SI_G*m)/std::pow(r,4)*(7/16 - 9/4*eta - 9/8*sq(eta) 1/2*cb(eta) - dm/m*(-7/16 - 1/8*eta - 1/8*sq(eta)));
+             + cb(SI_G*m)/std::pow(r,4)*(7/16 - 9/4*eta - 9/8*sq(eta)*1/2*cb(eta) - dm/m*(-7/16 - 1/8*eta - 1/8*sq(eta)));
 
-    Vector<mass, 3> spin1 = cross(n,v)*(1/SI_c2 alpha1PN + 1/sq(SI_c2) alpha2PN + 1/cb(SI_c2) alpha3PN);
+    Vector<mass, 3> Spin2 = cross(n,v)*(1/SI_c2*alpha1PN + 1/sq(SI_c2)*alpha2PN + 1/cb(SI_c2)*alpha3PN);
 
-    return spin2;
+    return Spin2;
 
 }
