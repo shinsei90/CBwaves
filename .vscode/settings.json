@@ -11,6 +11,13 @@
         "__mutex_base": "cpp",
         "__threading_support": "cpp",
         "cassert": "cpp",
-        "complex": "cpp"
+        "complex": "cpp",
+        "__config": "cpp",
+        "__nullptr": "cpp",
+        "exception": "cpp",
+        "initializer_list": "cpp",
+        "new": "cpp",
+        "stdexcept": "cpp",
+        "typeinfo": "cpp"
     }
 }

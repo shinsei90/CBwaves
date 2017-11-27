@@ -11,14 +11,17 @@ Vector<mass, 3> c_Newtonian(mass m, mass r);
 Vector<mass, 3> c_PostNewtonian(mass m, mass r);
 Vector<mass, 3> c_2PostNewtonian(mass m, mass r);
 Vector<mass, 3> c_3PostNewtonian(mass m, mass r);
+Vector<mass, 3> c_4PostNewtonian(mass m, mass r);
 Vector<mass, 3> c_SpinOrbit(mass m, mass r, Vector<mass, 3> const& Spin, Vector<mass, 3> const& sigma);
 Vector<mass, 3> c_SpinSpin(mass m, mass r, Vector<mass, 3> const& Spin1, Vector<mass, 3> const& Spin2);
 Vector<mass, 3> c_BT_RR(mass m, mass r);
 Vector<mass, 3> c_PostNewtonianSO(mass m, mass r, Vector<mass, 3> const& Spin, Vector<mass, 3> const& Delta);
+Vector<mass, 3> c_2PostNewtonianSO(mass m, mass r, Vector<mass, 3> const& Spin, Vector<mass, 3> const& Delta); //Bohe et al. NNSO - CQG30(13)075017
 Vector<mass, 3> c_RR1PostNewtonian(mass m, mass r);
 Vector<mass, 3> c_RRSO(mass m, mass r, Vector<mass, 3> const& Spin, Vector<mass, 3> const& sigma, Vector<mass, 3> const& LN);
 Vector<mass, 3> c_RRSS(mass m, mass r, Vector<mass, 3> const& Spin1, Vector<mass, 3> const& Spin2);
 
+//Energy
 mass e_Newtonian(mass m, mass r);
 mass e_PostNewtonian(mass m, mass r);
 mass e_2PostNewtonian(mass m, mass r);
@@ -27,6 +30,7 @@ mass e_SpinOrbit(mass r, Vector<mass, 3> const& sigma, Vector<mass, 3> const& LN
 mass e_SpinSpin(mass r, Vector<mass, 3> const& Spin1, Vector<mass, 3> const& Spin2);
 mass e_PostNewtonianSO(mass m, mass r, Vector<mass, 3> const& Spin, Vector<mass, 3> const& Delta);
 
+//Momentum
 Vector<mass, 3> l_PostNewtonian(mass m, mass r, Vector<mass, 3> const& LN);
 Vector<mass, 3> l_2PostNewtonian(mass m, mass r, Vector<mass, 3> const& LN);
 Vector<mass, 3> l_3PostNewtonian(mass m, mass r, Vector<mass, 3> const& LN);
