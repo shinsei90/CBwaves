@@ -26,20 +26,30 @@ mass e_Newtonian(mass m, mass r);
 mass e_PostNewtonian(mass m, mass r);
 mass e_2PostNewtonian(mass m, mass r);
 mass e_3PostNewtonian(mass m, mass r);
+mass e_4PostNewtonian(mass m, mass r);
 mass e_SpinOrbit(mass r, Vector<mass, 3> const& sigma, Vector<mass, 3> const& LN);
 mass e_SpinSpin(mass r, Vector<mass, 3> const& Spin1, Vector<mass, 3> const& Spin2);
 mass e_PostNewtonianSO(mass m, mass r, Vector<mass, 3> const& Spin, Vector<mass, 3> const& Delta);
+
+mass edot_Newtonian(mass m, mass r);
+mass edot_PostNewtonian(mass m, mass r);
+mass edot_2PostNewtonian(mass m, mass r);
+mass edot_25PostNewtonian(mass m, mass r);
+mass edot_SpinOrbit(mass m, mass r, Vector<mass, 3> const& Spin,Vector<mass, 3> const& Delta, Vector<mass, 3> const& LN);
+mass edot_SpinSpin(mass m, mass r, Vector<mass, 3> const& Spin1, Vector<mass, 3> const& Spin2);
+mass edot_PostNewtonianSO(mass m, mass r, Vector<mass, 3> const& Spin, Vector<mass, 3> const& Delta);
 
 //Momentum
 Vector<mass, 3> l_PostNewtonian(mass m, mass r, Vector<mass, 3> const& LN);
 Vector<mass, 3> l_2PostNewtonian(mass m, mass r, Vector<mass, 3> const& LN);
 Vector<mass, 3> l_3PostNewtonian(mass m, mass r, Vector<mass, 3> const& LN);
+Vector<mass, 3> l_3PostNewtonian(mass m, mass r, Vector<mass, 3> const& LN);
 Vector<mass, 3> l_SpinOrbit(mass m, mass r, Vector<mass, 3> const& Spin, Vector<mass, 3> const& sigma);
 
 //Spin equations
 
-Vector<mass, 3> Spin1(mass m, mass r);
-Vector<mass, 3> Spin2(mass m, mass r);
+Vector<mass, 3> spin1(mass m, mass r);
+Vector<mass, 3> spin2(mass m, mass r);
 
 //Corrections of the Waveform
 

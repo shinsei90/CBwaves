@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.0.0)
 project(RK4_Test LANGUAGES CXX)
 
 add_executable(${PROJECT_NAME} include/PDE.hpp
+                               include/Corrections.hpp
                                src/Main.cpp
                                src/CorrectionsAccTerms.cpp
                                src/CorrectionsHTerms.cpp
