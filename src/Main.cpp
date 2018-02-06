@@ -225,7 +225,7 @@ int main(){
 
         struct dynamicalParams {
 
-            dynamicalParams(state& result_, struct initParams_){
+            dynamicalParams(state& state_, struct initParams_){
 
             Vector<mass, 3> rr = rhs.get<Radius>() - r_init;
             Vector<mass, 3> x1 = {r/2, 0, 0};
@@ -267,13 +267,13 @@ int main(){
 
         }
 
-        dynamicalParams
+        dynamicalParams dparams(rhs.get<Radius>(), iparams);
 
-        result = PDE::make_equation( corrs(rhs.get<Mass>(), dynamicalParams, params),
-                                     hterms(rhs.get<Mass>(), dynamicalParams, initParams),
-                                     eterms(rhs.get<Mass>(), dynamicalParams, initParams),
-                                     lterms(rhs.get<Mass>(), dynamicalParams, initParams),
-                                     edot(rhs.get<Mass>()), dynamicalParams, initParams);
+        result = PDE::make_equation( corrs(rhs.get<Mass>(), dparams, iparams),
+                                     hterms(rhs.get<Mass>(), dparams, iparams),
+                                     eterms(rhs.get<Mass>(), dparams, iparams),
+                                     lterms(rhs.get<Mass>(), dparams, iparams),
+                                     edot(rhs.get<Mass>()), dparams, iparams);
     };
 
     for (solver_internal t = 0; t < 10; t += dt)
