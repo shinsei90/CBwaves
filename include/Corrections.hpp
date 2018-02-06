@@ -43,7 +43,7 @@ mass edot_PostNewtonianSO(mass m, mass r, Vector<mass, 3> const& Spin, Vector<ma
 Vector<mass, 3> l_PostNewtonian(mass m, mass r, Vector<mass, 3> const& LN);
 Vector<mass, 3> l_2PostNewtonian(mass m, mass r, Vector<mass, 3> const& LN);
 Vector<mass, 3> l_3PostNewtonian(mass m, mass r, Vector<mass, 3> const& LN);
-Vector<mass, 3> l_3PostNewtonian(mass m, mass r, Vector<mass, 3> const& LN);
+Vector<mass, 3> l_4PostNewtonian(mass m, mass r, Vector<mass, 3> const& LN);
 Vector<mass, 3> l_SpinOrbit(mass m, mass r, Vector<mass, 3> const& Spin, Vector<mass, 3> const& sigma);
 
 //Spin equations
