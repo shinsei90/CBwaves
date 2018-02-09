@@ -14,20 +14,27 @@
         "projects": [
           {
             "buildDirectory": "/Users/b/Documents/CppProjects/cbwaves-verziok/cbwaves-2.0.0/build",
-            "name": "RK4_Test",
+            "name": "cbwaves-2.0.0",
             "sourceDirectory": "/Users/b/Documents/CppProjects/cbwaves-verziok/cbwaves-2.0.0",
             "targets": [
               {
                 "artifacts": [
-                  "/Users/b/Documents/CppProjects/cbwaves-verziok/cbwaves-2.0.0/build/RK4_Test"
+                  "/Users/b/Documents/CppProjects/cbwaves-verziok/cbwaves-2.0.0/build/cbwaves-2.0.0"
                 ],
                 "buildDirectory": "/Users/b/Documents/CppProjects/cbwaves-verziok/cbwaves-2.0.0/build",
                 "fileGroups": [
                   {
+                    "isGenerated": false,
+                    "sources": [
+                      "inc/Corrections.hpp",
+                      "inc/PDE.hpp"
+                    ]
+                  },
+                  {
                     "compileFlags": "-g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk   -std=gnu++14",
                     "includePath": [
                       {
-                        "path": "/Users/b/Documents/CppProjects/cbwaves-verziok/cbwaves-2.0.0/include"
+                        "path": "/Users/b/Documents/CppProjects/cbwaves-verziok/cbwaves-2.0.0/inc"
                       }
                     ],
                     "isGenerated": false,
@@ -38,19 +45,12 @@
                       "src/CorrectionsHTerms.cpp",
                       "src/CorrectionsHamiltonian.cpp"
                     ]
-                  },
-                  {
-                    "isGenerated": false,
-                    "sources": [
-                      "include/PDE.hpp",
-                      "include/Corrections.hpp"
-                    ]
                   }
                 ],
-                "fullName": "RK4_Test",
+                "fullName": "cbwaves-2.0.0",
                 "linkLanguageFlags": "-g",
                 "linkerLanguage": "CXX",
-                "name": "RK4_Test",
+                "name": "cbwaves-2.0.0",
                 "sourceDirectory": "/Users/b/Documents/CppProjects/cbwaves-verziok/cbwaves-2.0.0",
                 "type": "EXECUTABLE"
               }
@@ -59,7 +59,7 @@
         ]
       }
     ],
-    "cookie": "0.20435337363632988",
+    "cookie": "0.9775820615789881",
     "inReplyTo": "codemodel",
     "type": "reply"
   }

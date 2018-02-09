@@ -149,7 +149,7 @@ Vector<mass, 3> h_P15QSO(mass r, Vector<mass,3> const& Delta, Vector<mass, 3> Sp
     return hP15QSO;
 
 }
-Vector<mass, 3> h_PQSO(mass m, mass r, Vector<mass,3> const& Delta){
+Vector<mass, 3> h_PQSO(mass r, Vector<mass,3> const& Delta){
 
     Vector<mass, 3> hPQSO;
 

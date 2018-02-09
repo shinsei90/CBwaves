@@ -80,6 +80,9 @@ int main(){
 
     initParams iparams(10, 1.2, 100);
 
+    std::cout << iparams.m << std::endl;
+    
+
     // Model switches (Compile time constants)
     constexpr bool use_c_Newtonian = true,
                    use_c_PostNewtonian = true,
@@ -100,6 +103,7 @@ int main(){
                    use_h_PQ = true,
                    use_h_P15Q = true,
                    use_h_P2Q = true,
+                   use_h_PQSO = true,
                    use_h_P15QSO = true,
                    use_h_P2QSS = true;
 
@@ -124,6 +128,9 @@ int main(){
                    use_l_3PostNewtonian = true,
                    use_l_4PostNewtonian = true,
                    use_l_SpinOrbit = true;
+
+    constexpr bool use_spin1 = true;
+    constexpr bool use_spin2 = true;
 
 
     //Example equations.
@@ -156,6 +163,9 @@ int main(){
     // It is expected, that sensible C++11/14 optimizers eliminate branching on ( true ? val1 : val2 )
     // type expressions at compile time. Even more sensible optimizers should change (val + 0) and
     // (val * 1) type expressions to nop (no-operation).
+
+    mass m = iparams.m;
+
     auto corrs = [=](const mass r){
         return (use_c_Newtonian ? c_Newtonian(m, r) : (mass)0 ) +
                (use_c_PostNewtonian ? c_PostNewtonian(m, r) : (mass)0 ) + 
@@ -172,44 +182,52 @@ int main(){
                (use_c_RRSS ? c_RRSS(m, r, Spin1, Spin2) : (mass)0);
     };
 
-    auto hterms = [=](const mass m){
-        return (use_h_Q ? h_Q(m) : (mass)0) +
-               (use_h_P05Q ? h_P05Q(m) : (mass)0) +
-               (use_h_PQ ? h_PQ(m) : (mass)0) +
-               (use_h_P15Q ? h_P15Q(m) : (mass)0) +
-               (use_h_P2Q ? h_P2Q(m) : (mass)0 ) +
-               (use_h_P15QSO ? h_P15QSO(m) : (mass)0 ) +
-               (use_h_P2QSS ? h_P2QSS(m) : (mass)0 );
+    auto hterms = [=](const mass r){
+        return (use_h_Q ? h_Q(m, r) : (mass)0) +
+               (use_h_P05Q ? h_P05Q(m, r) : (mass)0) +
+               (use_h_PQ ? h_PQ(m, r) : (mass)0) +
+               (use_h_P15Q ? h_P15Q(m, r) : (mass)0) +
+               (use_h_P2Q ? h_P2Q(m, r) : (mass)0 ) +
+               (use_h_PQSO ? h_PQSO(r, Delta) : (mass)0 ) +
+               (use_h_P15QSO ? h_P15QSO(m, r, Delta) : (mass)0 ) +
+               (use_h_P2QSS ? h_P2QSS(m, r, Spin1, Spin2) : (mass)0 );
     };
 
-    auto eterms = [=](const mass m){
-        return (use_e_Newtonian ? e_Newtonian(m) : (mass)0 ) +
-               (use_e_PostNewtonian ? e_PostNewtonian(m) : (mass)0 ) +
-               (use_e_2PostNewtonian ? e_2PostNewtonian(m) : (mass)0 ) +
-               (use_e_3PostNewtonian ? e_3PostNewtonian(m) : (mass)0 ) +
-               (use_e_4PostNewtonian ? e_4PostNewtonian(m) : (mass)0 ) +
-               (use_e_SpinOrbit ? e_SpinOrbit(m) : (mass)0 ) +
-               (use_e_SpinSpin ? e_SpinSpin(m) (mass)0 ) +
-               (use_e_PostNewtonianSO ? e_PostNewtonianSO(m) : (mass)0);
-    }
+    auto eterms = [=](const mass r){
+        return (use_e_Newtonian ? e_Newtonian(m, r) : (mass)0 ) +
+               (use_e_PostNewtonian ? e_PostNewtonian(m, r) : (mass)0 ) +
+               (use_e_2PostNewtonian ? e_2PostNewtonian(m, r) : (mass)0 ) +
+               (use_e_3PostNewtonian ? e_3PostNewtonian(m, r) : (mass)0 ) +
+               (use_e_4PostNewtonian ? e_4PostNewtonian(m, r) : (mass)0 ) +
+               (use_e_SpinOrbit ? e_SpinOrbit(m, r, sigma, LN) : (mass)0 ) +
+               (use_e_SpinSpin ? e_SpinSpin(m, r, Spin1, Spin2) (mass)0 ) +
+               (use_e_PostNewtonianSO ? e_PostNewtonianSO(m, r, Spin, Delta) : (mass)0);
+    };
 
-    auto edot = [=](const mass m){
-        return (use_edot_Newtonian ? edot_Newtonian(m) : (mass)0) +
-               (use_edot_PostNewtonian ? edot_PostNewtonian(m) : (mass)0 ) +
-               (use_edot_2PostNewtonian ? edot_PostNewtonian(m) : (mass)0 ) +
-               (use_edot_25PostNewtonian ? edot_25PostNewtonian(m) : (mass)0 ) +
-               (use_edot_SpinOrbit ? edot_SpinOrbit(m) : (mass)0 ) +
-               (use_edot_SpinSpin ? edot_SpinSpin(m) : (mass)0 ) +
-               (use_edot_PostNewtonianSO ? edot_PostNewtonianSO(m) : (mass)0 );
-    }
+    auto edot = [=](const mass r){
+        return (use_edot_Newtonian ? edot_Newtonian(m, r) : (mass)0) +
+               (use_edot_PostNewtonian ? edot_PostNewtonian(m, r) : (mass)0 ) +
+               (use_edot_2PostNewtonian ? edot_PostNewtonian(m, r) : (mass)0 ) +
+               (use_edot_25PostNewtonian ? edot_25PostNewtonian(m, r) : (mass)0 ) +
+               (use_edot_SpinOrbit ? edot_SpinOrbit(m, r, Spin, Delta, LN) : (mass)0 ) +
+               (use_edot_SpinSpin ? edot_SpinSpin(m, r, Spin1, Spin2) : (mass)0 ) +
+               (use_edot_PostNewtonianSO ? edot_PostNewtonianSO(m, r, Spin, Delta) : (mass)0 );
+    };
 
-    auto lterms = [=](const mass m){
-        return (use_l_PostNewtonian ? l_PostNewtonian(m) : (mass)0) +
-               (use_l_2PostNewtonian ? l_2PostNewtonian(m) : (mass)0) +
-               (use_l_3PostNewtonian ? l_3PostNewtonian(m) : (mass)0) +
-               (use_l_4PostNewtonian ? l_4PostNewtonian(m) : (mass)0) +
-               (use_l_SpinOrbit ? l_SpinOrbit(m) : (mass)0);
-    }
+    auto lterms = [=](const mass r){
+        return (use_l_PostNewtonian ? l_PostNewtonian(m, r) : (mass)0) +
+               (use_l_2PostNewtonian ? l_2PostNewtonian(m, r) : (mass)0) +
+               (use_l_3PostNewtonian ? l_3PostNewtonian(m, r) : (mass)0) +
+               (use_l_4PostNewtonian ? l_4PostNewtonian(m, r) : (mass)0) +
+               (use_l_SpinOrbit ? l_SpinOrbit(m, r, Spin, sigma) : (mass)0);
+    };
+
+    auto S1 = [=](const mass r){
+        return (use_spin1 ? spin1(m, r) : (mass)0);
+    };
+    auto S2 = [=](const mass r){
+        return (use_spin2 ? spin2(m, r) : (mass)0);
+    };
 
     // Create default constructed solver. Allocates storage but is invalid state.
     solver rk4;
@@ -225,11 +243,11 @@ int main(){
 
         struct dynamicalParams {
 
-            dynamicalParams(state& state_, struct initParams_){
+            dynamicalParams(state& state_, initParams iparams_){
 
-            Vector<mass, 3> rr = rhs.get<Radius>() - r_init;
-            Vector<mass, 3> x1 = {r/2, 0, 0};
-            Vector<mass, 3> x2 = {-r/2, 0, 0};
+            Vector<mass, 3> rr = state_ - r_init;
+            Vector<mass, 3> x1 = {iparams.r0/2, 0, 0};
+            Vector<mass, 3> x2 = {-iparams.r0/2, 0, 0};
             Vector<mass, 3> v = {0, SI_c/3, 0};
 
             Vector<mass, 3> Spin1 = spin1(m, r);
@@ -244,7 +262,6 @@ int main(){
 
             mass rdot = dot(n, v);
             mass r = length(rr);
-
             }
 
             Vector<mass, 3> rr;
@@ -265,15 +282,16 @@ int main(){
             mass rdot;
             mass r;
 
-        }
+        };
 
-        dynamicalParams dparams(rhs.get<Radius>(), iparams);
+        dynamicalParams dparams(rk4.lhs().get<Radius>(), iparams);
+        
 
-        result = PDE::make_equation( corrs(rhs.get<Mass>(), dparams, iparams),
-                                     hterms(rhs.get<Mass>(), dparams, iparams),
-                                     eterms(rhs.get<Mass>(), dparams, iparams),
-                                     lterms(rhs.get<Mass>(), dparams, iparams),
-                                     edot(rhs.get<Mass>()), dparams, iparams);
+        result = PDE::make_equation( corrs(rhs.get<Radius>(), dparams, iparams),
+                                     hterms(rhs.get<Radius>(), dparams, iparams),
+                                     eterms(rhs.get<Radius>(), dparams, iparams),
+                                     lterms(rhs.get<Radius>(), dparams, iparams),
+                                     edot(rhs.get<Radius>()), dparams, iparams);
     };
 
     for (solver_internal t = 0; t < 10; t += dt)

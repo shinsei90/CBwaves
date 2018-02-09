@@ -14,6 +14,12 @@
 # EXTERNAL cache entries
 ########################
 
+//Value Computed by CMake
+CBwaves_BINARY_DIR:STATIC=/Users/b/Documents/CppProjects/cbwaves-verziok/cbwaves-2.0.0/build
+
+//Value Computed by CMake
+CBwaves_SOURCE_DIR:STATIC=/Users/b/Documents/CppProjects/cbwaves-verziok/cbwaves-2.0.0
+
 //Path to a program.
 CMAKE_AR:FILEPATH=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar
 
@@ -108,7 +114,7 @@ CMAKE_OSX_DEPLOYMENT_TARGET:STRING=
 CMAKE_OSX_SYSROOT:PATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=RK4_Test
+CMAKE_PROJECT_NAME:STATIC=cbwaves-2.0.0
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib
@@ -164,6 +170,12 @@ RK4_Test_BINARY_DIR:STATIC=/Users/b/Documents/CppProjects/cbwaves-verziok/cbwave
 
 //Value Computed by CMake
 RK4_Test_SOURCE_DIR:STATIC=/Users/b/Documents/CppProjects/cbwaves-verziok/cbwaves-2.0.0
+
+//Value Computed by CMake
+cbwaves-2.0.0_BINARY_DIR:STATIC=/Users/b/Documents/CppProjects/cbwaves-verziok/cbwaves-2.0.0/build
+
+//Value Computed by CMake
+cbwaves-2.0.0_SOURCE_DIR:STATIC=/Users/b/Documents/CppProjects/cbwaves-verziok/cbwaves-2.0.0
 
 
 ########################
