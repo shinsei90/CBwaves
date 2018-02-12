@@ -1,5 +1,7 @@
+#pragma once
 
-using mass = double;
+using mass = double;                    // real type for mass dimension variables
+using solver_internal = double;         // scalars used inside the solver
 
 #define SI_G      6.67428E-11
 #define SI_c      2.99792458E8

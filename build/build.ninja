@@ -54,25 +54,31 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 build CMakeFiles/cbwaves-2.0.0.dir/src/Main.cpp.o: CXX_COMPILER__cbwaves-2.2e0.2e0 ../src/Main.cpp
   DEP_FILE = CMakeFiles/cbwaves-2.0.0.dir/src/Main.cpp.o.d
   FLAGS = -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk   -std=gnu++14
-  INCLUDES = -I../inc
+  INCLUDES = -I../include
   OBJECT_DIR = CMakeFiles/cbwaves-2.0.0.dir
   OBJECT_FILE_DIR = CMakeFiles/cbwaves-2.0.0.dir/src
 build CMakeFiles/cbwaves-2.0.0.dir/src/CorrectionsAccTerms.cpp.o: CXX_COMPILER__cbwaves-2.2e0.2e0 ../src/CorrectionsAccTerms.cpp
   DEP_FILE = CMakeFiles/cbwaves-2.0.0.dir/src/CorrectionsAccTerms.cpp.o.d
   FLAGS = -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk   -std=gnu++14
-  INCLUDES = -I../inc
+  INCLUDES = -I../include
   OBJECT_DIR = CMakeFiles/cbwaves-2.0.0.dir
   OBJECT_FILE_DIR = CMakeFiles/cbwaves-2.0.0.dir/src
 build CMakeFiles/cbwaves-2.0.0.dir/src/CorrectionsHTerms.cpp.o: CXX_COMPILER__cbwaves-2.2e0.2e0 ../src/CorrectionsHTerms.cpp
   DEP_FILE = CMakeFiles/cbwaves-2.0.0.dir/src/CorrectionsHTerms.cpp.o.d
   FLAGS = -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk   -std=gnu++14
-  INCLUDES = -I../inc
+  INCLUDES = -I../include
   OBJECT_DIR = CMakeFiles/cbwaves-2.0.0.dir
   OBJECT_FILE_DIR = CMakeFiles/cbwaves-2.0.0.dir/src
 build CMakeFiles/cbwaves-2.0.0.dir/src/CorrectionsHamiltonian.cpp.o: CXX_COMPILER__cbwaves-2.2e0.2e0 ../src/CorrectionsHamiltonian.cpp
   DEP_FILE = CMakeFiles/cbwaves-2.0.0.dir/src/CorrectionsHamiltonian.cpp.o.d
   FLAGS = -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk   -std=gnu++14
-  INCLUDES = -I../inc
+  INCLUDES = -I../include
+  OBJECT_DIR = CMakeFiles/cbwaves-2.0.0.dir
+  OBJECT_FILE_DIR = CMakeFiles/cbwaves-2.0.0.dir/src
+build CMakeFiles/cbwaves-2.0.0.dir/src/DynamicalParams.cpp.o: CXX_COMPILER__cbwaves-2.2e0.2e0 ../src/DynamicalParams.cpp
+  DEP_FILE = CMakeFiles/cbwaves-2.0.0.dir/src/DynamicalParams.cpp.o.d
+  FLAGS = -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk   -std=gnu++14
+  INCLUDES = -I../include
   OBJECT_DIR = CMakeFiles/cbwaves-2.0.0.dir
   OBJECT_FILE_DIR = CMakeFiles/cbwaves-2.0.0.dir/src
 
@@ -83,7 +89,7 @@ build CMakeFiles/cbwaves-2.0.0.dir/src/CorrectionsHamiltonian.cpp.o: CXX_COMPILE
 #############################################
 # Link the executable cbwaves-2.0.0
 
-build cbwaves-2.0.0: CXX_EXECUTABLE_LINKER__cbwaves-2.2e0.2e0 CMakeFiles/cbwaves-2.0.0.dir/src/Main.cpp.o CMakeFiles/cbwaves-2.0.0.dir/src/CorrectionsAccTerms.cpp.o CMakeFiles/cbwaves-2.0.0.dir/src/CorrectionsHTerms.cpp.o CMakeFiles/cbwaves-2.0.0.dir/src/CorrectionsHamiltonian.cpp.o
+build cbwaves-2.0.0: CXX_EXECUTABLE_LINKER__cbwaves-2.2e0.2e0 CMakeFiles/cbwaves-2.0.0.dir/src/Main.cpp.o CMakeFiles/cbwaves-2.0.0.dir/src/CorrectionsAccTerms.cpp.o CMakeFiles/cbwaves-2.0.0.dir/src/CorrectionsHTerms.cpp.o CMakeFiles/cbwaves-2.0.0.dir/src/CorrectionsHamiltonian.cpp.o CMakeFiles/cbwaves-2.0.0.dir/src/DynamicalParams.cpp.o
   FLAGS = -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk
   OBJECT_DIR = CMakeFiles/cbwaves-2.0.0.dir
   POST_BUILD = :

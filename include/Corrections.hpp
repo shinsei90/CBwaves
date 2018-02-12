@@ -1,4 +1,8 @@
+#pragma once
+
 #include "Config.hpp"
+#include <DynamicalParams.hpp>
+#include <InitParams.hpp>
 #include "Vector.hpp"
 
 
@@ -7,57 +11,57 @@ std::array<double, 3> dr(const double r, const mass m);
 
 //Corrections of the orbit
 
-Vector<mass, 3> c_Newtonian(mass m, mass r);
-Vector<mass, 3> c_PostNewtonian(mass m, mass r);
-Vector<mass, 3> c_2PostNewtonian(mass m, mass r);
-Vector<mass, 3> c_3PostNewtonian(mass m, mass r);
-Vector<mass, 3> c_4PostNewtonian(mass m, mass r);
-Vector<mass, 3> c_SpinOrbit(mass m, mass r, Vector<mass, 3> const& Spin, Vector<mass, 3> const& sigma);
-Vector<mass, 3> c_SpinSpin(mass m, mass r, Vector<mass, 3> const& Spin1, Vector<mass, 3> const& Spin2);
-Vector<mass, 3> c_BT_RR(mass m, mass r);
-Vector<mass, 3> c_PostNewtonianSO(mass m, mass r, Vector<mass, 3> const& Spin, Vector<mass, 3> const& Delta);
-Vector<mass, 3> c_2PostNewtonianSO(mass m, mass r, Vector<mass, 3> const& Spin, Vector<mass, 3> const& Delta); //Bohe et al. NNSO - CQG30(13)075017
-Vector<mass, 3> c_RR1PostNewtonian(mass m, mass r);
-Vector<mass, 3> c_RRSO(mass m, mass r, Vector<mass, 3> const& Spin, Vector<mass, 3> const& sigma, Vector<mass, 3> const& LN);
-Vector<mass, 3> c_RRSS(mass m, mass r, Vector<mass, 3> const& Spin1, Vector<mass, 3> const& Spin2);
+Vector<mass, 3> c_Newtonian(dynamicalParams const& dp, initParams const& ip);
+Vector<mass, 3> c_PostNewtonian(dynamicalParams const& dp, initParams const& ip);
+Vector<mass, 3> c_2PostNewtonian(dynamicalParams const& dp, initParams const& ip);
+Vector<mass, 3> c_3PostNewtonian(dynamicalParams const& dp, initParams const& ip);
+Vector<mass, 3> c_4PostNewtonian(dynamicalParams const& dp, initParams const& ip);
+Vector<mass, 3> c_SpinOrbit(dynamicalParams const& dp, initParams const& ip);
+Vector<mass, 3> c_SpinSpin(dynamicalParams const& dp, initParams const& ip);
+Vector<mass, 3> c_BT_RR(dynamicalParams const& dp, initParams const& ip);
+Vector<mass, 3> c_PostNewtonianSO(dynamicalParams const& dp, initParams const& ip);
+Vector<mass, 3> c_2PostNewtonianSO(dynamicalParams const& dp, initParams const& ip); //Bohe et al. NNSO - CQG30(13)075017
+Vector<mass, 3> c_RR1PostNewtonian(dynamicalParams const& dp, initParams const& ip);
+Vector<mass, 3> c_RRSO(dynamicalParams const& dp, initParams const& ip);
+Vector<mass, 3> c_RRSS(dynamicalParams const& dp, initParams const& ip);
 
 //Energy
-mass e_Newtonian(mass m, mass r);
-mass e_PostNewtonian(mass m, mass r);
-mass e_2PostNewtonian(mass m, mass r);
-mass e_3PostNewtonian(mass m, mass r);
-mass e_4PostNewtonian(mass m, mass r);
-mass e_SpinOrbit(mass r, Vector<mass, 3> const& sigma, Vector<mass, 3> const& LN);
-mass e_SpinSpin(mass r, Vector<mass, 3> const& Spin1, Vector<mass, 3> const& Spin2);
-mass e_PostNewtonianSO(mass m, mass r, Vector<mass, 3> const& Spin, Vector<mass, 3> const& Delta);
+mass e_Newtonian(dynamicalParams const& dp, initParams const& ip);
+mass e_PostNewtonian(dynamicalParams const& dp, initParams const& ip);
+mass e_2PostNewtonian(dynamicalParams const& dp, initParams const& ip);
+mass e_3PostNewtonian(dynamicalParams const& dp, initParams const& ip);
+mass e_4PostNewtonian(dynamicalParams const& dp, initParams const& ip);
+mass e_SpinOrbit(dynamicalParams const& dp, initParams const& ip);
+mass e_SpinSpin(dynamicalParams const& dp, initParams const& ip);
+mass e_PostNewtonianSO(dynamicalParams const& dp, initParams const& ip);
 
-mass edot_Newtonian(mass m, mass r);
-mass edot_PostNewtonian(mass m, mass r);
-mass edot_2PostNewtonian(mass m, mass r);
-mass edot_25PostNewtonian(mass m, mass r);
-mass edot_SpinOrbit(mass m, mass r, Vector<mass, 3> const& Spin,Vector<mass, 3> const& Delta, Vector<mass, 3> const& LN);
-mass edot_SpinSpin(mass m, mass r, Vector<mass, 3> const& Spin1, Vector<mass, 3> const& Spin2);
-mass edot_PostNewtonianSO(mass m, mass r, Vector<mass, 3> const& Spin, Vector<mass, 3> const& Delta);
+mass edot_Newtonian(dynamicalParams const& dp, initParams const& ip);
+mass edot_PostNewtonian(dynamicalParams const& dp, initParams const& ip);
+mass edot_2PostNewtonian(dynamicalParams const& dp, initParams const& ip);
+mass edot_25PostNewtonian(dynamicalParams const& dp, initParams const& ip);
+mass edot_SpinOrbit(dynamicalParams const& dp, initParams const& ip);
+mass edot_SpinSpin(dynamicalParams const& dp, initParams const& ip);
+mass edot_PostNewtonianSO(dynamicalParams const& dp, initParams const& ip);
 
 //Momentum
-Vector<mass, 3> l_PostNewtonian(mass m, mass r, Vector<mass, 3> const& LN);
-Vector<mass, 3> l_2PostNewtonian(mass m, mass r, Vector<mass, 3> const& LN);
-Vector<mass, 3> l_3PostNewtonian(mass m, mass r, Vector<mass, 3> const& LN);
-Vector<mass, 3> l_4PostNewtonian(mass m, mass r, Vector<mass, 3> const& LN);
-Vector<mass, 3> l_SpinOrbit(mass m, mass r, Vector<mass, 3> const& Spin, Vector<mass, 3> const& sigma);
+Vector<mass, 3> l_PostNewtonian(dynamicalParams const& dp, initParams const& ip);
+Vector<mass, 3> l_2PostNewtonian(dynamicalParams const& dp, initParams const& ip);
+Vector<mass, 3> l_3PostNewtonian(dynamicalParams const& dp, initParams const& ip);
+Vector<mass, 3> l_4PostNewtonian(dynamicalParams const& dp, initParams const& ip);
+Vector<mass, 3> l_SpinOrbit(dynamicalParams const& dp, initParams const& ip);
 
 //Spin equations
 
-Vector<mass, 3> spin1(mass m, mass r);
-Vector<mass, 3> spin2(mass m, mass r);
+Vector<mass, 3> spin1(dynamicalParams const& dp, initParams const& ip);
+Vector<mass, 3> spin2(dynamicalParams const& dp, initParams const& ip);
 
 //Corrections of the Waveform
 
-Vector<mass, 3> h_Q(mass m, mass r);
-Vector<mass, 3> h_P05Q(mass m, mass r);
-Vector<mass, 3> h_PQ(mass m, mass r);
-Vector<mass, 3> h_P15Q(mass m, mass r);
-Vector<mass, 3> h_P2Q(mass m, mass r);
-Vector<mass, 3> h_PQSO(mass r, Vector<mass,3> const& Delta);
-Vector<mass, 3> h_P15QSO(mass m, mass r, Vector<mass,3> const& Delta);
-Vector<mass, 3> h_P2QSS(mass r, Vector<mass,3> const& Spin1, Vector<mass,3> const& Spin2);
+mass h_Q(dynamicalParams const& dp, initParams const& ip);
+mass h_P05Q(dynamicalParams const& dp, initParams const& ip);
+mass h_PQ(dynamicalParams const& dp, initParams const& ip);
+mass h_P15Q(dynamicalParams const& dp, initParams const& ip);
+mass h_P2Q(dynamicalParams const& dp, initParams const& ip);
+mass h_PQSO(dynamicalParams const& dp, initParams const& ip);
+mass h_P15QSO(dynamicalParams const& dp, initParams const& ip);
+mass h_P2QSS(dynamicalParams const& dp, initParams const& ip);

@@ -6,6 +6,10 @@ add_executable( ${PROJECT_NAME} src/Main.cpp
                                 src/CorrectionsAccTerms.cpp
                                 src/CorrectionsHTerms.cpp
                                 src/CorrectionsHamiltonian.cpp
+                                src/DynamicalParams.cpp
+                                include/DynamicalParams.hpp
+                                include/InitParams.hpp
+                                include/Config.hpp
                                 include/Corrections.hpp
                                 include/PDE.hpp
                                 )

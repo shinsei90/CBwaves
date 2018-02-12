@@ -1,3 +1,5 @@
+#pragma once
+
 #include <Config.hpp>
 #include <Vector.hpp>
 
@@ -28,6 +30,7 @@ struct initParams{  //Constant parameters of the equations.
         //Initial separation
         mass r0;
         Vector<mass, 3>  r_init;
+        Vector<mass, 3> N;
 
 
         mass dm;

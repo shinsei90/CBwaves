@@ -1,5 +1,6 @@
 // Custom includes
 #include <PDE.hpp>
+#include <DynamicalParams.hpp>
 #include <Corrections.hpp>
 #include <Config.hpp>
 
@@ -21,63 +22,21 @@ auto operator*(const S& s, const std::complex<C>& c)
     return static_cast<typename std::complex<C>::value_type>(s) * c;
 }
 
-enum Component : int
-{
-    Radius
-};
-
 int main(){
     // Type aliases
-    using mass_type = double;               // mass_needs to be precise
-    using phase_type = std::complex<double>; // phase calculation can be less precise
-    using solver_internal = double;         // scalars used inside the solver
-
-    using state = PDE::StateVector<mass_type, phase_type>;
     using solver = PDE::RK4::Solver<solver_internal, state>;
     
     // Model params (read from config file if you want)
-    mass_type eq1_contirb1_param1 = 0.99,
-              eq1_contirb2_param1 = 1.01,
-              eq1_contirb2_param2 = 1.02;
-    phase_type::value_type eq2_contrib1_param1 = 0.5f,
-                           eq2_contrib2_param1 = 0.1f,
-                           eq2_contrib2_param2 = 0.001f;
+    // mass_type eq1_contirb1_param1 = 0.99,
+    //           eq1_contirb2_param1 = 1.01,
+    //           eq1_contirb2_param2 = 1.02;
+    // phase_type::value_type eq2_contrib1_param1 = 0.5f,
+    //                        eq2_contrib2_param1 = 0.1f,
+    //                        eq2_contrib2_param2 = 0.001f;
+    
+
+    mass rmin = 6;
     solver_internal dt = 0.1;
-
-    struct initParams{  //Constant parameters of the equations.
-
-        initParams(mass m1_, mass m2_, mass r0_){
-            //Mass ratio
-        m1 = m1_;
-        m2 = m2_;
-        m = m1 + m2;
-
-        //Initial separation
-        r0 = r0_;
-        r_init = {r0, 0.0, 0.0};
-
-
-        dm = m1 - m2;
-        mu = m1*m2/m;
-        eta = mu/m;
-        }
-      
-        //Mass ratio
-        mass m1;
-        mass m2;
-        mass m;
-
-        //Initial separation
-        mass r0;
-        Vector<mass, 3>  r_init;
-
-
-        mass dm;
-        mass mu;
-        mass eta;
-
-    };
-
     initParams iparams(10, 1.2, 100);
 
     std::cout << iparams.m << std::endl;
@@ -107,7 +66,8 @@ int main(){
                    use_h_P15QSO = true,
                    use_h_P2QSS = true;
 
-    constexpr bool use_e_PostNewtonian = true,
+    constexpr bool use_e_Newtonian = true,
+                   use_e_PostNewtonian = true,
                    use_e_2PostNewtonian = true,
                    use_e_3PostNewtonian = true,
                    use_e_4PostNewtonian = true,
@@ -166,139 +126,96 @@ int main(){
 
     mass m = iparams.m;
 
-    auto corrs = [=](const mass r){
-        return (use_c_Newtonian ? c_Newtonian(m, r) : (mass)0 ) +
-               (use_c_PostNewtonian ? c_PostNewtonian(m, r) : (mass)0 ) + 
-               (use_c_2PostNewtonian ? c_2PostNewtonian(m, r) : (mass)0 ) +
-               (use_c_3PostNewtonian ? c_3PostNewtonian(m, r) : (mass)0 ) +
-               (use_c_4PostNewtonian ? c_4PostNewtonian(m, r) : (mass)0 ) +
-               (use_c_SpinOrbit ? c_SpinOrbit(m, r, Spin, sigma) : (mass)0 ) +
-               (use_c_SpinSpin ? c_SpinSpin(m, r, Spin1, Spin2) : (mass)0 ) +
-               (use_c_BT_RR ? c_BT_RR(m, r) : (mass)0 ) +
-               (use_c_PostNewtonianSO ? c_PostNewtonianSO(m, r, Spin, Delta) : (mass)0 ) +
-               (use_c_2PostNewtonianSO ? c_2PostNewtonianSO(m, r, Spin, Delta) : (mass)0 ) +
-               (use_c_RR1PostNewtonian ? c_RR1PostNewtonian(m, r) : (mass)0 ) +
-               (use_c_RRSO ? c_RRSO(m, r, Spin, sigma, LN) : (mass)0) +
-               (use_c_RRSS ? c_RRSS(m, r, Spin1, Spin2) : (mass)0);
+    auto corrs = [&](dynamicalParams const& dp){ // capture clause could be reference
+        return (use_c_Newtonian ? c_Newtonian(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}}) +              
+               (use_c_PostNewtonian ? c_PostNewtonian(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) + 
+               (use_c_2PostNewtonian ? c_2PostNewtonian(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
+               (use_c_3PostNewtonian ? c_3PostNewtonian(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
+               (use_c_4PostNewtonian ? c_4PostNewtonian(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
+               (use_c_SpinOrbit ? c_SpinOrbit(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
+               (use_c_SpinSpin ? c_SpinSpin(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
+               (use_c_BT_RR ? c_BT_RR(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
+               (use_c_PostNewtonianSO ? c_PostNewtonianSO(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
+               (use_c_2PostNewtonianSO ? c_2PostNewtonianSO(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
+               (use_c_RR1PostNewtonian ? c_RR1PostNewtonian(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
+               (use_c_RRSO ? c_RRSO(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
+               (use_c_RRSS ? c_RRSS(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} );
     };
 
-    auto hterms = [=](const mass r){
-        return (use_h_Q ? h_Q(m, r) : (mass)0) +
-               (use_h_P05Q ? h_P05Q(m, r) : (mass)0) +
-               (use_h_PQ ? h_PQ(m, r) : (mass)0) +
-               (use_h_P15Q ? h_P15Q(m, r) : (mass)0) +
-               (use_h_P2Q ? h_P2Q(m, r) : (mass)0 ) +
-               (use_h_PQSO ? h_PQSO(r, Delta) : (mass)0 ) +
-               (use_h_P15QSO ? h_P15QSO(m, r, Delta) : (mass)0 ) +
-               (use_h_P2QSS ? h_P2QSS(m, r, Spin1, Spin2) : (mass)0 );
+    auto hterms = [=](dynamicalParams const& dp){
+        return (use_h_Q ? h_Q(dp, iparams) : (mass)0. ) +
+               (use_h_P05Q ? h_P05Q(dp, iparams) : (mass)0.) +
+               (use_h_PQ ? h_PQ(dp, iparams) : (mass)0.) +
+               (use_h_P15Q ? h_P15Q(dp, iparams) : (mass)0.) +
+               (use_h_P2Q ? h_P2Q(dp, iparams) : (mass)0. ) +
+               (use_h_PQSO ? h_PQSO(dp, iparams) : (mass)0. ) +
+               (use_h_P15QSO ? h_P15QSO(dp, iparams) : (mass)0. ) +
+               (use_h_P2QSS ? h_P2QSS(dp, iparams) : (mass)0. );
     };
 
-    auto eterms = [=](const mass r){
-        return (use_e_Newtonian ? e_Newtonian(m, r) : (mass)0 ) +
-               (use_e_PostNewtonian ? e_PostNewtonian(m, r) : (mass)0 ) +
-               (use_e_2PostNewtonian ? e_2PostNewtonian(m, r) : (mass)0 ) +
-               (use_e_3PostNewtonian ? e_3PostNewtonian(m, r) : (mass)0 ) +
-               (use_e_4PostNewtonian ? e_4PostNewtonian(m, r) : (mass)0 ) +
-               (use_e_SpinOrbit ? e_SpinOrbit(m, r, sigma, LN) : (mass)0 ) +
-               (use_e_SpinSpin ? e_SpinSpin(m, r, Spin1, Spin2) (mass)0 ) +
-               (use_e_PostNewtonianSO ? e_PostNewtonianSO(m, r, Spin, Delta) : (mass)0);
+    auto eterms = [=](dynamicalParams const& dp){
+        return (use_e_Newtonian ? e_Newtonian(dp, iparams) : (mass)0. ) +
+               (use_e_PostNewtonian ? e_PostNewtonian(dp, iparams) : (mass)0. ) +
+               (use_e_2PostNewtonian ? e_2PostNewtonian(dp, iparams) : (mass)0. ) +
+               (use_e_3PostNewtonian ? e_3PostNewtonian(dp, iparams) : (mass)0. ) +
+               (use_e_4PostNewtonian ? e_4PostNewtonian(dp, iparams) : (mass)0. ) +
+               (use_e_SpinOrbit ? e_SpinOrbit(dp, iparams) : (mass)0. ) +
+               (use_e_SpinSpin ? e_SpinSpin(dp, iparams) : (mass)0. ) +
+               (use_e_PostNewtonianSO ? e_PostNewtonianSO(dp, iparams) : (mass)0.);
     };
 
-    auto edot = [=](const mass r){
-        return (use_edot_Newtonian ? edot_Newtonian(m, r) : (mass)0) +
-               (use_edot_PostNewtonian ? edot_PostNewtonian(m, r) : (mass)0 ) +
-               (use_edot_2PostNewtonian ? edot_PostNewtonian(m, r) : (mass)0 ) +
-               (use_edot_25PostNewtonian ? edot_25PostNewtonian(m, r) : (mass)0 ) +
-               (use_edot_SpinOrbit ? edot_SpinOrbit(m, r, Spin, Delta, LN) : (mass)0 ) +
-               (use_edot_SpinSpin ? edot_SpinSpin(m, r, Spin1, Spin2) : (mass)0 ) +
-               (use_edot_PostNewtonianSO ? edot_PostNewtonianSO(m, r, Spin, Delta) : (mass)0 );
+    auto edot = [=](dynamicalParams const& dp){
+        return (use_edot_Newtonian ? edot_Newtonian(dp, iparams) : (mass)0.) +
+               (use_edot_PostNewtonian ? edot_PostNewtonian(dp, iparams) : (mass)0. ) +
+               (use_edot_2PostNewtonian ? edot_PostNewtonian(dp, iparams) : (mass)0. ) +
+               (use_edot_25PostNewtonian ? edot_25PostNewtonian(dp, iparams) : (mass)0. ) +
+               (use_edot_SpinOrbit ? edot_SpinOrbit(dp, iparams) : (mass)0. ) +
+               (use_edot_SpinSpin ? edot_SpinSpin(dp, iparams) : (mass)0. ) +
+               (use_edot_PostNewtonianSO ? edot_PostNewtonianSO(dp, iparams) : (mass)0. );
     };
 
-    auto lterms = [=](const mass r){
-        return (use_l_PostNewtonian ? l_PostNewtonian(m, r) : (mass)0) +
-               (use_l_2PostNewtonian ? l_2PostNewtonian(m, r) : (mass)0) +
-               (use_l_3PostNewtonian ? l_3PostNewtonian(m, r) : (mass)0) +
-               (use_l_4PostNewtonian ? l_4PostNewtonian(m, r) : (mass)0) +
-               (use_l_SpinOrbit ? l_SpinOrbit(m, r, Spin, sigma) : (mass)0);
+    auto lterms = [=](dynamicalParams const& dp){
+        return (use_l_PostNewtonian ? l_PostNewtonian(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
+               (use_l_2PostNewtonian ? l_2PostNewtonian(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
+               (use_l_3PostNewtonian ? l_3PostNewtonian(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
+               (use_l_4PostNewtonian ? l_4PostNewtonian(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
+               (use_l_SpinOrbit ? l_SpinOrbit(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} );
     };
 
-    auto S1 = [=](const mass r){
-        return (use_spin1 ? spin1(m, r) : (mass)0);
+    auto S1 = [=](dynamicalParams const& dp){
+        return (use_spin1 ? spin1(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} );
     };
-    auto S2 = [=](const mass r){
-        return (use_spin2 ? spin2(m, r) : (mass)0);
+    auto S2 = [=](dynamicalParams const& dp){
+        return (use_spin2 ? spin2(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} );
     };
 
     // Create default constructed solver. Allocates storage but is invalid state.
     solver rk4;
 
     // Set the initial left-hand side values.
-    rk4.lhs() = state{ {r0, 0.0, 0.0} };
+    Vector<mass, 3> const& r_init = iparams.r_init;
+    rk4.lhs() = state{ r_init };
 
     // Set the equation for each 
     rk4.equation() = [=](state& result, const state& rhs)
     {
         //auto new_rho = rhs.get<Radius>() * 0.1;
         //auto separation = rhs.get<Radius>() - r_init;
-
-        struct dynamicalParams {
-
-            dynamicalParams(state& state_, initParams iparams_){
-
-            Vector<mass, 3> rr = state_ - r_init;
-            Vector<mass, 3> x1 = {iparams.r0/2, 0, 0};
-            Vector<mass, 3> x2 = {-iparams.r0/2, 0, 0};
-            Vector<mass, 3> v = {0, SI_c/3, 0};
-
-            Vector<mass, 3> Spin1 = spin1(m, r);
-            Vector<mass, 3> Spin2 = spin2(m, r);
-
-            Vector<mass, 3> x = x1 - x2;
-            Vector<mass, 3> n = x/r;
-            Vector<mass, 3> sigma = (m2/m1)*Spin1 + (m1/m2)*Spin2;
-            Vector<mass, 3> LN = mu*cross(x, v);
-            Vector<mass, 3> Delta = m*(Spin2/m2 - Spin1/m1);
-            Vector<mass, 3> Spin = Spin1 + Spin2; 
-
-            mass rdot = dot(n, v);
-            mass r = length(rr);
-            }
-
-            Vector<mass, 3> rr;
-            Vector<mass, 3> x1;
-            Vector<mass, 3> x2;
-            Vector<mass, 3> v;
-
-            Vector<mass, 3> Spin1;
-            Vector<mass, 3> Spin2;
-
-            Vector<mass, 3> x;
-            Vector<mass, 3> n;
-            Vector<mass, 3> sigma;
-            Vector<mass, 3> LN;
-            Vector<mass, 3> Delta;
-            Vector<mass, 3> Spin; 
-
-            mass rdot;
-            mass r;
-
-        };
-
-        dynamicalParams dparams(rk4.lhs().get<Radius>(), iparams);
+        dynamicalParams dparams(rhs, iparams);
         
 
-        result = PDE::make_equation( corrs(rhs.get<Radius>(), dparams, iparams),
-                                     hterms(rhs.get<Radius>(), dparams, iparams),
-                                     eterms(rhs.get<Radius>(), dparams, iparams),
-                                     lterms(rhs.get<Radius>(), dparams, iparams),
-                                     edot(rhs.get<Radius>()), dparams, iparams);
+        result = PDE::make_equation( corrs(dparams) );
+                                    //  hterms(dparams),
+                                    //  eterms(dparams),
+                                    //  lterms(dparams),
+                                    //  edot(dparams) );
     };
 
-    for (solver_internal t = 0; t < 10; t += dt)
+    for (solver_internal t = 0; length(rk4.lhs().get<Radius>()) > rmin; t += dt)
     {
         rk4.iterate(dt);
         
-        std::cout << t << "\t" << rk4.lhs().get<Mass>() << "\t" << rk4.lhs().get<Phase>() << std::endl;
+        //std::cout << t << "\t" << rk4.lhs().get<Mass>() << "\t" << rk4.lhs().get<Phase>() << std::endl;
     }
 
     return 0;

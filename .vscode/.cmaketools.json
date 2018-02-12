@@ -26,15 +26,18 @@
                   {
                     "isGenerated": false,
                     "sources": [
-                      "inc/Corrections.hpp",
-                      "inc/PDE.hpp"
+                      "include/DynamicalParams.hpp",
+                      "include/InitParams.hpp",
+                      "include/Config.hpp",
+                      "include/Corrections.hpp",
+                      "include/PDE.hpp"
                     ]
                   },
                   {
                     "compileFlags": "-g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk   -std=gnu++14",
                     "includePath": [
                       {
-                        "path": "/Users/b/Documents/CppProjects/cbwaves-verziok/cbwaves-2.0.0/inc"
+                        "path": "/Users/b/Documents/CppProjects/cbwaves-verziok/cbwaves-2.0.0/include"
                       }
                     ],
                     "isGenerated": false,
@@ -43,7 +46,8 @@
                       "src/Main.cpp",
                       "src/CorrectionsAccTerms.cpp",
                       "src/CorrectionsHTerms.cpp",
-                      "src/CorrectionsHamiltonian.cpp"
+                      "src/CorrectionsHamiltonian.cpp",
+                      "src/DynamicalParams.cpp"
                     ]
                   }
                 ],
@@ -59,7 +63,7 @@
         ]
       }
     ],
-    "cookie": "0.9775820615789881",
+    "cookie": "0.5674780029930933",
     "inReplyTo": "codemodel",
     "type": "reply"
   }
