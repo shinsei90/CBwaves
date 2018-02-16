@@ -18,8 +18,8 @@ struct dynamicalParams {
             dynamicalParams(const state& state_, initParams iparams_);
 
             Vector<mass, 3> rr;
-            Vector<mass, 3> x1;
-            Vector<mass, 3> x2;
+            Vector<mass, 3> r1;
+            Vector<mass, 3> r2;
             Vector<mass, 3> v;
 
             Vector<mass, 3> Spin1;

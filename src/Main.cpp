@@ -7,6 +7,7 @@
 // Standard C++ includes
 #include <complex>
 #include <iostream>
+#include <fstream>
 
 /// <note>If PDE::StateVector<...> has std::complex in it and
 /// std::complex::value_type does not match PDE::RK4::Solver::floating_type,
@@ -34,13 +35,12 @@ int main(){
     //                        eq2_contrib2_param1 = 0.1f,
     //                        eq2_contrib2_param2 = 0.001f;
     
+    std::ofstream myfile;
+    myfile.open("debug.dat");
 
-    mass rmin = 6;
+    mass rmin = 6.;
     solver_internal dt = 0.1;
-    initParams iparams(10, 1.2, 100);
-
-    std::cout << iparams.m << std::endl;
-    
+    initParams iparams(10., 1.2, 100.);
 
     // Model switches (Compile time constants)
     constexpr bool use_c_Newtonian = true,
@@ -124,8 +124,6 @@ int main(){
     // type expressions at compile time. Even more sensible optimizers should change (val + 0) and
     // (val * 1) type expressions to nop (no-operation).
 
-    mass m = iparams.m;
-
     auto corrs = [&](dynamicalParams const& dp){ // capture clause could be reference
         return (use_c_Newtonian ? c_Newtonian(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}}) +              
                (use_c_PostNewtonian ? c_PostNewtonian(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) + 
@@ -193,29 +191,32 @@ int main(){
     solver rk4;
 
     // Set the initial left-hand side values.
-    Vector<mass, 3> const& r_init = iparams.r_init;
-    rk4.lhs() = state{ r_init };
+    rk4.lhs() = state{ iparams.r_init };
 
     // Set the equation for each 
-    rk4.equation() = [=](state& result, const state& rhs)
-    {
+    rk4.equation() = [=](state& result, const state& rhs){
+
         //auto new_rho = rhs.get<Radius>() * 0.1;
         //auto separation = rhs.get<Radius>() - r_init;
-        dynamicalParams dparams(rhs, iparams);
-        
+        //dynamicalParams dparams(rhs, iparams);
+        dynamicalParams dp(rk4.lhs().get<Radius>() ,iparams);
 
-        result = PDE::make_equation( corrs(dparams) );
+        result = PDE::make_equation( corrs(dp) );
                                     //  hterms(dparams),
                                     //  eterms(dparams),
                                     //  lterms(dparams),
                                     //  edot(dparams) );
+
     };
 
-    for (solver_internal t = 0; length(rk4.lhs().get<Radius>()) > rmin; t += dt)
-    {
+    for (solver_internal t = 0; length(rk4.lhs().get<Radius>()) > rmin; t += dt){
+        
+        dynamicalParams dp(rk4.lhs().get<Radius>() ,iparams);
         rk4.iterate(dt);
         
         //std::cout << t << "\t" << rk4.lhs().get<Mass>() << "\t" << rk4.lhs().get<Phase>() << std::endl;
+        myfile << t << "\t" << dp.r1[1] << "\t" <<  dp.r1[2] << "\t" << dp.r1[3] << "\t" << dp.r2[1] << "\t" <<  dp.r2[2] << "\t" << dp.r2[3] <<"\n";
+
     }
 
     return 0;
