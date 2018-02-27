@@ -40,7 +40,7 @@ int main(){
 
     mass rmin = 6.;
     solver_internal dt = 0.1;
-    initParams iparams(10., 1.2, 100.);
+    initParams iparams(10., 1.2, 100., 0.99);
 
     // Model switches (Compile time constants)
     constexpr bool use_c_Newtonian = true,
@@ -196,10 +196,8 @@ int main(){
     // Set the equation for each 
     rk4.equation() = [=](state& result, const state& rhs){
 
-        //auto new_rho = rhs.get<Radius>() * 0.1;
-        //auto separation = rhs.get<Radius>() - r_init;
         //dynamicalParams dparams(rhs, iparams);
-        dynamicalParams dp(rk4.lhs().get<Radius>() ,iparams);
+        dynamicalParams dp(rhs, iparams);
 
         result = PDE::make_equation( corrs(dp) );
                                     //  hterms(dparams),

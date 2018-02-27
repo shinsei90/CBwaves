@@ -17,7 +17,7 @@ mass h_Q(dynamicalParams const& dp, initParams const& ip){
     mass hQ = 0;
 
     for(int i = 0; i < 3; ++i){
-        for(int j; j < 3; ++j){
+        for(int j = 0; j < 3; ++j){
             hQ += 2.*(v[i]*v[j] - (SI_G*m)/r*n[i]*n[j]);
         }
     }
@@ -39,7 +39,7 @@ mass h_P05Q(dynamicalParams const& dp, initParams const& ip){
     mass hP05Q = 0;
 
     for(int i = 0; i < 3; ++i){
-        for(int j; j < 3; ++j){
+        for(int j = 0; j < 3; ++j){
             hP05Q += dm/(SI_c*m)*(3.*(SI_G*m)/r*(n[i]*v[j] + n[j]*v[i] - rdot*n[i]*n[j])*dot(N,n) + ((SI_G*m)/r*n[i]*n[j] - 2.*v[i]*v[j])*dot(N,v));
         }
     }
@@ -60,7 +60,7 @@ mass h_PQ(dynamicalParams const& dp, initParams const& ip){
     mass hPQ = 0;
 
     for(int i = 0; i < 3; ++i){
-        for(int j; j < 3; ++j){
+        for(int j = 0; j < 3; ++j){
             hPQ += 1./(3.*SI_c2)*(1. - 3.*eta)*(4.*(SI_G*m)/r*(3.*rdot*n[i]*n[j] - 8.*(n[i]*v[j] + n[j]*v[i]))*dot(N,n)*sq(dot(N,v))
                 + 2.*(3.*v[i]*v[j] - (SI_G*m)/r*n[i]*n[j]) 
                 + (SI_G*m)/r*((3.*sqlength(v) - 15.*sq(rdot) + 7.*(SI_G*m)/r)*n[i]*n[j] + 30.*rdot*(n[i]*v[j] + n[j]*v[i]) - 14.*v[i]*v[j])*sq(dot(N,n)))
@@ -86,7 +86,7 @@ mass h_P15Q(dynamicalParams const& dp, initParams const& ip){
     mass hP15Q = 0;
 
     for(int i = 0; i < 3; ++i){
-        for(int j; j < 3; ++j){
+        for(int j = 0; j < 3; ++j){
             hP15Q += dm/(m*cb(SI_c))*(1. - 2.*eta)*(1./4.*(SI_G*m)/r*((45.*sq(rdot) - 9.*sqlength(v) - 28.*(SI_G*m)/r)*n[i]*n[j]
                   + 58.*n[i]*n[j] - 108.*rdot*(n[i]*v[j] + n[j]*v[i]))*sq(dot(N,n))*dot(N,v)
                   + 1./2.*((SI_G*m)/r*n[i]*n[j] - 4.*v[i]*v[j])*cb(dot(N,v)) + (SI_G*m)/r*(5./4.*(3.*sqlength(v) - 7.*sq(rdot) + 6.*(SI_G*m)/r)*rdot*n[i]*n[j]
@@ -136,7 +136,7 @@ mass h_P2Q(dynamicalParams const& dp, initParams const& ip){
                  - (66. - 265.*eta + 365.*sq(eta))*sqlength(v))*(n[i]*v[j] + n[j]*v[i])) + 1./60.*sq(dot(N,n))*m/r*((3.*(33. - 130.*eta + 150.*sq(eta))*sq(sqlength(v))
                  + 105.*(1. - 10.*eta + 30.*sq(eta))*std::pow(rdot,4) + 15.*(181. - 572.*eta + 84.*sq(eta))*m/r*sq(rdot) - (131. - 770.*eta + 930.*sq(eta))*m/r*sqlength(v)
                  - 60.*(9. - 40.*eta + 60.*sq(eta))*sq(length(v)*rdot) - 8.*(131. - 390.*eta + 30.*sq(eta))*sq(m/r))*n[i]*n[j]
-                 + 4.*((12. + 5.*eta. - 315.*sq(eta))*sqlength(v) - 9.*(39. - 115.*eta - 35.*sq(eta))*sq(rdot) + 5.*(29. - 104.*eta + 84.*sq(eta))*m/r)*v[i]*v[j]
+                 + 4.*((12. + 5.*eta - 315.*sq(eta))*sqlength(v) - 9.*(39. - 115.*eta - 35.*sq(eta))*sq(rdot) + 5.*(29. - 104.*eta + 84.*sq(eta))*m/r)*v[i]*v[j]
                  + 4.*(15.*(18. - 40.*eta - 75.*sq(eta))*sq(rdot) - 5.*(197. - 640.*eta + 180.*sq(eta))*m/r 
                  + 3.*(21. - 130.*eta + 375.*sq(eta))*sqlength(v))*rdot*(n[i]*v[j] + n[j]*v[i]))
                  + 1./60.*(((467. + 780.*eta - 120.*sq(eta))*m/r*sqlength(v) - 15.*(61. - 96.*eta + 48.*sq(eta))*m/r*sq(rdot)

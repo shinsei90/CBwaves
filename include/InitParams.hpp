@@ -6,7 +6,7 @@
 
 struct initParams{  //Constant parameters of the equations.
 
-        initParams(mass m1_, mass m2_, mass r0_){
+        initParams(mass m1_, mass m2_, mass r0_, mass ecc_){
             //Mass ratio
         m1 = m1_;
         m2 = m2_;
@@ -20,6 +20,9 @@ struct initParams{  //Constant parameters of the equations.
         dm = m1 - m2;
         mu = m1*m2/m;
         eta = mu/m;
+
+        //Excenricity
+        ecc = ecc_;
         }
       
         //Mass ratio
@@ -36,5 +39,7 @@ struct initParams{  //Constant parameters of the equations.
         mass dm;
         mass mu;
         mass eta;
+
+        mass ecc;
 
     };
