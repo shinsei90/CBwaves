@@ -7,23 +7,23 @@
 
 
 
-std::array<double, 3> dr(const double r, const mass m);
+//std::array<double, 3> dr(const double r, const mass m);
 
 //Corrections of the orbit
 
-Vector<mass, 3> c_Newtonian(dynamicalParams const& dp, initParams const& ip);
-Vector<mass, 3> c_PostNewtonian(dynamicalParams const& dp, initParams const& ip);
-Vector<mass, 3> c_2PostNewtonian(dynamicalParams const& dp, initParams const& ip);
-Vector<mass, 3> c_3PostNewtonian(dynamicalParams const& dp, initParams const& ip);
-Vector<mass, 3> c_4PostNewtonian(dynamicalParams const& dp, initParams const& ip);
-Vector<mass, 3> c_SpinOrbit(dynamicalParams const& dp, initParams const& ip);
-Vector<mass, 3> c_SpinSpin(dynamicalParams const& dp, initParams const& ip);
-Vector<mass, 3> c_BT_RR(dynamicalParams const& dp, initParams const& ip);
-Vector<mass, 3> c_PostNewtonianSO(dynamicalParams const& dp, initParams const& ip);
-Vector<mass, 3> c_2PostNewtonianSO(dynamicalParams const& dp, initParams const& ip); //Bohe et al. NNSO - CQG30(13)075017
-Vector<mass, 3> c_RR1PostNewtonian(dynamicalParams const& dp, initParams const& ip);
-Vector<mass, 3> c_RRSO(dynamicalParams const& dp, initParams const& ip);
-Vector<mass, 3> c_RRSS(dynamicalParams const& dp, initParams const& ip);
+state c_Newtonian(dynamicalParams const& dp, initParams const& ip);
+state c_PostNewtonian(dynamicalParams const& dp, initParams const& ip);
+state c_2PostNewtonian(dynamicalParams const& dp, initParams const& ip);
+state c_3PostNewtonian(dynamicalParams const& dp, initParams const& ip);
+state c_4PostNewtonian(dynamicalParams const& dp, initParams const& ip);
+state c_SpinOrbit(dynamicalParams const& dp, initParams const& ip);
+state c_SpinSpin(dynamicalParams const& dp, initParams const& ip);
+state c_BT_RR(dynamicalParams const& dp, initParams const& ip);
+state c_PostNewtonianSO(dynamicalParams const& dp, initParams const& ip);
+state c_2PostNewtonianSO(dynamicalParams const& dp, initParams const& ip); //Bohe et al. NNSO - CQG30(13)075017
+state c_RR1PostNewtonian(dynamicalParams const& dp, initParams const& ip);
+state c_RRSO(dynamicalParams const& dp, initParams const& ip);
+state c_RRSS(dynamicalParams const& dp, initParams const& ip);
 
 //Energy
 mass e_Newtonian(dynamicalParams const& dp, initParams const& ip);

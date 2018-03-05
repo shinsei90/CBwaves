@@ -7,9 +7,10 @@
 struct initParams{  //Constant parameters of the equations.
 
         initParams(mass m1_, mass m2_, mass r0_, mass ecc_){
-            //Mass ratio
-        m1 = m1_;
-        m2 = m2_;
+        
+        //Mass ratio
+        m1 = m1_*MSUN;
+        m2 = m2_*MSUN;
         m = m1 + m2;
 
         //Initial separation
@@ -23,6 +24,10 @@ struct initParams{  //Constant parameters of the equations.
 
         //Excenricity
         ecc = ecc_;
+
+        //Initial velocity
+        v_init = {0. , m/r0_*(1. - ecc_)};
+
         }
       
         //Mass ratio
@@ -32,7 +37,7 @@ struct initParams{  //Constant parameters of the equations.
 
         //Initial separation
         mass r0;
-        Vector<mass, 3>  r_init;
+        Vector<mass, 3> r_init;
         Vector<mass, 3> N;
 
 
@@ -41,5 +46,6 @@ struct initParams{  //Constant parameters of the equations.
         mass eta;
 
         mass ecc;
+        Vector<mass, 3> v_init;
 
     };

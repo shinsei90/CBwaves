@@ -6,10 +6,11 @@
 #include <Vector.hpp>
 
 // Type aliases
-using state = PDE::StateVector<Vector<mass, 3>>;
+using state = PDE::StateVector< Vector<mass, 3>, Vector<mass, 3> >;
 
 enum Component : int
 {
+    Velocity,
     Radius
 };
 

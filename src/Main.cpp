@@ -27,6 +27,9 @@ int main(){
     // Type aliases
     using solver = PDE::RK4::Solver<solver_internal, state>;
     
+    Vector<mass, 3> nullVector = {0., 0., 0.};
+    state nullState = state{nullVector, nullVector};
+    
     // Model params (read from config file if you want)
     // mass_type eq1_contirb1_param1 = 0.99,
     //           eq1_contirb2_param1 = 1.01,
@@ -40,7 +43,7 @@ int main(){
 
     mass rmin = 6.;
     solver_internal dt = 0.1;
-    initParams iparams(10., 1.2, 100., 0.99);
+    initParams iparams(10., 1.2, 100., 0.);
 
     // Model switches (Compile time constants)
     constexpr bool use_c_Newtonian = true,
@@ -124,20 +127,20 @@ int main(){
     // type expressions at compile time. Even more sensible optimizers should change (val + 0) and
     // (val * 1) type expressions to nop (no-operation).
 
-    auto corrs = [&](dynamicalParams const& dp){ // capture clause could be reference
-        return (use_c_Newtonian ? c_Newtonian(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}}) +              
-               (use_c_PostNewtonian ? c_PostNewtonian(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) + 
-               (use_c_2PostNewtonian ? c_2PostNewtonian(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
-               (use_c_3PostNewtonian ? c_3PostNewtonian(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
-               (use_c_4PostNewtonian ? c_4PostNewtonian(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
-               (use_c_SpinOrbit ? c_SpinOrbit(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
-               (use_c_SpinSpin ? c_SpinSpin(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
-               (use_c_BT_RR ? c_BT_RR(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
-               (use_c_PostNewtonianSO ? c_PostNewtonianSO(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
-               (use_c_2PostNewtonianSO ? c_2PostNewtonianSO(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
-               (use_c_RR1PostNewtonian ? c_RR1PostNewtonian(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
-               (use_c_RRSO ? c_RRSO(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
-               (use_c_RRSS ? c_RRSS(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} );
+    auto corrs = [&](dynamicalParams const& dp) -> state { // capture clause could be reference
+        return (use_c_Newtonian ? c_Newtonian(dp, iparams) : nullState) +              
+               (use_c_PostNewtonian ? c_PostNewtonian(dp, iparams) : nullState ) + 
+               (use_c_2PostNewtonian ? c_2PostNewtonian(dp, iparams) : nullState ) +
+               (use_c_3PostNewtonian ? c_3PostNewtonian(dp, iparams) : nullState ) +
+               (use_c_4PostNewtonian ? c_4PostNewtonian(dp, iparams) : nullState ) +
+               (use_c_SpinOrbit ? c_SpinOrbit(dp, iparams) : nullState ) +
+               (use_c_SpinSpin ? c_SpinSpin(dp, iparams) : nullState ) +
+               (use_c_BT_RR ? c_BT_RR(dp, iparams) : nullState ) +
+               (use_c_PostNewtonianSO ? c_PostNewtonianSO(dp, iparams) : nullState ) +
+               (use_c_2PostNewtonianSO ? c_2PostNewtonianSO(dp, iparams) : nullState ) +
+               (use_c_RR1PostNewtonian ? c_RR1PostNewtonian(dp, iparams) : nullState ) +
+               (use_c_RRSO ? c_RRSO(dp, iparams) : nullState ) +
+               (use_c_RRSS ? c_RRSS(dp, iparams) : nullState );
     };
 
     auto hterms = [=](dynamicalParams const& dp){
@@ -173,33 +176,35 @@ int main(){
     };
 
     auto lterms = [=](dynamicalParams const& dp){
-        return (use_l_PostNewtonian ? l_PostNewtonian(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
-               (use_l_2PostNewtonian ? l_2PostNewtonian(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
-               (use_l_3PostNewtonian ? l_3PostNewtonian(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
-               (use_l_4PostNewtonian ? l_4PostNewtonian(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} ) +
-               (use_l_SpinOrbit ? l_SpinOrbit(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} );
+        return (use_l_PostNewtonian ? l_PostNewtonian(dp, iparams) : nullVector ) +
+               (use_l_2PostNewtonian ? l_2PostNewtonian(dp, iparams) : nullVector ) +
+               (use_l_3PostNewtonian ? l_3PostNewtonian(dp, iparams) : nullVector ) +
+               (use_l_4PostNewtonian ? l_4PostNewtonian(dp, iparams) : nullVector ) +
+               (use_l_SpinOrbit ? l_SpinOrbit(dp, iparams) : nullVector );
     };
 
     auto S1 = [=](dynamicalParams const& dp){
-        return (use_spin1 ? spin1(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} );
+        return (use_spin1 ? spin1(dp, iparams) : nullVector );
     };
     auto S2 = [=](dynamicalParams const& dp){
-        return (use_spin2 ? spin2(dp, iparams) : Vector<mass, 3>{{0.,0.,0.}} );
+        return (use_spin2 ? spin2(dp, iparams) : nullVector );
     };
 
     // Create default constructed solver. Allocates storage but is invalid state.
     solver rk4;
 
     // Set the initial left-hand side values.
-    rk4.lhs() = state{ iparams.r_init };
+    rk4.lhs() = state{ iparams.v_init , iparams.r_init };
 
     // Set the equation for each 
     rk4.equation() = [=](state& result, const state& rhs){
 
         //dynamicalParams dparams(rhs, iparams);
-        dynamicalParams dp(rhs, iparams);
+        dynamicalParams dp(rk4.lhs, iparams);
 
-        result = PDE::make_equation( corrs(dp) );
+        auto temp = corrs(dp);
+
+        result = PDE::make_equation( temp.get<Velocity>(), temp.get<Radius>() );
                                     //  hterms(dparams),
                                     //  eterms(dparams),
                                     //  lterms(dparams),
@@ -209,11 +214,11 @@ int main(){
 
     for (solver_internal t = 0; length(rk4.lhs().get<Radius>()) > rmin; t += dt){
         
-        dynamicalParams dp(rk4.lhs().get<Radius>() ,iparams);
+        dynamicalParams dp(state{rk4.lhs().get<Velocity>(), rk4.lhs().get<Radius>()} ,iparams);
         rk4.iterate(dt);
         
         //std::cout << t << "\t" << rk4.lhs().get<Mass>() << "\t" << rk4.lhs().get<Phase>() << std::endl;
-        myfile << t << "\t" << dp.r1[1] << "\t" <<  dp.r1[2] << "\t" << dp.r1[3] << "\t" << dp.r2[1] << "\t" <<  dp.r2[2] << "\t" << dp.r2[3] <<"\n";
+        myfile << t/SI_c << "\t" << dp.r1[1] << "\t" <<  dp.r1[2] << "\t" << dp.r1[3] << "\t" << dp.r2[1] << "\t" <<  dp.r2[2] << "\t" << dp.r2[3] <<"\n";
 
     }
 

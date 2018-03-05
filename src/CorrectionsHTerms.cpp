@@ -18,7 +18,7 @@ mass h_Q(dynamicalParams const& dp, initParams const& ip){
 
     for(int i = 0; i < 3; ++i){
         for(int j = 0; j < 3; ++j){
-            hQ += 2.*(v[i]*v[j] - (SI_G*m)/r*n[i]*n[j]);
+            hQ += 2.*(v[i]*v[j] - m/r*n[i]*n[j]);
         }
     }
 
@@ -40,7 +40,7 @@ mass h_P05Q(dynamicalParams const& dp, initParams const& ip){
 
     for(int i = 0; i < 3; ++i){
         for(int j = 0; j < 3; ++j){
-            hP05Q += dm/(SI_c*m)*(3.*(SI_G*m)/r*(n[i]*v[j] + n[j]*v[i] - rdot*n[i]*n[j])*dot(N,n) + ((SI_G*m)/r*n[i]*n[j] - 2.*v[i]*v[j])*dot(N,v));
+            hP05Q += dm/m*(3.*m/r*(n[i]*v[j] + n[j]*v[i] - rdot*n[i]*n[j])*dot(N,n) + (m/r*n[i]*n[j] - 2.*v[i]*v[j])*dot(N,v));
         }
     }
 
@@ -61,11 +61,11 @@ mass h_PQ(dynamicalParams const& dp, initParams const& ip){
 
     for(int i = 0; i < 3; ++i){
         for(int j = 0; j < 3; ++j){
-            hPQ += 1./(3.*SI_c2)*(1. - 3.*eta)*(4.*(SI_G*m)/r*(3.*rdot*n[i]*n[j] - 8.*(n[i]*v[j] + n[j]*v[i]))*dot(N,n)*sq(dot(N,v))
-                + 2.*(3.*v[i]*v[j] - (SI_G*m)/r*n[i]*n[j]) 
-                + (SI_G*m)/r*((3.*sqlength(v) - 15.*sq(rdot) + 7.*(SI_G*m)/r)*n[i]*n[j] + 30.*rdot*(n[i]*v[j] + n[j]*v[i]) - 14.*v[i]*v[j])*sq(dot(N,n)))
-                + 3./4.*(SI_G*m)/r*rdot*(5. + 3.*eta)*(n[i]*v[j] + n[j]*v[i]) + ((1. - 3.*eta)*sqlength(v) - 2./3.*(2. - 3.*eta)*(SI_G*m)/r)*v[i]*v[j]
-                + (SI_G*m)/r*((1. - 3.*eta)*sq(rdot) - 1./3.*(10. + 3.*eta)*sqlength(v) + 29./3.*(SI_G*m)/r)*n[i]*n[j];
+            hPQ += 1./3.*(1. - 3.*eta)*(4.*m/r*(3.*rdot*n[i]*n[j] - 8.*(n[i]*v[j] + n[j]*v[i]))*dot(N,n)*sq(dot(N,v))
+                + 2.*(3.*v[i]*v[j] - m/r*n[i]*n[j]) 
+                + m/r*((3.*sqlength(v) - 15.*sq(rdot) + 7.*m/r)*n[i]*n[j] + 30.*rdot*(n[i]*v[j] + n[j]*v[i]) - 14.*v[i]*v[j])*sq(dot(N,n)))
+                + 3./4.*m/r*rdot*(5. + 3.*eta)*(n[i]*v[j] + n[j]*v[i]) + ((1. - 3.*eta)*sqlength(v) - 2./3.*(2. - 3.*eta)*m/r)*v[i]*v[j]
+                + m/r*((1. - 3.*eta)*sq(rdot) - 1./3.*(10. + 3.*eta)*sqlength(v) + 29./3.*m/r)*n[i]*n[j];
         }
     }
 
@@ -87,17 +87,17 @@ mass h_P15Q(dynamicalParams const& dp, initParams const& ip){
 
     for(int i = 0; i < 3; ++i){
         for(int j = 0; j < 3; ++j){
-            hP15Q += dm/(m*cb(SI_c))*(1. - 2.*eta)*(1./4.*(SI_G*m)/r*((45.*sq(rdot) - 9.*sqlength(v) - 28.*(SI_G*m)/r)*n[i]*n[j]
+            hP15Q += dm/m*(1. - 2.*eta)*(1./4.*m/r*((45.*sq(rdot) - 9.*sqlength(v) - 28.*m/r)*n[i]*n[j]
                   + 58.*n[i]*n[j] - 108.*rdot*(n[i]*v[j] + n[j]*v[i]))*sq(dot(N,n))*dot(N,v)
-                  + 1./2.*((SI_G*m)/r*n[i]*n[j] - 4.*v[i]*v[j])*cb(dot(N,v)) + (SI_G*m)/r*(5./4.*(3.*sqlength(v) - 7.*sq(rdot) + 6.*(SI_G*m)/r)*rdot*n[i]*n[j]
-                  - 1./6.*(21*sqlength(v) - 105.*sq(rdot) + 44.*(SI_G*m)/r)*(n[i]*v[j] + n[j]*v[i]) - 17./2.*v[i]*v[j])*cb(dot(N,n))
-                  + 3./2.*(SI_G*m)/r*(10.*(n[i]*v[j] + n[j]*v[i]) - 3.*rdot*n[i]*n[j])*dot(N,n)*sq(dot(N,v)))
-                  + dm/(m*cb(SI_c))*1./12.*(SI_G*m)/r*dot(N,n)*(n[i]*n[j]*rdot*(sq(rdot)*(15. - 90.*eta) - sqlength(v)*(63. - 54.*eta) 
-                  - (SI_G*m)/r*(242. - 24.*eta)) - rdot*v[i]*v[j]*(86. + 24.*eta)
-                  + 2.*(n[i]*v[j] + n[j]*v[i])*(sq(rdot)*(63. + 54.*eta) - (SI_G*m)/r*(128. - 36.*eta) - sqlength(v)*(33. - 18.*eta)))
-                  + dm/(m*cb(SI_c)*dot(N,v)*(1./2.*v[i]*v[j]*((SI_G*m)/r*(3. - 8.*eta) - 2.*sqlength(v)*(1. - 5.*eta)) - (n[i]*v[j] 
-                  + n[j]*v[i])*(SI_G*m)/r*rdot*(7. + 4.*eta) - n[i]*n[j]*(SI_G*m)/r*(3./4.*(1. - 2.*eta)*sq(rdot) + 1./3.*(26. - 3.*eta)*(SI_G*m)/r
-                  - 1./4.*(7. - 2.*eta)*sqlength(v))));
+                  + 1./2.*(m/r*n[i]*n[j] - 4.*v[i]*v[j])*cb(dot(N,v)) + m/r*(5./4.*(3.*sqlength(v) - 7.*sq(rdot) + 6.*m/r)*rdot*n[i]*n[j]
+                  - 1./6.*(21*sqlength(v) - 105.*sq(rdot) + 44.*m/r)*(n[i]*v[j] + n[j]*v[i]) - 17./2.*v[i]*v[j])*cb(dot(N,n))
+                  + 3./2.*m/r*(10.*(n[i]*v[j] + n[j]*v[i]) - 3.*rdot*n[i]*n[j])*dot(N,n)*sq(dot(N,v)))
+                  + dm/m*1./12.*m/r*dot(N,n)*(n[i]*n[j]*rdot*(sq(rdot)*(15. - 90.*eta) - sqlength(v)*(63. - 54.*eta) 
+                  - m/r*(242. - 24.*eta)) - rdot*v[i]*v[j]*(86. + 24.*eta)
+                  + 2.*(n[i]*v[j] + n[j]*v[i])*(sq(rdot)*(63. + 54.*eta) - m/r*(128. - 36.*eta) - sqlength(v)*(33. - 18.*eta)))
+                  + dm/m*dot(N,v)*(1./2.*v[i]*v[j]*(m/r*(3. - 8.*eta) - 2.*sqlength(v)*(1. - 5.*eta)) - (n[i]*v[j] 
+                  + n[j]*v[i])*m/r*rdot*(7. + 4.*eta) - n[i]*n[j]*m/r*(3./4.*(1. - 2.*eta)*sq(rdot) + 1./3.*(26. - 3.*eta)*m/r
+                  - 1./4.*(7. - 2.*eta)*sqlength(v)));
         }
     }
 
@@ -121,7 +121,7 @@ mass h_P2Q(dynamicalParams const& dp, initParams const& ip){
     for(int i = 0; i < 3; ++i){
         for(int j = 0; j < 3; ++j){
 
-            hP2Q += 1./sq(SI_c2)*(1./60.*(1. - 5.*eta + 5.*sq(eta))*(24.*std::pow(dot(N,v),4)*(5.*v[i]*v[j] - m/r*n[i]*n[j])
+            hP2Q += (1./60.*(1. - 5.*eta + 5.*sq(eta))*(24.*std::pow(dot(N,v),4)*(5.*v[i]*v[j] - m/r*n[i]*n[j])
                  + m/r*std::pow(dot(N,n),4)*(2.*(175.*m/r - 465.*sq(rdot) + 93.*sqlength(v))*v[i]*v[j]
                  + 30.*rdot*(63.*sq(rdot) - 50.*m/r - 27.*sqlength(v))*(n[i]*v[j] + n[j]*v[i])
                  + (1155.*m/r*sq(rdot) - 172.*sq(m/r) - 945.*sq(sq(rdot)) - 159.*m/r*sqlength(v) + 630.*sq(rdot*length(v)) - 45.*sq(sqlength(v)))*n[i]*n[j])
@@ -166,7 +166,7 @@ mass h_P2QSS(dynamicalParams const& dp, initParams const& ip){
     for(int i = 0; i < 3; ++i){
         for(int j = 0; j < 3; ++j){
 
-            hP2QSS += -6.*SI_G/(SI_c2*mu*cb(r))*(n[i]*n[j]*(dot(Spin1,Spin2) - 5.*dot(n,Spin1)*dot(n,Spin2)) 
+            hP2QSS += -6./(mu*cb(r))*(n[i]*n[j]*(dot(Spin1,Spin2) - 5.*dot(n,Spin1)*dot(n,Spin2)) 
                    + 2.*(n[i]*Spin1[j] + n[j]*Spin1[i])*dot(n,Spin2) + 2.*(n[i]*Spin2[j] + n[j]*Spin2[i])*dot(n,Spin1));
 
         }
@@ -192,7 +192,7 @@ mass h_P15QSO(dynamicalParams const& dp, initParams const& ip){
 
     for(int i = 0; i < 3; ++i){
         for(int j = 0; j < 3; ++j){
-            hP15QSO += 2.*SI_G/(SI_c2*sq(r))*(n[i]*n[j]*dot(cross(n, v), (12.*Spin + 6.*dm/m*Delta))
+            hP15QSO += 2./sq(r)*(n[i]*n[j]*dot(cross(n, v), (12.*Spin + 6.*dm/m*Delta))
                   - (n[i]*cross(v, (9.*Spin + 5*dm/m*Delta))[j] + n[j]*cross(v, (9.*Spin + 5.*dm/m*Delta))[i])
                   + (3.*rdot*dot(N,n) - 2.*dot(N,v))*(cross((Spin + dm/m*Delta), N)[i]*n[j] + cross((Spin + dm/m*Delta), N)[j]*n[i])
                   - (v[i]*cross(n, (2.*Spin + 2*dm/m*Delta))[j] + v[j]*cross(n, (2.*Spin + 2.*dm/m*Delta))[i])
@@ -216,7 +216,7 @@ mass h_PQSO(dynamicalParams const& dp, initParams const& ip){
     for(int i = 0; i < 3; ++i){
         for(int j = 0; j < 3; ++j){
 
-            hPQSO += 2.*SI_G/sq(SI_c*r)*(cross(Delta, N)[i]*n[j] + cross(Delta, N)[j]*n[i]);
+            hPQSO += 2./r*(cross(Delta, N)[i]*n[j] + cross(Delta, N)[j]*n[i]);
         }
     }
 

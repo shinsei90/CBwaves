@@ -10,7 +10,7 @@ dynamicalParams::dynamicalParams(const state& state_, initParams ip_){
             
             x = r1 - r2;
             n = x/r;
-            v = {ip_.m/rr[0]*(1. - ip_.ecc), ip_.m/rr[1]*(1. - ip_.ecc), ip_.m/rr[2]*(1. - ip_.ecc)};
+            v = state_.get<Velocity>();
             rdot = dot(n, v);
             LN = ip_.mu*cross(x, v);
 
