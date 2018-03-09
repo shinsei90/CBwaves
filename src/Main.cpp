@@ -41,59 +41,59 @@ int main(){
     std::ofstream myfile;
     myfile.open("debug.dat");
 
-    mass rmin = 6.;
+    initParams iparams(10., 2., 10., 0.);
+    mass rmin = 6.*iparams.m;
     solver_internal dt = 0.1;
-    initParams iparams(10., 1.2, 100., 0.);
 
     // Model switches (Compile time constants)
     constexpr bool use_c_Newtonian = true,
-                   use_c_PostNewtonian = true,
-                   use_c_2PostNewtonian = true,
-                   use_c_3PostNewtonian = true,
-                   use_c_4PostNewtonian = true,
-                   use_c_SpinOrbit = true,
-                   use_c_SpinSpin = true,
-                   use_c_BT_RR = true,
-                   use_c_PostNewtonianSO = true,
-                   use_c_2PostNewtonianSO = true,
-                   use_c_RR1PostNewtonian = true,
-                   use_c_RRSO = true,
-                   use_c_RRSS = true;
+                   use_c_PostNewtonian = false,
+                   use_c_2PostNewtonian = false, 
+                   use_c_3PostNewtonian = false, 
+                   use_c_4PostNewtonian = false, 
+                   use_c_SpinOrbit = false,
+                   use_c_SpinSpin = false,
+                   use_c_BT_RR = false, 
+                   use_c_PostNewtonianSO = false, 
+                   use_c_2PostNewtonianSO = false, 
+                   use_c_RR1PostNewtonian = false,
+                   use_c_RRSO = false, 
+                   use_c_RRSS = false; 
     
-    constexpr bool use_h_Q = true,
-                   use_h_P05Q = true,
-                   use_h_PQ = true,
-                   use_h_P15Q = true,
-                   use_h_P2Q = true,
-                   use_h_PQSO = true,
-                   use_h_P15QSO = true,
-                   use_h_P2QSS = true;
+    constexpr bool use_h_Q = false,
+                   use_h_P05Q = false,
+                   use_h_PQ = false,
+                   use_h_P15Q = false,
+                   use_h_P2Q = false,
+                   use_h_PQSO = false,
+                   use_h_P15QSO = false,
+                   use_h_P2QSS = false;
 
-    constexpr bool use_e_Newtonian = true,
-                   use_e_PostNewtonian = true,
-                   use_e_2PostNewtonian = true,
-                   use_e_3PostNewtonian = true,
-                   use_e_4PostNewtonian = true,
-                   use_e_SpinOrbit = true,
-                   use_e_SpinSpin = true,
-                   use_e_PostNewtonianSO = true;
+    constexpr bool use_e_Newtonian = false,
+                   use_e_PostNewtonian = false,
+                   use_e_2PostNewtonian = false,
+                   use_e_3PostNewtonian = false,
+                   use_e_4PostNewtonian = false,
+                   use_e_SpinOrbit = false,
+                   use_e_SpinSpin = false,
+                   use_e_PostNewtonianSO = false;
 
-    constexpr bool use_edot_Newtonian = true,
-                   use_edot_PostNewtonian = true,
-                   use_edot_2PostNewtonian = true,
-                   use_edot_25PostNewtonian = true,
-                   use_edot_SpinOrbit = true,
-                   use_edot_SpinSpin = true,
-                   use_edot_PostNewtonianSO = true;
+    constexpr bool use_edot_Newtonian = false,
+                   use_edot_PostNewtonian = false,
+                   use_edot_2PostNewtonian = false,
+                   use_edot_25PostNewtonian = false,
+                   use_edot_SpinOrbit = false,
+                   use_edot_SpinSpin = false,
+                   use_edot_PostNewtonianSO = false;
 
-    constexpr bool use_l_PostNewtonian = true,
-                   use_l_2PostNewtonian = true,
-                   use_l_3PostNewtonian = true,
-                   use_l_4PostNewtonian = true,
-                   use_l_SpinOrbit = true;
+    constexpr bool use_l_PostNewtonian = false,
+                   use_l_2PostNewtonian = false,
+                   use_l_3PostNewtonian = false,
+                   use_l_4PostNewtonian = false,
+                   use_l_SpinOrbit = false;
 
-    constexpr bool use_spin1 = true;
-    constexpr bool use_spin2 = true;
+    constexpr bool use_spin1 = false;
+    constexpr bool use_spin2 = false;
 
 
     //Example equations.
@@ -123,7 +123,7 @@ int main(){
 
     // Assembling equations from contributions
     
-    // It is expected, that sensible C++11/14 optimizers eliminate branching on ( true ? val1 : val2 )
+    // It is expected, that sensible C++11/14 optimizers eliminate branching on ( false ? val1 : val2 )
     // type expressions at compile time. Even more sensible optimizers should change (val + 0) and
     // (val * 1) type expressions to nop (no-operation).
 
@@ -199,9 +199,7 @@ int main(){
     // Set the equation for each 
     rk4.equation() = [=](state& result, const state& rhs){
 
-        //dynamicalParams dparams(rhs, iparams);
-        dynamicalParams dp(rk4.lhs, iparams);
-
+        dynamicalParams dp(rk4.lhs(), iparams);
         auto temp = corrs(dp);
 
         result = PDE::make_equation( temp.get<Velocity>(), temp.get<Radius>() );
@@ -218,7 +216,7 @@ int main(){
         rk4.iterate(dt);
         
         //std::cout << t << "\t" << rk4.lhs().get<Mass>() << "\t" << rk4.lhs().get<Phase>() << std::endl;
-        myfile << t/SI_c << "\t" << dp.r1[1] << "\t" <<  dp.r1[2] << "\t" << dp.r1[3] << "\t" << dp.r2[1] << "\t" <<  dp.r2[2] << "\t" << dp.r2[3] <<"\n";
+        myfile << t/SI_c << "\t" << dp.r << dp.r1[1] << "\t" <<  dp.r1[2] << "\t" << dp.r1[3] << "\t" << dp.r2[1] << "\t" <<  dp.r2[2] << "\t" << dp.r2[3] <<"\n";
 
     }
 
