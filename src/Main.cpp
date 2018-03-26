@@ -30,20 +30,15 @@ int main(){
     Vector<mass, 3> nullVector = {0., 0., 0.};
     state nullState = state{nullVector, nullVector};
     
-    // Model params (read from config file if you want)
-    // mass_type eq1_contirb1_param1 = 0.99,
-    //           eq1_contirb2_param1 = 1.01,
-    //           eq1_contirb2_param2 = 1.02;
-    // phase_type::value_type eq2_contrib1_param1 = 0.5f,
-    //                        eq2_contrib2_param1 = 0.1f,
-    //                        eq2_contrib2_param2 = 0.001f;
-    
     std::ofstream myfile;
     myfile.open("debug.dat");
 
-    initParams iparams(10., 2., 10., 0.);
+    initParams iparams(20., 2., 10., 0.);
     mass rmin = 6.*iparams.m;
-    solver_internal dt = 0.1;
+    double printstep = 1000.;
+    double T = 2.*PI*iparams.r0/(SI_c*std::sqrt((iparams.m1 + iparams.m2)/iparams.r0));
+    // solver_internal dt = 1./std::pow(2., 12);
+    solver_internal dt = T/printstep;
 
     // Model switches (Compile time constants)
     constexpr bool use_c_Newtonian = true,
@@ -216,7 +211,7 @@ int main(){
         rk4.iterate(dt);
         
         //std::cout << t << "\t" << rk4.lhs().get<Mass>() << "\t" << rk4.lhs().get<Phase>() << std::endl;
-        myfile << t/SI_c << "\t" << dp.r << dp.r1[1] << "\t" <<  dp.r1[2] << "\t" << dp.r1[3] << "\t" << dp.r2[1] << "\t" <<  dp.r2[2] << "\t" << dp.r2[3] <<"\n";
+        myfile << t << "\t" << dp.r << "\t" << dp.r1[0] << "\t" <<  dp.r1[1] << "\t" << dp.r1[2] << "\t" << dp.r2[0] << "\t" <<  dp.r2[1] << "\t" << dp.r2[2] << "\t" << dp.v[0] << "\t" << dp.v[1] << "\t" << dp.v[2] << "\n";
 
     }
 
