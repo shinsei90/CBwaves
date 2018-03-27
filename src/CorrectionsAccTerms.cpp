@@ -7,8 +7,8 @@
 #include <iostream>
 #include <cmath>
 
-auto sq = [](auto const& a){ return a*a;};
-auto cb = [](auto const& a){ return a*a*a; };
+template <typename T> auto sq(T const& a){ return a*a;};
+template <typename T> auto cb(T const& a){ return a*a*a; };
 
 
 
@@ -18,8 +18,8 @@ state c_Newtonian(dynamicalParams const& dp, initParams const& ip){
     mass const& r = dp.r;
     Vector<mass, 3> const& n = dp.n;
 
-    Vector<mass, 3> rN = -m/sq(r) * n;
-    return state{rN , dp.v};
+    Vector<mass, 3> aN = -m/sq(r) * n;
+    return state{aN , dp.v};
 
 }
 
@@ -32,8 +32,8 @@ state c_PostNewtonian(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& n = dp.n;
     Vector<mass, 3> const& v = dp.v;
 
-    Vector<mass,3> rPN = -m/cb(r)*(n*((1. + 3.*eta)*sq(length(v)) - 2.*(2. + eta)*m/r - 3./2.*eta*rdot) - 2.*(2. - eta)*rdot*v);
-    return state{rPN , dp.v};
+    Vector<mass,3> aPN = -m/cb(r)*(n*((1. + 3.*eta)*sq(length(v)) - 2.*(2. + eta)*m/r - 3./2.*eta*rdot) - 2.*(2. - eta)*rdot*v);
+    return state{aPN , dp.v};
 
 }
 
@@ -46,11 +46,11 @@ state c_2PostNewtonian(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& n = dp.n;
     Vector<mass, 3> const& v = dp.v;
 
-    Vector<mass, 3> r2PN = -m/(sq(r)) * (n*(3./4.*(12. + 29.*eta)*sq(m/r) + eta*(3. - 4.*eta)*std::pow(length(v),4) 
+    Vector<mass, 3> a2PN = -m/(sq(r)) * (n*(3./4.*(12. + 29.*eta)*sq(m/r) + eta*(3. - 4.*eta)*std::pow(length(v),4) 
                          + 15./8.*eta*(1. - 3.*eta)*std::pow(rdot,4) - 3./2.*eta*(3. - 4.*eta)*sq(length(v)*rdot) 
                          - 1./2.*eta*(13. - 4.*eta)*m/r*sq(length(v)) - (2. + 25.*eta + 2.*sq(eta))*m/r*sq(rdot)) 
                          - 1./2.*rdot*v*(eta*(15. + 4.*eta)*sq(length(v)) - (4. + 41.*eta + 8.*sq(eta))*m/r -3.*eta*(3. + 2.*eta)*sq(rdot)));
-    return state{r2PN , dp.v};
+    return state{a2PN , dp.v};
 
 }
 
@@ -63,7 +63,7 @@ state c_3PostNewtonian(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& n = dp.n;
     Vector<mass, 3> const& v = dp.v;
 
-    Vector<mass, 3> r3PN = m/sq(r)*(n*((16. + (1399./12. - 41./16.*sq(PI))*eta + 71./2.*sq(eta))*cb(m/r) 
+    Vector<mass, 3> a3PN = m/sq(r)*(n*((16. + (1399./12. - 41./16.*sq(PI))*eta + 71./2.*sq(eta))*cb(m/r) 
                          + eta*(20827./840. + 123./64.*sq(PI) - sq(eta))*sq(m/r*length(v)) 
                          - (1. + (22717./168. + 615./64.*sq(PI))*eta + 11./8.*sq(eta) - 7.*cb(eta))*sq(m/r*rdot) 
                          - 1./4.*eta*(11. - 49.*eta + 52.*sq(eta))*std::pow(length(v),6) + 35./16.*eta*(1. - 5.*eta + 5.*sq(eta))*std::pow(rdot,6)
@@ -77,7 +77,7 @@ state c_3PostNewtonian(dynamicalParams const& dp, initParams const& ip){
                          + eta*(15. + 27.*eta + 10.*sq(eta))*m/r*sq(length(v)) 
                          - 11./6.*eta*(329. + 177.*eta + 108.*sq(eta))*m/r*sq(rdot) 
                          - 3./4.*eta*(16. - 37.*eta - 16.*sq(eta))*sq(length(v)*rdot)));
-    return state{r3PN , dp.v};
+    return state{a3PN , dp.v};
 
 }
 
@@ -132,8 +132,8 @@ state c_4PostNewtonian(dynamicalParams const& dp, initParams const& ip){
     mass b3 = cb(m/r)*(2. - (619267./525. - 791./16.*sq(PI))*eta - (28406./45. + 2201./32.*sq(PI))*sq(eta) + 66.*cb(eta) + 16.*std::pow(eta, 4));
     mass B_4PN = b0 + b1 + b2 + b3;
 
-    Vector<mass, 3> r4PN = -m/sq(r)*((1. + A_4PN)*n + B_4PN*v);
-    return state{r4PN , dp.v};
+    Vector<mass, 3> a4PN = -m/sq(r)*((1. + A_4PN)*n + B_4PN*v);
+    return state{a4PN , dp.v};
 
 }
 
@@ -147,9 +147,9 @@ state c_SpinOrbit(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& Spin = dp.Spin;
     Vector<mass, 3> const& sigma = dp.sigma;
 
-    Vector<mass, 3> rSO = 1/cb(r)*(6.*n*dot(cross(n,v),(Spin + sigma)) - cross(v,(4.*Spin + 3.*sigma)) 
+    Vector<mass, 3> aSO = 1/cb(r)*(6.*n*dot(cross(n,v),(Spin + sigma)) - cross(v,(4.*Spin + 3.*sigma)) 
                         + 3.*rdot*cross(n,(2.*Spin + sigma)));
-    return state{rSO , dp.v};
+    return state{aSO , dp.v};
 }
 
 state c_SpinSpin(dynamicalParams const& dp, initParams const& ip){
@@ -163,9 +163,9 @@ state c_SpinSpin(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& Spin1 = dp.Spin1;
     Vector<mass, 3> const& Spin2 = dp.Spin2;
 
-    Vector<mass, 3> rSS = -3.*1/(mu*std::pow(r,4))*(n*dot(Spin1,Spin2) + Spin1*dot(n,Spin2) + Spin2*dot(n,Spin2)
+    Vector<mass, 3> aSS = -3.*1/(mu*std::pow(r,4))*(n*dot(Spin1,Spin2) + Spin1*dot(n,Spin2) + Spin2*dot(n,Spin2)
                         - 5.*n*dot(n,Spin1)*dot(n,Spin2));
-    return state{rSS , dp.v};
+    return state{aSS , dp.v};
 
 }
 
@@ -178,9 +178,9 @@ state c_BT_RR(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& n = dp.n;
     Vector<mass, 3> const& v = dp.v;
 
-    Vector<mass, 3> rBTRR = 8./5.*eta*sq(m)/cb(r)*(rdot*n*(18.*sq(length(v)) + 2./3.*m/r - 25.*sq(rdot)) 
+    Vector<mass, 3> aBTRR = 8./5.*eta*sq(m)/cb(r)*(rdot*n*(18.*sq(length(v)) + 2./3.*m/r - 25.*sq(rdot)) 
                           - v*(6.*sq(length(v)) - 2.*m/r - 15.*sq(rdot)));
-    return state{rBTRR , dp.v};
+    return state{aBTRR , dp.v};
 
 }
 
@@ -196,7 +196,7 @@ state c_PostNewtonianSO(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& Spin = dp.Spin;
     Vector<mass, 3> const& Delta = dp.Delta;
 
-    Vector<mass, 3> rPNSO = 1/cb(r)*(n*(dot(cross(n, v), Spin)*(-30.*eta*sq(rdot) + 24.*eta*sq(length(v)) 
+    Vector<mass, 3> aPNSO = 1/cb(r)*(n*(dot(cross(n, v), Spin)*(-30.*eta*sq(rdot) + 24.*eta*sq(length(v)) 
                           - m/r*(44. + 25.*eta)) + dm/m*dot(cross(n, v), Delta)*(-15.*eta*sq(rdot) + 12.*eta*sq(length(v)) 
                           - m/r*(24. + 29./2.*eta))) + rdot*v*(dot(cross(n, v),Spin)*(-9. + 9.*eta) + dm/m*dot(cross(n,v), Delta)*(-3. - 6.*eta)) 
                           + cross(n, v)*(3./2.*rdot*dot(v, Spin)*(-1. + eta) - 8.*m/r*eta*dot(n, Spin) 
@@ -205,7 +205,7 @@ state c_PostNewtonianSO(dynamicalParams const& dp, initParams const& ip){
                           + dm/m*rdot*cross(n, Delta)*(-15.*eta*sq(rdot) + 12.*eta*sq(length(v)) - m/r*(12. + 23./2.*eta)) 
                           + cross(v,Spin)*(33./2.*eta*sq(rdot) + m/r*(24. + 11.*eta) - 14.*eta*sq(length(v))) 
                           + dm/m*cross(v, Delta)*(9.*eta*sq(rdot) - 7.*eta*sq(length(v)) + m/r*(12. + 11./2.*eta)));
-    return state{rPNSO , dp.v};
+    return state{aPNSO , dp.v};
 
 }
 
@@ -263,8 +263,8 @@ state c_2PostNewtonianSO(dynamicalParams const& dp, initParams const& ip){
                        + dm/m*cross(n, Delta)*(57./2. + 85./4.*eta - 6.*sq(eta))*(rdot)
                        + cross(Spin, v)*(105./2. + 137./2.*eta) + cross(Delta, v)*dm/m*(57./2. + 65./2.*eta);
     
-    Vector<mass, 3> r2PNSO = 1/cb(r)*(a1 + m/r*a2 +sq(m/r)*a3);
-    return state{r2PNSO , dp.v};
+    Vector<mass, 3> a2PNSO = 1/cb(r)*(a1 + m/r*a2 +sq(m/r)*a3);
+    return state{a2PNSO , dp.v};
 
 }
 
@@ -277,13 +277,13 @@ state c_RR1PostNewtonian(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& n = dp.n;
     Vector<mass, 3> const& v = dp.v;
 
-    Vector<mass, 3> rRR1PN = 8./5.*eta*sq(m)/std::pow(r, 5)*(rdot*n*((87./14. - 48.*eta)*std::pow(length(v),4) 
+    Vector<mass, 3> aRR1PN = 8./5.*eta*sq(m)/std::pow(r, 5)*(rdot*n*((87./14. - 48.*eta)*std::pow(length(v),4) 
                            - (5379./28. - 136./3.*eta)*sq(length(v))*m/r + 25./2.*(1. + 5.*eta)*sq(length(v)*rdot) 
                            + (1353./4. - 133.*eta)*sq(rdot)*m/r - 35./2.*(1. - eta)*std::pow(rdot,4) + (166./7. + 55./3.*eta)*sq(m/r)) 
                            - v*(-27./14.*std::pow(length(v), 4) - (4861./84. + 58./3.*eta)*sq(length(v))*m/r 
                            + 3/2.*(13. - 37.*eta)*sq(length(v)*rdot) + (2591./12. + 97.*eta)*sq(rdot)*m/r - 25./2.*(1. - 7.*eta)*std::pow(rdot, 4) 
                            + 1./3.*(776./7. + 55.*eta)*sq(m/r)));
-    return state{rRR1PN , dp.v};
+    return state{aRR1PN , dp.v};
 
 }
 
@@ -300,7 +300,7 @@ state c_RRSO(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& sigma = dp.sigma;
     Vector<mass, 3> const& LN = dp.LN;
 
-    Vector<mass, 3> rRRSO = - (sq(1)*eta*m)/(5.*std::pow(r, 4))*((rdot*n)/(mu*r)*((120.*sq(length(v)) + 280.*sq(rdot) 
+    Vector<mass, 3> aRRSO = - (sq(1)*eta*m)/(5.*std::pow(r, 4))*((rdot*n)/(mu*r)*((120.*sq(length(v)) + 280.*sq(rdot) 
                           + 453.*m/r)*dot(LN, Spin) + (120.*sq(length(v)) + 280.*sq(rdot) + 458.*m/r)*dot(LN, sigma)) 
                           + v/(mu*r)*((87.*sq(length(v)) - 675.*sq(rdot) -  901./3.*m/r)*dot(LN, Spin) 
                           + 4.*(18.*sq(length(v)) - 150.*sq(rdot) - 66.*m/r)*dot(LN, sigma)) 
@@ -310,7 +310,7 @@ state c_RRSO(dynamicalParams const& dp, initParams const& ip){
                           + 537.*sq(rdot)*m/r + 4./3.*sq(m/r)) + 1./2.*cross(n,sigma)*(115.*std::pow(length(v),4) 
                           - 1130.*sq(length(v)*rdot) + 1295.*std::pow(rdot, 4.) - 869./3.*sq(length(v))*m/r +849.*sq(rdot)*m/r 
                           + 44./3.*sq(m/r)));
-    return state{rRRSO , dp.v};
+    return state{aRRSO , dp.v};
 
 }
 
@@ -325,7 +325,7 @@ state c_RRSS(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& Spin1 = dp.Spin1;
     Vector<mass, 3> const& Spin2 = dp.Spin2;
 
-    Vector<mass, 3> rRRSS = 1/std::pow(r, 5)*(n*((287.*sq(rdot) - 99.*sq(length(v)) 
+    Vector<mass, 3> aRRSS = 1/std::pow(r, 5)*(n*((287.*sq(rdot) - 99.*sq(length(v)) 
                           + 541./5.*m/r)*rdot*dot(Spin1, Spin2) 
                           - (2646.*sq(rdot) - 714.*sq(length(v)) + 1961./5.*m/r)*rdot*dot(n, Spin1)*dot(n, Spin2) 
                           + (1029.*sq(rdot) - 123.*sq(length(v)) + 629./10.*m/r)*(dot(n, Spin1)*dot(n, Spin2) + dot(v, Spin2)*dot(v, Spin1))
@@ -334,7 +334,7 @@ state c_RRSS(dynamicalParams const& dp, initParams const& ip){
                           - 438.*rdot*dot(n, Spin1)*dot(n, Spin2) + dot(v, Spin2)*dot(v, Spin1) + 96.*rdot*dot(v, Spin1)*dot(v, Spin2))
                           + (27./10.*sq(length(v)) - 75./2.*sq(rdot) - 509./30.*m/r)*(dot(v,Spin2)*Spin1 + dot(v, Spin1)*Spin2) 
                           + (174.*sq(length(v)) + 1386.*sq(rdot) + 1038./5.*m/r)*rdot*(dot(n,Spin2)*Spin1 + dot(n, Spin1)*Spin2));
-    return state{rRRSS , dp.v};
+    return state{aRRSS , dp.v};
 
 }
 

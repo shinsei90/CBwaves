@@ -4,8 +4,8 @@
 #include <iostream>
 #include <cmath>
 
-auto sq = [](auto const& a){ return a*a;};
-auto cb = [](auto const& a){ return a*a*a; };
+template <typename T> auto sq(T const& a){ return a*a;};
+template <typename T> auto cb(T const& a){ return a*a*a; };
 
 mass h_Q(dynamicalParams const& dp, initParams const& ip){
 

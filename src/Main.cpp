@@ -33,7 +33,7 @@ int main(){
     std::ofstream myfile;
     myfile.open("debug.dat");
 
-    initParams iparams(20., 2., 100., 0.);
+    initParams iparams(2., 2., 10., 0.);
     mass rmin = 6.*iparams.m;
     double printstep = 1000.;
     double T = 2.*PI*iparams.r0/(SI_c*std::sqrt((iparams.m1 + iparams.m2)/iparams.r0));
