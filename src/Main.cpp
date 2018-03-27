@@ -33,7 +33,7 @@ int main(){
     std::ofstream myfile;
     myfile.open("debug.dat");
 
-    initParams iparams(20., 2., 10., 0.);
+    initParams iparams(20., 2., 100., 0.);
     mass rmin = 6.*iparams.m;
     double printstep = 1000.;
     double T = 2.*PI*iparams.r0/(SI_c*std::sqrt((iparams.m1 + iparams.m2)/iparams.r0));
@@ -194,7 +194,7 @@ int main(){
     // Set the equation for each 
     rk4.equation() = [=](state& result, const state& rhs){
 
-        dynamicalParams dp(rk4.lhs(), iparams);
+        dynamicalParams dp(rhs, iparams);
         auto temp = corrs(dp);
 
         result = PDE::make_equation( temp.get<Velocity>(), temp.get<Radius>() );
@@ -211,7 +211,8 @@ int main(){
         rk4.iterate(dt);
         
         //std::cout << t << "\t" << rk4.lhs().get<Mass>() << "\t" << rk4.lhs().get<Phase>() << std::endl;
-        myfile << t << "\t" << dp.r << "\t" << dp.r1[0] << "\t" <<  dp.r1[1] << "\t" << dp.r1[2] << "\t" << dp.r2[0] << "\t" <<  dp.r2[1] << "\t" << dp.r2[2] << "\t" << dp.v[0] << "\t" << dp.v[1] << "\t" << dp.v[2] << "\n";
+        myfile << t << "\t" << dp.r << "\t" << dp.r1[0] << "\t" <<  dp.r1[1] << "\t" << dp.r1[2] << "\t" << dp.r2[0] << "\t" 
+               <<  dp.r2[1] << "\t" << dp.r2[2] << "\t" << dp.v[0] << "\t" << dp.v[1] << "\t" << dp.v[2] << "\n" << std::endl;
 
     }
 

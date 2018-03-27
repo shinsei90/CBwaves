@@ -2,7 +2,7 @@ cmake_minimum_required( VERSION 3.0.0 )
 
 project( cbwaves-2.0.0 LANGUAGES CXX )
 
-option( BUILD_TESTS "Build unit tests" ON )
+option( BUILD_TESTS "Build unit tests" OFF )
 
 add_executable( ${PROJECT_NAME} src/Main.cpp
                                 src/CorrectionsAccTerms.cpp

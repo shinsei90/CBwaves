@@ -4,8 +4,8 @@
 dynamicalParams::dynamicalParams(const state& state_, initParams ip_){
 
             rr = state_.get<Radius>() /*- ip_.r_init*/; //Relative Separation vector of the objects
-            r1 = ip_.m2/ip_.m*rr;                  //position of m1
-            r2 = ip_.m1/ip_.m*rr;                 //position of m2
+            r1 = {ip_.m2/ip_.m*rr[0], ip_.m2/ip_.m*rr[1], ip_.m2/ip_.m*rr[2]};                  //position of m1
+            r2 = {ip_.m1/ip_.m*rr[0], ip_.m1/ip_.m*rr[1], ip_.m1/ip_.m*rr[2]};                 //position of m2
             r = length(rr); //Relative Separation of the objects
             
             x = r1 - r2;
