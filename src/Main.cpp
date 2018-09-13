@@ -33,62 +33,62 @@ int main(){
     std::ofstream myfile;
     myfile.open("debug.dat");
 
-    initParams iparams(2., 2., 10., 0.);
-    mass rmin = 6.*iparams.m;
+    initParams iparams(20., 2., 19496400., 0.);
+    mass rmin = (6.* SI_G * iparams.m)/SI_c2;
     double printstep = 1000.;
     double T = 2.*PI*iparams.r0/(SI_c*std::sqrt((iparams.m1 + iparams.m2)/iparams.r0));
     // solver_internal dt = 1./std::pow(2., 12);
     solver_internal dt = T/printstep;
 
     // Model switches (Compile time constants)
-    constexpr bool use_c_Newtonian = true,
-                   use_c_PostNewtonian = false,
-                   use_c_2PostNewtonian = false, 
-                   use_c_3PostNewtonian = false, 
-                   use_c_4PostNewtonian = false, 
-                   use_c_SpinOrbit = false,
-                   use_c_SpinSpin = false,
-                   use_c_BT_RR = false, 
-                   use_c_PostNewtonianSO = false, 
-                   use_c_2PostNewtonianSO = false, 
-                   use_c_RR1PostNewtonian = false,
-                   use_c_RRSO = false, 
-                   use_c_RRSS = false; 
+    // constexpr bool use_c_Newtonian = true,
+    //                use_c_PostNewtonian = false,
+    //                use_c_2PostNewtonian = false, 
+    //                use_c_3PostNewtonian = false, 
+    //                use_c_4PostNewtonian = false, 
+    //                use_c_SpinOrbit = false,
+    //                use_c_SpinSpin = false,
+    //                use_c_BT_RR = false, 
+    //                use_c_PostNewtonianSO = false, 
+    //                use_c_2PostNewtonianSO = false, 
+    //                use_c_RR1PostNewtonian = false,
+    //                use_c_RRSO = false, 
+    //                use_c_RRSS = false; 
     
-    constexpr bool use_h_Q = false,
-                   use_h_P05Q = false,
-                   use_h_PQ = false,
-                   use_h_P15Q = false,
-                   use_h_P2Q = false,
-                   use_h_PQSO = false,
-                   use_h_P15QSO = false,
-                   use_h_P2QSS = false;
+    // constexpr bool use_h_Q = false,
+    //                use_h_P05Q = false,
+    //                use_h_PQ = false,
+    //                use_h_P15Q = false,
+    //                use_h_P2Q = false,
+    //                use_h_PQSO = false,
+    //                use_h_P15QSO = false,
+    //                use_h_P2QSS = false;
 
-    constexpr bool use_e_Newtonian = false,
-                   use_e_PostNewtonian = false,
-                   use_e_2PostNewtonian = false,
-                   use_e_3PostNewtonian = false,
-                   use_e_4PostNewtonian = false,
-                   use_e_SpinOrbit = false,
-                   use_e_SpinSpin = false,
-                   use_e_PostNewtonianSO = false;
+    // constexpr bool use_e_Newtonian = false,
+    //                use_e_PostNewtonian = false,
+    //                use_e_2PostNewtonian = false,
+    //                use_e_3PostNewtonian = false,
+    //                use_e_4PostNewtonian = false,
+    //                use_e_SpinOrbit = false,
+    //                use_e_SpinSpin = false,
+    //                use_e_PostNewtonianSO = false;
 
-    constexpr bool use_edot_Newtonian = false,
-                   use_edot_PostNewtonian = false,
-                   use_edot_2PostNewtonian = false,
-                   use_edot_25PostNewtonian = false,
-                   use_edot_SpinOrbit = false,
-                   use_edot_SpinSpin = false,
-                   use_edot_PostNewtonianSO = false;
+    // constexpr bool use_edot_Newtonian = false,
+    //                use_edot_PostNewtonian = false,
+    //                use_edot_2PostNewtonian = false,
+    //                use_edot_25PostNewtonian = false,
+    //                use_edot_SpinOrbit = false,
+    //                use_edot_SpinSpin = false,
+    //                use_edot_PostNewtonianSO = false;
 
-    constexpr bool use_l_PostNewtonian = false,
-                   use_l_2PostNewtonian = false,
-                   use_l_3PostNewtonian = false,
-                   use_l_4PostNewtonian = false,
-                   use_l_SpinOrbit = false;
+    // constexpr bool use_l_PostNewtonian = false,
+    //                use_l_2PostNewtonian = false,
+    //                use_l_3PostNewtonian = false,
+    //                use_l_4PostNewtonian = false,
+    //                use_l_SpinOrbit = false;
 
-    constexpr bool use_spin1 = false;
-    constexpr bool use_spin2 = false;
+    // constexpr bool use_spin1 = false;
+    // constexpr bool use_spin2 = false;
 
 
     //Example equations.
@@ -123,32 +123,33 @@ int main(){
     // (val * 1) type expressions to nop (no-operation).
 
     auto corrs = [&](dynamicalParams const& dp) -> state { // capture clause could be reference
-        return (use_c_Newtonian ? c_Newtonian(dp, iparams) : nullState) +              
-               (use_c_PostNewtonian ? c_PostNewtonian(dp, iparams) : nullState ) + 
-               (use_c_2PostNewtonian ? c_2PostNewtonian(dp, iparams) : nullState ) +
-               (use_c_3PostNewtonian ? c_3PostNewtonian(dp, iparams) : nullState ) +
-               (use_c_4PostNewtonian ? c_4PostNewtonian(dp, iparams) : nullState ) +
-               (use_c_SpinOrbit ? c_SpinOrbit(dp, iparams) : nullState ) +
-               (use_c_SpinSpin ? c_SpinSpin(dp, iparams) : nullState ) +
-               (use_c_BT_RR ? c_BT_RR(dp, iparams) : nullState ) +
-               (use_c_PostNewtonianSO ? c_PostNewtonianSO(dp, iparams) : nullState ) +
-               (use_c_2PostNewtonianSO ? c_2PostNewtonianSO(dp, iparams) : nullState ) +
-               (use_c_RR1PostNewtonian ? c_RR1PostNewtonian(dp, iparams) : nullState ) +
-               (use_c_RRSO ? c_RRSO(dp, iparams) : nullState ) +
-               (use_c_RRSS ? c_RRSS(dp, iparams) : nullState );
+        return c_Newtonian(dp, iparams);
+        // return (use_c_Newtonian ? c_Newtonian(dp, iparams) : nullState) +              
+        //        (use_c_PostNewtonian ? c_PostNewtonian(dp, iparams) : nullState ) + 
+        //        (use_c_2PostNewtonian ? c_2PostNewtonian(dp, iparams) : nullState ) +
+        //        (use_c_3PostNewtonian ? c_3PostNewtonian(dp, iparams) : nullState ) +
+        //        (use_c_4PostNewtonian ? c_4PostNewtonian(dp, iparams) : nullState ) +
+        //        (use_c_SpinOrbit ? c_SpinOrbit(dp, iparams) : nullState ) +
+        //        (use_c_SpinSpin ? c_SpinSpin(dp, iparams) : nullState ) +
+        //        (use_c_BT_RR ? c_BT_RR(dp, iparams) : nullState ) +
+        //        (use_c_PostNewtonianSO ? c_PostNewtonianSO(dp, iparams) : nullState ) +
+        //        (use_c_2PostNewtonianSO ? c_2PostNewtonianSO(dp, iparams) : nullState ) +
+        //        (use_c_RR1PostNewtonian ? c_RR1PostNewtonian(dp, iparams) : nullState ) +
+        //        (use_c_RRSO ? c_RRSO(dp, iparams) : nullState ) +
+        //        (use_c_RRSS ? c_RRSS(dp, iparams) : nullState );
     };
 
-    auto hterms = [=](dynamicalParams const& dp){
-        return (use_h_Q ? h_Q(dp, iparams) : (mass)0. ) +
-               (use_h_P05Q ? h_P05Q(dp, iparams) : (mass)0.) +
-               (use_h_PQ ? h_PQ(dp, iparams) : (mass)0.) +
-               (use_h_P15Q ? h_P15Q(dp, iparams) : (mass)0.) +
-               (use_h_P2Q ? h_P2Q(dp, iparams) : (mass)0. ) +
-               (use_h_PQSO ? h_PQSO(dp, iparams) : (mass)0. ) +
-               (use_h_P15QSO ? h_P15QSO(dp, iparams) : (mass)0. ) +
-               (use_h_P2QSS ? h_P2QSS(dp, iparams) : (mass)0. );
-    };
-
+    // auto hterms = [=](dynamicalParams const& dp){
+    //     return (use_h_Q ? h_Q(dp, iparams) : (mass)0. ) +
+    //            (use_h_P05Q ? h_P05Q(dp, iparams) : (mass)0.) +
+    //            (use_h_PQ ? h_PQ(dp, iparams) : (mass)0.) +
+    //            (use_h_P15Q ? h_P15Q(dp, iparams) : (mass)0.) +
+    //            (use_h_P2Q ? h_P2Q(dp, iparams) : (mass)0. ) +
+    //            (use_h_PQSO ? h_PQSO(dp, iparams) : (mass)0. ) +
+    //            (use_h_P15QSO ? h_P15QSO(dp, iparams) : (mass)0. ) +
+    //            (use_h_P2QSS ? h_P2QSS(dp, iparams) : (mass)0. );
+    // };
+/*
     auto eterms = [=](dynamicalParams const& dp){
         return (use_e_Newtonian ? e_Newtonian(dp, iparams) : (mass)0. ) +
                (use_e_PostNewtonian ? e_PostNewtonian(dp, iparams) : (mass)0. ) +
@@ -184,7 +185,7 @@ int main(){
     auto S2 = [=](dynamicalParams const& dp){
         return (use_spin2 ? spin2(dp, iparams) : nullVector );
     };
-
+*/
     // Create default constructed solver. Allocates storage but is invalid state.
     solver rk4;
 

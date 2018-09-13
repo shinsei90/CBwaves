@@ -4,15 +4,16 @@
 #include <type_traits>
 #include <cmath>
 
-struct add { template <typename T> auto operator()(T const& x, T const& y) { return x + y; }; };
-struct sub { template <typename T> auto operator()(T const& x, T const& y) { return x - y; }; };
-struct mul { template <typename T> auto operator()(T const& x, T const& y) { return x * y; }; };
+struct add { template <typename T> auto operator()(T const& x, T const& y) { return x + y; } };
+struct sub { template <typename T> auto operator()(T const& x, T const& y) { return x - y; } };
+struct mul { template <typename T> auto operator()(T const& x, T const& y) { return x * y; } };
 
-struct cmul_l { template <typename T> auto operator()(T const& c) { return [=](T const& x) { return c * x; }; }; };
-struct cmul_r { template <typename T> auto operator()(T const& c) { return [=](T const& x) { return x * c; }; }; };
-struct cdiv   { template <typename T> auto operator()(T const& c) { return [=](T const& x) { return x / c; }; }; };
+struct cmul_l { template <typename T> auto operator()(T const& c) { return [=](T const& x) { return c * x; }; } };
+struct cmul_r { template <typename T> auto operator()(T const& c) { return [=](T const& x) { return x * c; }; } };
+struct cdiv   { template <typename T> auto operator()(T const& c) { return [=](T const& x) { return x / c; }; } };
 
-struct sqsum { template <typename T1, typename T2> auto operator()(T1 const& acc, T2 const& x) { return acc + x*x; }; };
+struct unminus { template <typename T> auto operator()(T const& c) { return -c; } };
+struct sqsum { template <typename T1, typename T2> auto operator()(T1 const& acc, T2 const& x) { return acc + x*x; } };
 
 template<typename T, int n>
 struct Vector
@@ -50,12 +51,13 @@ template<typename T, typename V>
 auto sum(T&& z, V&& v){ return fold(add{}, z, v); }
 
 //implementations:
-template<typename C, typename T, int n> auto operator*(C const& c, Vector<T, n>const& v) { return map(cmul_l{}(c), v); }
+template<typename C, typename T, int n> auto operator*(C const& c, Vector<T, n> const& v) { return map(cmul_l{}(c), v); }
 template<typename C, typename T, int n> auto operator*(Vector<T, n>const& v, C const& c) { return map(cmul_r{}(c), v); }
 template<typename C, typename T, int n> auto operator/(Vector<T, n>const& v, C const& c) { return map(cdiv{}(c), v); }
 
 template<typename T, int n> auto operator+(Vector<T, n> const& v, Vector<T, n> const& u) { return zip(add{}, v, u); }
 template<typename T, int n> auto operator-(Vector<T, n> const& v, Vector<T, n> const& u) { return zip(sub{}, v, u); }
+template<typename T, int n> auto operator-(Vector<T, n> const& v) { return map(unminus{}, v); }
 
 template<typename T, int n> auto dot(Vector<T, n> const& v, Vector<T, n> const& u) { return sum((T)0, zip(mul{}, v, u)); }
 

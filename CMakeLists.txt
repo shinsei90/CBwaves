@@ -21,6 +21,9 @@ target_include_directories( ${PROJECT_NAME} PRIVATE include )
 set_target_properties( ${PROJECT_NAME} PROPERTIES CXX_STANDARD 14
                                                   CXX_STANDARD_REQUIRED ON )
 
+target_compile_options( ${PROJECT_NAME} PRIVATE $<$<CXX_COMPILER_ID:GNU>:-Wall
+                                                                         -pedantic>)                                                  
+
 if( BUILD_TESTS )
   add_executable( PDE_Test src/PDE_Test.cpp )
 

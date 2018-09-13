@@ -14,7 +14,8 @@ struct initParams{  //Constant parameters of the equations.
         m = m1 + m2;
 
         //Initial separation
-        r0 = r0_*m; //Initial Separation of the objects
+        // r0 = r0_*m; //Initial Separation of the objects
+        r0 = r0_;
         r_init = {r0, 0.0, 0.0}; //Initial Separation vector of the objects
 
 
@@ -26,7 +27,7 @@ struct initParams{  //Constant parameters of the equations.
         ecc = ecc_;
 
         //Initial velocity
-        v_init = {0. , std::sqrt(m/r0*(1. - ecc)), 0.};
+        v_init = {0. , std::sqrt(SI_G*m/r0*(1. - ecc)), 0.};
 
         }
       

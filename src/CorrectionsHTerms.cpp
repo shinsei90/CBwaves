@@ -4,8 +4,8 @@
 #include <iostream>
 #include <cmath>
 
-template <typename T> auto sq(T const& a){ return a*a;};
-template <typename T> auto cb(T const& a){ return a*a*a; };
+template <typename T> auto sq(T const& a){ return a*a;}
+template <typename T> auto cb(T const& a){ return a*a*a; }
 
 mass h_Q(dynamicalParams const& dp, initParams const& ip){
 
@@ -114,7 +114,7 @@ mass h_P2Q(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& N = ip.N;
     Vector<mass, 3> const& n = dp.n;
     Vector<mass, 3> const& v = dp.v;
-    Vector<mass, 3> const& Spin = dp.Spin;
+    //Vector<mass, 3> const& Spin = dp.Spin;
 
     mass hP2Q = 0;
 

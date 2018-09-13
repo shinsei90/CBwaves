@@ -7,8 +7,8 @@
 #include <iostream>
 #include <cmath>
 
-template <typename T> auto sq(T const& a){ return a*a;};
-template <typename T> auto cb(T const& a){ return a*a*a; };
+template <typename T> auto sq(T const& a){ return a*a;}
+template <typename T> auto cb(T const& a){ return a*a*a; }
 
 
 
@@ -18,7 +18,7 @@ state c_Newtonian(dynamicalParams const& dp, initParams const& ip){
     mass const& r = dp.r;
     Vector<mass, 3> const& n = dp.n;
 
-    Vector<mass, 3> aN = -m/sq(r) * n;
+    Vector<mass, 3> aN = - (SI_G*m/sq(r) * n);
     return state{aN , dp.v};
 
 }
@@ -139,7 +139,7 @@ state c_4PostNewtonian(dynamicalParams const& dp, initParams const& ip){
 
 state c_SpinOrbit(dynamicalParams const& dp, initParams const& ip){
 
-    mass const& eta = ip.eta;
+    //mass const& eta = ip.eta;
     mass const& r = dp.r;
     mass const& rdot = dp.rdot;
     Vector<mass, 3> const& n = dp.n;
@@ -155,15 +155,15 @@ state c_SpinOrbit(dynamicalParams const& dp, initParams const& ip){
 state c_SpinSpin(dynamicalParams const& dp, initParams const& ip){
 
     mass const& mu = ip.mu;
-    mass const& eta = ip.eta;
+    //mass const& eta = ip.eta;
     mass const& r = dp.r;
-    mass const& rdot = dp.rdot;
+    //mass const& rdot = dp.rdot;
     Vector<mass, 3> const& n = dp.n;
-    Vector<mass, 3> const& v = dp.v;
+    //Vector<mass, 3> const& v = dp.v;
     Vector<mass, 3> const& Spin1 = dp.Spin1;
     Vector<mass, 3> const& Spin2 = dp.Spin2;
 
-    Vector<mass, 3> aSS = -3.*1/(mu*std::pow(r,4))*(n*dot(Spin1,Spin2) + Spin1*dot(n,Spin2) + Spin2*dot(n,Spin2)
+    Vector<mass, 3> aSS = -3.*1/(mu*std::pow(r,4))*(n*dot(Spin1,Spin2) + Spin1*dot(n,Spin2) + Spin2*dot(n,Spin1)
                         - 5.*n*dot(n,Spin1)*dot(n,Spin2));
     return state{aSS , dp.v};
 
@@ -317,7 +317,7 @@ state c_RRSO(dynamicalParams const& dp, initParams const& ip){
 state c_RRSS(dynamicalParams const& dp, initParams const& ip){
 
     mass const& m = ip.m;
-    mass const& eta = ip.eta;
+    //mass const& eta = ip.eta;
     mass const& r = dp.r;
     mass const& rdot = dp.rdot;
     Vector<mass, 3> const& n = dp.n;
@@ -619,7 +619,7 @@ Vector<mass, 3> l_PostNewtonian(dynamicalParams const& dp, initParams const& ip)
     mass const& m = ip.m;
     mass const& eta = ip.eta;
     mass const& r = dp.r;
-    mass const& rdot = dp.rdot;
+    //mass const& rdot = dp.rdot;
     Vector<mass, 3> const& v = dp.v;
     Vector<mass, 3> const& LN = dp.LN;
 
@@ -719,19 +719,16 @@ Vector<mass, 3> spin1(dynamicalParams const& dp, initParams const& ip){
     mass const& rdot = dp.rdot;
     Vector<mass, 3> const& n = dp.n;
     Vector<mass, 3> const& v = dp.v;
-    Vector<mass, 3> const& Spin2 = dp.Spin2;
+    //Vector<mass, 3> const& Spin1 = dp.Spin1;
 
-    mass alpha1PN; //eq3.4b
-    mass alpha2PN; //eq3.4c
-    mass alpha3PN; //eq3.4d
     
-    alpha1PN = m/sq(r)*(3./4. + 1./2.*eta - 3./4.*dm/m);
+    mass alpha1PN = m/sq(r)*(3./4. + 1./2.*eta - 3./4.*dm/m);
     
-    alpha2PN = m/sq(r)*((-3/2*eta + 3/4*sq(eta) - 3/2*eta*dm/m)*sq(rdot) 
+    mass alpha2PN = m/sq(r)*((-3/2*eta + 3/4*sq(eta) - 3/2*eta*dm/m)*sq(rdot) 
              + (1./16. + 1./18.*eta - 3./8.*sq(eta) + dm/m*(-1./16. + 1./2.*eta))*sqlength(v))
              + sq(m)/cb(r)*(-1./4. - 3./8.*eta + 1./2.*sq(eta) + dm/m*(1./4. - 1./8.*eta));
     
-    alpha2PN = m/sq(r)*((15./8.*eta - 195./32.*sq(eta) + 15./16.*cb(eta) + dm/m*(15./8.*eta - 75./32.*sq(eta)))*std::pow(length(n)*length(v), 4)
+    mass alpha3PN = m/sq(r)*((15./8.*eta - 195./32.*sq(eta) + 15./16.*cb(eta) + dm/m*(15./8.*eta - 75./32.*sq(eta)))*std::pow(length(n)*length(v), 4)
              + (-3.*eta + 291./32.*sq(eta) - 45./16.*cb(eta) + dm/m*(-3.*eta + 177./32.*sq(eta)))*sq(rdot)*sqlength(v)
              + (1./32. + 19./16.*eta - 31./8.*sq(eta) + 17./16.*cb(eta) + dm/m*(-1./32. + 3./4.*eta - 11./8.*sq(eta)))*std::pow(length(v),4))
              + sq(m)/cb(r)*((1./4. - 525./32.*eta - 159./16.*sq(eta) + 13./4.*cb(eta) + dm/m*(-1./4. - 75./32.*eta - 87./16.*sq(eta)))*sq(rdot)
@@ -753,19 +750,15 @@ Vector<mass, 3> spin2(dynamicalParams const& dp, initParams const& ip){
     mass const& rdot = dp.rdot;
     Vector<mass, 3> const& n = dp.n;
     Vector<mass, 3> const& v = dp.v;
-    Vector<mass, 3> const& Spin1 = dp.Spin1;
-
-    mass alpha1PN;
-    mass alpha2PN;
-    mass alpha3PN;
+    //Vector<mass, 3> const& Spin1 = dp.Spin1;
     
-    alpha1PN = m/sq(r)*(3./4. + 1./2.*eta + 3./4.*dm/m);
+    mass alpha1PN = m/sq(r)*(3./4. + 1./2.*eta + 3./4.*dm/m);
     
-    alpha2PN = m/sq(r)*((-3./2.*eta + 3/4.*sq(eta) + 3./2.*eta*dm/m)*sq(rdot) 
+    mass alpha2PN = m/sq(r)*((-3./2.*eta + 3/4.*sq(eta) + 3./2.*eta*dm/m)*sq(rdot) 
              + (1./16. + 1./18.*eta - 3./8.*sq(eta) - dm/m*(-1./16. + 1/2*eta))*sqlength(v))
              + sq(m)/cb(r)*(-1./4. - 3./8.*eta + 1./2.*sq(eta) - dm/m*(1./4. - 1./8.*eta));
     
-    alpha2PN = m/sq(r)*((15./8.*eta - 195./32.*sq(eta) + 15./16.*cb(eta) - dm/m*(15./8.*eta - 75./32.*sq(eta)))*std::pow(rdot, 4)
+    mass alpha3PN = m/sq(r)*((15./8.*eta - 195./32.*sq(eta) + 15./16.*cb(eta) - dm/m*(15./8.*eta - 75./32.*sq(eta)))*std::pow(rdot, 4)
              + (-3.*eta + 291./32.*sq(eta) - 45./16.*cb(eta) - dm/m*(-3.*eta + 177./32.*sq(eta)))*sq(rdot)*sqlength(v)
              + (1./32. + 19./16.*eta - 31./8.*sq(eta) + 17./16.*cb(eta) - dm/m*(-1./32. + 3./4.*eta - 11./8.*sq(eta)))*std::pow(length(v),4))
              + sq(m)/cb(r)*((1./4. - 525./32.*eta - 159./16.*sq(eta) + 13./4.*cb(eta) - dm/m*(-1./4. - 75./32.*eta - 87./16.*sq(eta)))*sq(rdot
