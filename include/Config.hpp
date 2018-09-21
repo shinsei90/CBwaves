@@ -11,8 +11,8 @@ using solver_internal = double;         // scalars used inside the solver
 
 // If we are not using c = G = 1 system
 #define SI_G      6.67428E-11               // The universal gravitational constant in [m^3 kg^-1 s^-2]
-// #define SI_c      2.99792458E8              // The speed of light in [m/s]
-#define SI_c      299792                    // The speed of light in [km/s]
+#define SI_c      2.99792458E8              // The speed of light in [m/s]
+// #define SI_c      299792                    // The speed of light in [km/s]
 #define SI_c2     (SI_c*SI_c)               // The square of the speed of lignt
 #define MSUN      1477. * SI_c2/SI_G        // The mass of the sun in [kg]
 

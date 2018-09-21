@@ -33,16 +33,17 @@ int main(){
     std::ofstream myfile;
     myfile.open("debug.dat");
 
-    initParams iparams(20., 2., 19496400., 0.);
+    // mass risco = 44310;
+    initParams iparams(10., 2., 1772400, 0.);
     mass rmin = (6.* SI_G * iparams.m)/SI_c2;
     double printstep = 1000.;
-    double T = 2.*PI*iparams.r0/(SI_c*std::sqrt((iparams.m1 + iparams.m2)/iparams.r0));
-    // solver_internal dt = 1./std::pow(2., 12);
-    solver_internal dt = T/printstep;
+    // double T = 2.*PI*iparams.r0/(std::sqrt(SI_G*(iparams.m1 + iparams.m2)/iparams.r0));
+    solver_internal dt = 1./std::pow(2., 12);
+    // solver_internal dt = T/printstep;
 
     // Model switches (Compile time constants)
     // constexpr bool use_c_Newtonian = true,
-    //                use_c_PostNewtonian = false,
+    //                use_c_PostNewtonian = true,
     //                use_c_2PostNewtonian = false, 
     //                use_c_3PostNewtonian = false, 
     //                use_c_4PostNewtonian = false, 
@@ -123,13 +124,13 @@ int main(){
     // (val * 1) type expressions to nop (no-operation).
 
     auto corrs = [&](dynamicalParams const& dp) -> state { // capture clause could be reference
-        return c_Newtonian(dp, iparams);
+        return c_Newtonian(dp, iparams) + c_PostNewtonian(dp, iparams);
         // return (use_c_Newtonian ? c_Newtonian(dp, iparams) : nullState) +              
         //        (use_c_PostNewtonian ? c_PostNewtonian(dp, iparams) : nullState ) + 
         //        (use_c_2PostNewtonian ? c_2PostNewtonian(dp, iparams) : nullState ) +
         //        (use_c_3PostNewtonian ? c_3PostNewtonian(dp, iparams) : nullState ) +
         //        (use_c_4PostNewtonian ? c_4PostNewtonian(dp, iparams) : nullState ) +
-        //        (use_c_SpinOrbit ? c_SpinOrbit(dp, iparams) : nullState ) +
+        //        (use_c_SpinOrbit ? c_SpinOrbit(dp) : nullState ) +
         //        (use_c_SpinSpin ? c_SpinSpin(dp, iparams) : nullState ) +
         //        (use_c_BT_RR ? c_BT_RR(dp, iparams) : nullState ) +
         //        (use_c_PostNewtonianSO ? c_PostNewtonianSO(dp, iparams) : nullState ) +
@@ -206,15 +207,19 @@ int main(){
 
     };
 
+    double step = 0;
+
     for (solver_internal t = 0; length(rk4.lhs().get<Radius>()) > rmin; t += dt){
         
         dynamicalParams dp(state{rk4.lhs().get<Velocity>(), rk4.lhs().get<Radius>()} ,iparams);
         rk4.iterate(dt);
-        
-        //std::cout << t << "\t" << rk4.lhs().get<Mass>() << "\t" << rk4.lhs().get<Phase>() << std::endl;
-        myfile << t << "\t" << dp.r << "\t" << dp.r1[0] << "\t" <<  dp.r1[1] << "\t" << dp.r1[2] << "\t" << dp.r2[0] << "\t" 
-               <<  dp.r2[1] << "\t" << dp.r2[2] << "\t" << dp.v[0] << "\t" << dp.v[1] << "\t" << dp.v[2] << "\n" << std::endl;
 
+        if(step++ == printstep){
+            step = 0;
+            //std::cout << t << "\t" << rk4.lhs().get<Mass>() << "\t" << rk4.lhs().get<Phase>() << std::endl;
+            myfile << t << "\t" << dp.r << "\t" << dp.r1[0] << "\t" <<  dp.r1[1] << "\t" << dp.r1[2] << "\t" << dp.r2[0] << "\t" 
+               <<  dp.r2[1] << "\t" << dp.r2[2] << "\t" << dp.v[0] << "\t" << dp.v[1] << "\t" << dp.v[2] << "\n" << std::endl;
+        }
     }
 
     return 0;

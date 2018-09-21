@@ -14,7 +14,7 @@ struct initParams{  //Constant parameters of the equations.
         m = m1 + m2;
 
         //Initial separation
-        // r0 = r0_*m; //Initial Separation of the objects
+        // r0 = r0_*m;
         r0 = r0_;
         r_init = {r0, 0.0, 0.0}; //Initial Separation vector of the objects
 

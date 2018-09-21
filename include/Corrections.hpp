@@ -16,7 +16,7 @@ state c_PostNewtonian(dynamicalParams const& dp, initParams const& ip);
 state c_2PostNewtonian(dynamicalParams const& dp, initParams const& ip);
 state c_3PostNewtonian(dynamicalParams const& dp, initParams const& ip);
 state c_4PostNewtonian(dynamicalParams const& dp, initParams const& ip);
-state c_SpinOrbit(dynamicalParams const& dp, initParams const& ip);
+state c_SpinOrbit(dynamicalParams const& dp);
 state c_SpinSpin(dynamicalParams const& dp, initParams const& ip);
 state c_BT_RR(dynamicalParams const& dp, initParams const& ip);
 state c_PostNewtonianSO(dynamicalParams const& dp, initParams const& ip);

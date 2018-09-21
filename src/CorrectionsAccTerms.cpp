@@ -32,7 +32,7 @@ state c_PostNewtonian(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& n = dp.n;
     Vector<mass, 3> const& v = dp.v;
 
-    Vector<mass,3> aPN = -m/cb(r)*(n*((1. + 3.*eta)*sq(length(v)) - 2.*(2. + eta)*m/r - 3./2.*eta*rdot) - 2.*(2. - eta)*rdot*v);
+    Vector<mass,3> aPN = - (SI_G * m)/sq(SI_c * r)*(n*((1. + 3.*eta)*sq(length(v)) - 2.*(2. + eta)*(SI_G*m)/r - 3./2.*eta*rdot) - 2.*(2. - eta)*rdot*v);
     return state{aPN , dp.v};
 
 }
@@ -46,10 +46,10 @@ state c_2PostNewtonian(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& n = dp.n;
     Vector<mass, 3> const& v = dp.v;
 
-    Vector<mass, 3> a2PN = -m/(sq(r)) * (n*(3./4.*(12. + 29.*eta)*sq(m/r) + eta*(3. - 4.*eta)*std::pow(length(v),4) 
+    Vector<mass, 3> a2PN = -(SI_G * m)/(sq(SI_c2 * r)) * (n*(3./4.*(12. + 29.*eta)*sq((SI_G)*m/r) + eta*(3. - 4.*eta)*std::pow(length(v),4) 
                          + 15./8.*eta*(1. - 3.*eta)*std::pow(rdot,4) - 3./2.*eta*(3. - 4.*eta)*sq(length(v)*rdot) 
-                         - 1./2.*eta*(13. - 4.*eta)*m/r*sq(length(v)) - (2. + 25.*eta + 2.*sq(eta))*m/r*sq(rdot)) 
-                         - 1./2.*rdot*v*(eta*(15. + 4.*eta)*sq(length(v)) - (4. + 41.*eta + 8.*sq(eta))*m/r -3.*eta*(3. + 2.*eta)*sq(rdot)));
+                         - 1./2.*eta*(13. - 4.*eta)*(SI_G*m)/r*sq(length(v)) - (2. + 25.*eta + 2.*sq(eta))*m/r*sq(rdot)) 
+                         - 1./2.*rdot*v*(eta*(15. + 4.*eta)*sq(length(v)) - (4. + 41.*eta + 8.*sq(eta))*(SI_G*m)/r -3.*eta*(3. + 2.*eta)*sq(rdot)));
     return state{a2PN , dp.v};
 
 }
@@ -137,9 +137,8 @@ state c_4PostNewtonian(dynamicalParams const& dp, initParams const& ip){
 
 }
 
-state c_SpinOrbit(dynamicalParams const& dp, initParams const& ip){
+state c_SpinOrbit(dynamicalParams const& dp){
 
-    //mass const& eta = ip.eta;
     mass const& r = dp.r;
     mass const& rdot = dp.rdot;
     Vector<mass, 3> const& n = dp.n;
