@@ -46,9 +46,9 @@ state c_2PostNewtonian(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& n = dp.n;
     Vector<mass, 3> const& v = dp.v;
 
-    Vector<mass, 3> a2PN = -(SI_G * m)/(sq(SI_c2 * r)) * (n*(3./4.*(12. + 29.*eta)*sq((SI_G)*m/r) + eta*(3. - 4.*eta)*std::pow(length(v),4) 
+    Vector<mass, 3> a2PN = -(SI_G * m)/(sq(SI_c2 * r)) * (n*(3./4.*(12. + 29.*eta)*sq((SI_G*m)/r) + eta*(3. - 4.*eta)*std::pow(length(v),4) 
                          + 15./8.*eta*(1. - 3.*eta)*std::pow(rdot,4) - 3./2.*eta*(3. - 4.*eta)*sq(length(v)*rdot) 
-                         - 1./2.*eta*(13. - 4.*eta)*(SI_G*m)/r*sq(length(v)) - (2. + 25.*eta + 2.*sq(eta))*m/r*sq(rdot)) 
+                         - 1./2.*eta*(13. - 4.*eta)*(SI_G*m)/r*sq(length(v)) - (2. + 25.*eta + 2.*sq(eta))*(SI_G*m)/r*sq(rdot)) 
                          - 1./2.*rdot*v*(eta*(15. + 4.*eta)*sq(length(v)) - (4. + 41.*eta + 8.*sq(eta))*(SI_G*m)/r -3.*eta*(3. + 2.*eta)*sq(rdot)));
     return state{a2PN , dp.v};
 
@@ -63,19 +63,19 @@ state c_3PostNewtonian(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& n = dp.n;
     Vector<mass, 3> const& v = dp.v;
 
-    Vector<mass, 3> a3PN = m/sq(r)*(n*((16. + (1399./12. - 41./16.*sq(PI))*eta + 71./2.*sq(eta))*cb(m/r) 
-                         + eta*(20827./840. + 123./64.*sq(PI) - sq(eta))*sq(m/r*length(v)) 
-                         - (1. + (22717./168. + 615./64.*sq(PI))*eta + 11./8.*sq(eta) - 7.*cb(eta))*sq(m/r*rdot) 
+    Vector<mass, 3> a3PN = (SI_G*m)/(cb(SI_c) * sq(r))*(n*((16. + (1399./12. - 41./16.*sq(PI))*eta + 71./2.*sq(eta))*cb((SI_G*m)/r) 
+                         + eta*(20827./840. + 123./64.*sq(PI) - sq(eta))*sq((SI_G*m)/r*length(v)) 
+                         - (1. + (22717./168. + 615./64.*sq(PI))*eta + 11./8.*sq(eta) - 7.*cb(eta))*sq((SI_G*m)/r*rdot) 
                          - 1./4.*eta*(11. - 49.*eta + 52.*sq(eta))*std::pow(length(v),6) + 35./16.*eta*(1. - 5.*eta + 5.*sq(eta))*std::pow(rdot,6)
-                         - 1./4.*eta*(75. + 32.*eta - 40.*sq(eta))*m/r*std::pow(length(v),4)
-                         - 1./2.*eta*(158. - 69.*eta - 60.*sq(eta))*m/r*std::pow(rdot,4) 
-                         + eta*(121. - 16.*eta - 20.*sq(eta))*m/r*sq(length(v)*rdot) 
+                         - 1./4.*eta*(75. + 32.*eta - 40.*sq(eta))*(SI_G*m)/r*std::pow(length(v),4)
+                         - 1./2.*eta*(158. - 69.*eta - 60.*sq(eta))*(SI_G*m)/r*std::pow(rdot,4) 
+                         + eta*(121. - 16.*eta - 20.*sq(eta))*(SI_G*m)/r*sq(length(v)*rdot) 
                          + 3./8.*eta*(20. - 79.*eta + 60.*sq(eta))*sq(sq(length(v))*rdot) 
                          - 15./8.*eta*(4. - 18.*eta + 17.*sq(eta))*sq(length(v)*sq(rdot))) 
-                         + rdot*v*((4. + (5849./840. + 123./32.*sq(PI))*eta - 25.*sq(eta) - 8.*cb(eta))*sq(m/r) 
+                         + rdot*v*((4. + (5849./840. + 123./32.*sq(PI))*eta - 25.*sq(eta) - 8.*cb(eta))*sq((SI_G*m)/r) 
                          + 1./8.*eta*(65. - 152.*eta - 48.*sq(eta))*std::pow(length(v),4) + 15./8.*eta*(3. - 8.*eta - 2.*sq(eta))*std::pow(rdot,4)
-                         + eta*(15. + 27.*eta + 10.*sq(eta))*m/r*sq(length(v)) 
-                         - 11./6.*eta*(329. + 177.*eta + 108.*sq(eta))*m/r*sq(rdot) 
+                         + eta*(15. + 27.*eta + 10.*sq(eta))*(SI_G*m)/r*sq(length(v)) 
+                         - 11./6.*eta*(329. + 177.*eta + 108.*sq(eta))*(SI_G*m)/r*sq(rdot) 
                          - 3./4.*eta*(16. - 37.*eta - 16.*sq(eta))*sq(length(v)*rdot)));
     return state{a3PN , dp.v};
 
@@ -132,7 +132,7 @@ state c_4PostNewtonian(dynamicalParams const& dp, initParams const& ip){
     mass b3 = cb(m/r)*(2. - (619267./525. - 791./16.*sq(PI))*eta - (28406./45. + 2201./32.*sq(PI))*sq(eta) + 66.*cb(eta) + 16.*std::pow(eta, 4));
     mass B_4PN = b0 + b1 + b2 + b3;
 
-    Vector<mass, 3> a4PN = -m/sq(r)*((1. + A_4PN)*n + B_4PN*v);
+    Vector<mass, 3> a4PN = -(SI_G*m)/sq(r)*((1. + A_4PN)*n + B_4PN*v);
     return state{a4PN , dp.v};
 
 }
@@ -146,7 +146,7 @@ state c_SpinOrbit(dynamicalParams const& dp){
     Vector<mass, 3> const& Spin = dp.Spin;
     Vector<mass, 3> const& sigma = dp.sigma;
 
-    Vector<mass, 3> aSO = 1/cb(r)*(6.*n*dot(cross(n,v),(Spin + sigma)) - cross(v,(4.*Spin + 3.*sigma)) 
+    Vector<mass, 3> aSO = SI_G/(sq(SI_c)*cb(r))*(6.*n*dot(cross(n,v),(Spin + sigma)) - cross(v,(4.*Spin + 3.*sigma)) 
                         + 3.*rdot*cross(n,(2.*Spin + sigma)));
     return state{aSO , dp.v};
 }
@@ -162,7 +162,7 @@ state c_SpinSpin(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& Spin1 = dp.Spin1;
     Vector<mass, 3> const& Spin2 = dp.Spin2;
 
-    Vector<mass, 3> aSS = -3.*1/(mu*std::pow(r,4))*(n*dot(Spin1,Spin2) + Spin1*dot(n,Spin2) + Spin2*dot(n,Spin1)
+    Vector<mass, 3> aSS = -3.*SI_G/(SI_c2*mu*std::pow(r,4))*(n*dot(Spin1,Spin2) + Spin1*dot(n,Spin2) + Spin2*dot(n,Spin1)
                         - 5.*n*dot(n,Spin1)*dot(n,Spin2));
     return state{aSS , dp.v};
 
@@ -177,8 +177,8 @@ state c_BT_RR(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& n = dp.n;
     Vector<mass, 3> const& v = dp.v;
 
-    Vector<mass, 3> aBTRR = 8./5.*eta*sq(m)/cb(r)*(rdot*n*(18.*sq(length(v)) + 2./3.*m/r - 25.*sq(rdot)) 
-                          - v*(6.*sq(length(v)) - 2.*m/r - 15.*sq(rdot)));
+    Vector<mass, 3> aBTRR = 8./5.*eta*sq(SI_G * m)/cb(r)*(rdot*n*(18.*sq(length(v)) + 2./3.*(SI_G*m)/r - 25.*sq(rdot)) 
+                          - v*(6.*sq(length(v)) - 2.*(SI_G*m)/r - 15.*sq(rdot)));
     return state{aBTRR , dp.v};
 
 }
@@ -195,15 +195,15 @@ state c_PostNewtonianSO(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& Spin = dp.Spin;
     Vector<mass, 3> const& Delta = dp.Delta;
 
-    Vector<mass, 3> aPNSO = 1/cb(r)*(n*(dot(cross(n, v), Spin)*(-30.*eta*sq(rdot) + 24.*eta*sq(length(v)) 
-                          - m/r*(44. + 25.*eta)) + dm/m*dot(cross(n, v), Delta)*(-15.*eta*sq(rdot) + 12.*eta*sq(length(v)) 
-                          - m/r*(24. + 29./2.*eta))) + rdot*v*(dot(cross(n, v),Spin)*(-9. + 9.*eta) + dm/m*dot(cross(n,v), Delta)*(-3. - 6.*eta)) 
-                          + cross(n, v)*(3./2.*rdot*dot(v, Spin)*(-1. + eta) - 8.*m/r*eta*dot(n, Spin) 
-                          - dm/m*(4.*m/r*eta*dot(n, Delta) + 3./2.*rdot*dot(v, Delta))) 
-                          + rdot*cross(n, Spin)*(-45./2.*eta*sq(rdot) + 21.*eta*sq(length(v)) - m/r*(28. + 21.*eta)) 
-                          + dm/m*rdot*cross(n, Delta)*(-15.*eta*sq(rdot) + 12.*eta*sq(length(v)) - m/r*(12. + 23./2.*eta)) 
-                          + cross(v,Spin)*(33./2.*eta*sq(rdot) + m/r*(24. + 11.*eta) - 14.*eta*sq(length(v))) 
-                          + dm/m*cross(v, Delta)*(9.*eta*sq(rdot) - 7.*eta*sq(length(v)) + m/r*(12. + 11./2.*eta)));
+    Vector<mass, 3> aPNSO = SI_G/(std::pow(SI_c, 4)*cb(r))*(n*(dot(cross(n, v), Spin)*(-30.*eta*sq(rdot) + 24.*eta*sq(length(v)) 
+                          - (SI_G*m)/r*(44. + 25.*eta)) + dm/m*dot(cross(n, v), Delta)*(-15.*eta*sq(rdot) + 12.*eta*sq(length(v)) 
+                          - (SI_G*m)/r*(24. + 29./2.*eta))) + rdot*v*(dot(cross(n, v),Spin)*(-9. + 9.*eta) + dm/m*dot(cross(n,v), Delta)*(-3. - 6.*eta)) 
+                          + cross(n, v)*(3./2.*rdot*dot(v, Spin)*(-1. + eta) - 8.*(SI_G*m)/r*eta*dot(n, Spin) 
+                          - dm/m*(4.*(SI_G*m)/r*eta*dot(n, Delta) + 3./2.*rdot*dot(v, Delta))) 
+                          + rdot*cross(n, Spin)*(-45./2.*eta*sq(rdot) + 21.*eta*sq(length(v)) - (SI_G*m)/r*(28. + 21.*eta)) 
+                          + dm/m*rdot*cross(n, Delta)*(-15.*eta*sq(rdot) + 12.*eta*sq(length(v)) - (SI_G*m)/r*(12. + 23./2.*eta)) 
+                          + cross(v,Spin)*(33./2.*eta*sq(rdot) + (SI_G*m)/r*(24. + 11.*eta) - 14.*eta*sq(length(v))) 
+                          + dm/m*cross(v, Delta)*(9.*eta*sq(rdot) - 7.*eta*sq(length(v)) + (SI_G*m)/r*(12. + 11./2.*eta)));
     return state{aPNSO , dp.v};
 
 }
@@ -262,7 +262,7 @@ state c_2PostNewtonianSO(dynamicalParams const& dp, initParams const& ip){
                        + dm/m*cross(n, Delta)*(57./2. + 85./4.*eta - 6.*sq(eta))*(rdot)
                        + cross(Spin, v)*(105./2. + 137./2.*eta) + cross(Delta, v)*dm/m*(57./2. + 65./2.*eta);
     
-    Vector<mass, 3> a2PNSO = 1/cb(r)*(a1 + m/r*a2 +sq(m/r)*a3);
+    Vector<mass, 3> a2PNSO = (SI_G*m)/cb(r)*(a1 + (SI_G*m)/r*a2 +sq((SI_G*m)/r)*a3);
     return state{a2PNSO , dp.v};
 
 }
@@ -276,12 +276,12 @@ state c_RR1PostNewtonian(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& n = dp.n;
     Vector<mass, 3> const& v = dp.v;
 
-    Vector<mass, 3> aRR1PN = 8./5.*eta*sq(m)/std::pow(r, 5)*(rdot*n*((87./14. - 48.*eta)*std::pow(length(v),4) 
-                           - (5379./28. - 136./3.*eta)*sq(length(v))*m/r + 25./2.*(1. + 5.*eta)*sq(length(v)*rdot) 
-                           + (1353./4. - 133.*eta)*sq(rdot)*m/r - 35./2.*(1. - eta)*std::pow(rdot,4) + (166./7. + 55./3.*eta)*sq(m/r)) 
-                           - v*(-27./14.*std::pow(length(v), 4) - (4861./84. + 58./3.*eta)*sq(length(v))*m/r 
-                           + 3/2.*(13. - 37.*eta)*sq(length(v)*rdot) + (2591./12. + 97.*eta)*sq(rdot)*m/r - 25./2.*(1. - 7.*eta)*std::pow(rdot, 4) 
-                           + 1./3.*(776./7. + 55.*eta)*sq(m/r)));
+    Vector<mass, 3> aRR1PN = 8./5.*eta*sq(SI_G*m)/(std::pow(SI_c,7)*cb(r))*(rdot*n*((87./14. - 48.*eta)*std::pow(length(v),4) 
+                           - (5379./28. - 136./3.*eta)*sq(length(v))*(SI_G*m)/r + 25./2.*(1. + 5.*eta)*sq(length(v)*rdot) 
+                           + (1353./4. - 133.*eta)*sq(rdot)*(SI_G*m)/r - 35./2.*(1. - eta)*std::pow(rdot,4) + (166./7. + 55./3.*eta)*sq((SI_G*m)/r)) 
+                           - v*(-27./14.*std::pow(length(v), 4) - (4861./84. + 58./3.*eta)*sq(length(v))*(SI_G*m)/r 
+                           + 3/2.*(13. - 37.*eta)*sq(length(v)*rdot) + (2591./12. + 97.*eta)*sq(rdot)*(SI_G*m)/r - 25./2.*(1. - 7.*eta)*std::pow(rdot, 4) 
+                           + 1./3.*(776./7. + 55.*eta)*sq((SI_G*m)/r)));
     return state{aRR1PN , dp.v};
 
 }
@@ -299,16 +299,16 @@ state c_RRSO(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& sigma = dp.sigma;
     Vector<mass, 3> const& LN = dp.LN;
 
-    Vector<mass, 3> aRRSO = - (sq(1)*eta*m)/(5.*std::pow(r, 4))*((rdot*n)/(mu*r)*((120.*sq(length(v)) + 280.*sq(rdot) 
-                          + 453.*m/r)*dot(LN, Spin) + (120.*sq(length(v)) + 280.*sq(rdot) + 458.*m/r)*dot(LN, sigma)) 
-                          + v/(mu*r)*((87.*sq(length(v)) - 675.*sq(rdot) -  901./3.*m/r)*dot(LN, Spin) 
-                          + 4.*(18.*sq(length(v)) - 150.*sq(rdot) - 66.*m/r)*dot(LN, sigma)) 
-                          - 2./3.*rdot*cross(v, Spin)*(48.*sq(length(v)) + 15.*sq(rdot) + 364.*m/r) 
-                          + 1./3.*rdot*cross(v, sigma)*(291.*sq(length(v)) - 705.*sq(rdot) - 772.*m/r) 
+    Vector<mass, 3> aRRSO = - (sq(SI_G)*eta*m)/(5.*std::pow(SI_c, 7)*std::pow(r, 4))*((rdot*n)/(mu*r)*((120.*sq(length(v)) + 280.*sq(rdot) 
+                          + 453.*(SI_G*m)/r)*dot(LN, Spin) + (120.*sq(length(v)) + 280.*sq(rdot) + 458.*(SI_G*m)/r)*dot(LN, sigma)) 
+                          + v/(mu*r)*((87.*sq(length(v)) - 675.*sq(rdot) -  901./3.*(SI_G*m)/r)*dot(LN, Spin) 
+                          + 4.*(18.*sq(length(v)) - 150.*sq(rdot) - 66.*(SI_G*m)/r)*dot(LN, sigma)) 
+                          - 2./3.*rdot*cross(v, Spin)*(48.*sq(length(v)) + 15.*sq(rdot) + 364.*(SI_G*m)/r) 
+                          + 1./3.*rdot*cross(v, sigma)*(291.*sq(length(v)) - 705.*sq(rdot) - 772.*(SI_G*m)/r) 
                           + 1./2.*cross(n, Spin)*(31.*std::pow(length(v), 4) - 260.*sq(length(v)*rdot) + 245.*std::pow(rdot, 4) 
-                          + 537.*sq(rdot)*m/r + 4./3.*sq(m/r)) + 1./2.*cross(n,sigma)*(115.*std::pow(length(v),4) 
-                          - 1130.*sq(length(v)*rdot) + 1295.*std::pow(rdot, 4.) - 869./3.*sq(length(v))*m/r +849.*sq(rdot)*m/r 
-                          + 44./3.*sq(m/r)));
+                          + 537.*sq(rdot)*(SI_G*m)/r + 4./3.*sq((SI_G*m)/r)) + 1./2.*cross(n,sigma)*(115.*std::pow(length(v),4) 
+                          - 1130.*sq(length(v)*rdot) + 1295.*std::pow(rdot, 4.) - 869./3.*sq(length(v))*(SI_G*m)/r +849.*sq(rdot)*(SI_G*m)/r 
+                          + 44./3.*sq((SI_G*m)/r)));
     return state{aRRSO , dp.v};
 
 }
@@ -324,15 +324,15 @@ state c_RRSS(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& Spin1 = dp.Spin1;
     Vector<mass, 3> const& Spin2 = dp.Spin2;
 
-    Vector<mass, 3> aRRSS = 1/std::pow(r, 5)*(n*((287.*sq(rdot) - 99.*sq(length(v)) 
-                          + 541./5.*m/r)*rdot*dot(Spin1, Spin2) 
-                          - (2646.*sq(rdot) - 714.*sq(length(v)) + 1961./5.*m/r)*rdot*dot(n, Spin1)*dot(n, Spin2) 
-                          + (1029.*sq(rdot) - 123.*sq(length(v)) + 629./10.*m/r)*(dot(n, Spin1)*dot(n, Spin2) + dot(v, Spin2)*dot(v, Spin1))
-                          - 336.*rdot*dot(v, Spin1)*dot(v, Spin2)) + v*((171./3.*sq(length(v)) - 195.*sq(rdot) - 67.*m/r)*dot(Spin1, Spin2)
-                          - (174.*sq(length(v)) - 1386.*sq(rdot) - 1038./5.*m/r)*dot(n, Spin1)*dot(n, Spin2) 
+    Vector<mass, 3> aRRSS = sq(SI_G)/(std::pow(SI_c, 7)*std::pow(r, 5))*(n*((287.*sq(rdot) - 99.*sq(length(v)) 
+                          + 541./5.*(SI_G*m)/r)*rdot*dot(Spin1, Spin2) 
+                          - (2646.*sq(rdot) - 714.*sq(length(v)) + 1961./5.*(SI_G*m)/r)*rdot*dot(n, Spin1)*dot(n, Spin2) 
+                          + (1029.*sq(rdot) - 123.*sq(length(v)) + 629./10.*(SI_G*m)/r)*(dot(n, Spin1)*dot(n, Spin2) + dot(v, Spin2)*dot(v, Spin1))
+                          - 336.*rdot*dot(v, Spin1)*dot(v, Spin2)) + v*((171./3.*sq(length(v)) - 195.*sq(rdot) - 67.*(SI_G*m)/r)*dot(Spin1, Spin2)
+                          - (174.*sq(length(v)) - 1386.*sq(rdot) - 1038./5.*(SI_G*m)/r)*dot(n, Spin1)*dot(n, Spin2) 
                           - 438.*rdot*dot(n, Spin1)*dot(n, Spin2) + dot(v, Spin2)*dot(v, Spin1) + 96.*rdot*dot(v, Spin1)*dot(v, Spin2))
-                          + (27./10.*sq(length(v)) - 75./2.*sq(rdot) - 509./30.*m/r)*(dot(v,Spin2)*Spin1 + dot(v, Spin1)*Spin2) 
-                          + (174.*sq(length(v)) + 1386.*sq(rdot) + 1038./5.*m/r)*rdot*(dot(n,Spin2)*Spin1 + dot(n, Spin1)*Spin2));
+                          + (27./10.*sq(length(v)) - 75./2.*sq(rdot) - 509./30.*(SI_G*m)/r)*(dot(v,Spin2)*Spin1 + dot(v, Spin1)*Spin2) 
+                          + (174.*sq(length(v)) + 1386.*sq(rdot) + 1038./5.*(SI_G*m)/r)*rdot*(dot(n,Spin2)*Spin1 + dot(n, Spin1)*Spin2));
     return state{aRRSS , dp.v};
 
 }
@@ -346,7 +346,7 @@ mass e_Newtonian(dynamicalParams const& dp, initParams const& ip){
     mass const& r = dp.r;
     Vector<mass, 3> const& v = dp.v;
 
-    mass eN = mu*(1./2.*sq(length(v)) - m/r);
+    mass eN = mu*(1./2.*sq(length(v)) - (SI_G*m)/r);
     return eN;
 
 }
@@ -360,7 +360,7 @@ mass e_PostNewtonian(dynamicalParams const& dp, initParams const& ip){
     mass const& rdot = dp.rdot;
     Vector<mass, 3> const& v = dp.v;
 
-    mass ePN = mu*(3./8.*(1. - 3.*eta)*std::pow(length(v), 4) + 1./2.*(3. + eta)*sq(length(v))*m/r + 1./2.*eta*m/r*sq(rdot) + 1./2.*sq(m/r));
+    mass ePN = mu/sq(SI_c)*(3./8.*(1. - 3.*eta)*std::pow(length(v), 4) + 1./2.*(3. + eta)*sq(length(v))*(SI_G*m)/r + 1./2.*eta*(SI_G*m)/r*sq(rdot) + 1./2.*sq((SI_G*m)/r));
     return ePN;
 
 }
@@ -374,9 +374,9 @@ mass e_2PostNewtonian(dynamicalParams const& dp, initParams const& ip){
     mass const& rdot = dp.rdot;
     Vector<mass, 3> const& v = dp.v;
 
-    mass e2PN = mu*(5./16.*(1. - 17.*eta + 13.*sq(eta))*std::pow(length(v),6) -3./8.*eta*(1. - 3.*eta)*m/r*std::pow(rdot,4)
-              + 1./8.*(21. - 23.*eta - 27.*sq(eta))*m/r*std::pow(length(v),4) + 1./8.*(14. - 55.*eta + 4.*sq(eta))*sq(m/r*length(v))
-              + 1./4.*(1. - 15.*eta)*m/r*sq(length(v)*rdot) - 1./4.*(2. + 15.*eta)*cb(m/r) +1./8.*(4. + 69.*eta + 4.*sq(eta))*sq(m/r*rdot));
+    mass e2PN = mu/std::pow(SI_c, 4)*(5./16.*(1. - 17.*eta + 13.*sq(eta))*std::pow(length(v),6) -3./8.*eta*(1. - 3.*eta)*(SI_G*m)/r*std::pow(rdot,4)
+              + 1./8.*(21. - 23.*eta - 27.*sq(eta))*(SI_G*m)/r*std::pow(length(v),4) + 1./8.*(14. - 55.*eta + 4.*sq(eta))*sq((SI_G*m)/r*length(v))
+              + 1./4.*(1. - 15.*eta)*(SI_G*m)/r*sq(length(v)*rdot) - 1./4.*(2. + 15.*eta)*cb((SI_G*m)/r) +1./8.*(4. + 69.*eta + 4.*sq(eta))*sq((SI_G*m)/r*rdot));
     return e2PN;
 
 }
@@ -390,16 +390,16 @@ mass e_3PostNewtonian(dynamicalParams const& dp, initParams const& ip){
     mass const& rdot = dp.rdot;
     Vector<mass, 3> const& v = dp.v;
 
-    mass e3PN = mu*((3/8. + 18469./840.*eta)*std::pow(m/r, 4.) + (5./4. - (6747./280. - 41./64.*sq(PI))*eta 
-              - 21./4.*sq(eta) + 1./2.*cb(eta))*cb(m/r)*sq(length(v))
-              + (3/2. + (2321/280. - 123./64.*sq(PI))*eta + 51./4.*sq(eta) + 7./2.*cb(eta))*cb(m/r)*sq(rdot )
+    mass e3PN = mu/std::pow(SI_c, 6)*((3/8. + 18469./840.*eta)*std::pow((SI_G*m)/r, 4) + (5./4. - (6747./280. - 41./64.*sq(PI))*eta 
+              - 21./4.*sq(eta) + 1./2.*cb(eta))*cb((SI_G*m)/r)*sq(length(v))
+              + (3/2. + (2321/280. - 123./64.*sq(PI))*eta + 51./4.*sq(eta) + 7./2.*cb(eta))*cb((SI_G*m)/r)*sq(rdot )
               + 1./128.*(35. - 413.*eta + 1666.*sq(eta) - 2261.*cb(eta))*std::pow(length(v), 8) 
-              + 1./16.*(135. - 194.*eta + 406.*sq(eta) - 108.*cb(eta))*sq(m/r*sq(length(v))) 
-              + 1./16.*(12. + 248.*eta - 815.*sq(eta) - 324.*cb(eta))*sq(m/r*length(v)*rdot) 
-              - 1./48.*eta*(731. - 492.*eta - 288.*sq(eta))*sq(m/r*sq(rdot)) 
-              + 1./16.*(55. - 215.*eta + 116.*sq(eta) + 325.*cb(eta))*m/r*std::pow(length(v), 6)
-              + 1./16.*(5. - 25.*eta +25.*sq(eta))*m/r*std::pow(rdot, 6) - 1./16.*(21. + 75.*eta - 375.*sq(eta))*m/r*sq(sq(length(v))*rdot)
-              - 1./16.*eta*(9. - 84.*eta + 165.*sq(eta))*m/r*sq(length(v)*sq(rdot)));
+              + 1./16.*(135. - 194.*eta + 406.*sq(eta) - 108.*cb(eta))*sq((SI_G*m)/r*sq(length(v))) 
+              + 1./16.*(12. + 248.*eta - 815.*sq(eta) - 324.*cb(eta))*sq((SI_G*m)/r*length(v)*rdot) 
+              - 1./48.*eta*(731. - 492.*eta - 288.*sq(eta))*sq((SI_G*m)/r*sq(rdot)) 
+              + 1./16.*(55. - 215.*eta + 116.*sq(eta) + 325.*cb(eta))*(SI_G*m)/r*std::pow(length(v), 6)
+              + 1./16.*(5. - 25.*eta +25.*sq(eta))*(SI_G*m)/r*std::pow(rdot, 6) - 1./16.*(21. + 75.*eta - 375.*sq(eta))*(SI_G*m)/r*sq(sq(length(v))*rdot)
+              - 1./16.*eta*(9. - 84.*eta + 165.*sq(eta))*(SI_G*m)/r*sq(length(v)*sq(rdot)));
     return e3PN;
 
 }
@@ -415,31 +415,31 @@ mass e_4PostNewtonian(dynamicalParams const& dp, initParams const& ip){
 
     mass E4PN0 = (63./256. - 1089./256.*eta + 7065./256.*sq(eta) - 10143./128.*cb(eta) + 21735./256.*std::pow(eta, 4))*std::pow(length(v), 10);
 
-    mass E4PN1 = m/r*((-35./128.*eta + 245./128.*sq(eta) - 245./64.*cb(eta) + 245./128.*std::pow(eta, 4))*std::pow(rdot, 8)
+    mass E4PN1 = (SI_G*m)/r*((-35./128.*eta + 245./128.*sq(eta) - 245./64.*cb(eta) + 245./128.*std::pow(eta, 4))*std::pow(rdot, 8)
                + (25./32.*eta - 125./16.*sq(eta) + 185./8.*cb(eta) - 595./32.*std::pow(eta,4))*std::pow(rdot, 6)*sqlength(v)
                + (27./64.*eta + 243./32.*sq(eta) - 1683./32.*cb(eta) + 4851./64.*std::pow(eta, 4))*std::pow(rdot*length(v), 4)
                + (-147./32.*eta + 369./32.*sq(eta) + 423./8.*cb(eta) - 4655./32.*std::pow(eta, 4))*sq(rdot)*std::pow(length(v), 6)
                + (525./128. - 4011./128.*eta + 9507./128.*sq(eta) - 357./64.*cb(eta) + 15827./128.*std::pow(eta, 4))*std::pow(length(v), 8));
 
-    mass E4PN2 = sq(m/r)*((-4771./640.*eta - 461./8.*sq(eta) - 17./2.*cb(eta) + 15./2.*std::pow(eta, 4))*std::pow(rdot, 6)
+    mass E4PN2 = sq((SI_G*m)/r)*((-4771./640.*eta - 461./8.*sq(eta) - 17./2.*cb(eta) + 15./2.*std::pow(eta, 4))*std::pow(rdot, 6)
                + (5347./384.*eta + 19465./96.*sq(eta) - 489./8.*cb(eta) - 135./2.*std::pow(eta, 4))*std::pow(rdot, 4)*sqlength(v)
                + (15./16. - 5893./128.*eta - 12995./64.*sq(eta) + 18511./64.*cb(eta) + 2845./16.*std::pow(eta, 4))*sq(rdot*sqlength(v))
                + (575./32. - 4489./128.*eta + 5129./64.*sq(eta) - 8289./64.*cb(eta) + 975./16.*std::pow(eta, 4))*std::pow(length(v), 6));
 
-    mass E4PN3 = cb(m/r)*(-(2599207./6720. + 6465./1024.*sq(PI)*eta - (103205./224. - 615./128.*sq(PI))*sq(eta) 
+    mass E4PN3 = cb((SI_G*m)/r)*(-(2599207./6720. + 6465./1024.*sq(PI)*eta - (103205./224. - 615./128.*sq(PI))*sq(eta) 
                + 69./32.*cb(eta) + 87./4.*std::pow(eta, 4))*std::pow(rdot, 4) 
                + (21./4. + (1086923./1680. + 333./512.*sq(PI))*eta + (206013./560. +123./64.*sq(PI))*sq(eta)
                - 2437./16.*cb(eta) - 141./2.*std::pow(eta, 4))*sq(rdot*length(v))
                + (273./16. - (22649399./10800. - 1071./1024.*sq(PI))*eta + (521063./10080. - 205./128.*sq(PI))*sq(eta)
                + 2373./32.*cb(eta) - 45./4.*std::pow(eta, 4))*std::pow(length(v), 4));
 
-    mass E4PN4 = std::pow(m/r, 4)*((9./4. - (1622437./12600. - 2645./96.*sq(PI))*eta - (289351./2520. + 1367./32.*sq(PI))*sq(eta)
+    mass E4PN4 = std::pow((SI_G*m)/r, 4)*((9./4. - (1622437./12600. - 2645./96.*sq(PI))*eta - (289351./2520. + 1367./32.*sq(PI))*sq(eta)
                + 213./8.*cb(eta) + 15./2.*std::pow(eta, 4))*sq(rdot)
                + (15./16. + (1859363./16800. - 149./32.*sq(PI))*eta + (22963./5040. + 311./32.*sq(PI))*sq(eta) - 29./8.*cb(eta) + 1./2.*std::pow(eta, 4.))*sqlength(v));
 
-    mass E4PN5 = std::pow(m/r, 5)*(-3./8. - (1697177./25200. + 105./32.*sq(PI))*eta - (55111./720. - 11.*sq(PI))*sq(eta));
+    mass E4PN5 = std::pow((SI_G*m)/r, 5)*(-3./8. - (1697177./25200. + 105./32.*sq(PI))*eta - (55111./720. - 11.*sq(PI))*sq(eta));
 
-    mass e4PN = mu*(E4PN0 + E4PN1 + E4PN2 + E4PN3 + E4PN4 + E4PN5);
+    mass e4PN = mu/std::pow(SI_c, 8)*(E4PN0 + E4PN1 + E4PN2 + E4PN3 + E4PN4 + E4PN5);
     return e4PN;
 
 }
@@ -450,7 +450,7 @@ mass e_SpinOrbit(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& sigma = dp.sigma;
     Vector<mass, 3> const& LN = dp.LN;
 
-    mass eSO = 1/cb(r)*dot(LN, sigma);
+    mass eSO = SI_G/(sq(SI_c)*cb(r))*dot(LN, sigma);
     return eSO;
 
 }
@@ -462,7 +462,7 @@ mass e_SpinSpin(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& Spin1 = dp.Spin1;
     Vector<mass, 3> const& Spin2 = dp.Spin2;
 
-    mass eSS = 1/cb(r)*(3.*dot(n, Spin1)*dot(n, Spin2) - dot(Spin1, Spin2));
+    mass eSS = (sq(SI_c)*cb(r))*(3.*dot(n, Spin1)*dot(n, Spin2) - dot(Spin1, Spin2));
     return eSS;
 
 }
@@ -480,8 +480,8 @@ mass e_PostNewtonianSO(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& Spin = dp.Spin;
     Vector<mass, 3> const& Delta = dp.Delta;
 
-    mass ePNSO = mu/(2.*sq(r))*dot(cross(n, v), (Delta*dm/m*((1. - 5.*eta)*sq(length(v)) + 3.*eta*m/r) 
-               - 3.*Spin*((1. + eta)*sq(length(v)) + eta*sq(rdot) - 4./3.*eta*m/r)));
+    mass ePNSO = (SI_G*mu)/(2.*cb(SI_c)*sq(r))*dot(cross(n, v), (Delta*dm/m*((1. - 5.*eta)*sq(length(v)) + 3.*eta*(SI_G*m)/r) 
+               - 3.*Spin*((1. + eta)*sq(length(v)) + eta*sq(rdot) - 4./3.*eta*(SI_G*m)/r)));
     return ePNSO;
 
 }
@@ -494,7 +494,7 @@ mass edot_Newtonian(dynamicalParams const& dp, initParams const& ip){
     mass const& rdot = dp.rdot;
     Vector<mass, 3> const& v = dp.v;
 
-    mass edotN = -8./15.*sq(m*mu)/std::pow(r, 4)*(12.*sqlength(v) - 11.*sq(rdot));
+    mass edotN = -8./15.*(cb(SI_G)*sq(m*mu))/(std::pow(SI_c, 5)*std::pow(r, 4))*(12.*sqlength(v) - 11.*sq(rdot));
     return edotN;
 
 }
@@ -508,10 +508,10 @@ mass edot_PostNewtonian(dynamicalParams const& dp, initParams const& ip){
     mass const& rdot = dp.rdot;
     Vector<mass, 3> const& v = dp.v;
 
-    mass edotPN = - 2./105.*sq(m*mu)/std::pow(r, 4)*((785. - 852.*eta)*std::pow(length(v), 4) 
-                - 160.*(17. - eta)*m/r*sqlength(v) + 8.*(367. - 15.*eta)*m/r*sq(rdot) 
+    mass edotPN = - 2./105.*(cb(SI_G)*sq(m*mu))/(std::pow(SI_c, 7)*std::pow(r, 4))*((785. - 852.*eta)*std::pow(length(v), 4) 
+                - 160.*(17. - eta)*(SI_G*m)/r*sqlength(v) + 8.*(367. - 15.*eta)*(SI_G*m)/r*sq(rdot) 
                 - 2.*(1487. - 1392.*eta)*sq(rdot*length(v)) + 3.*(687. - 620.*eta)*std::pow(rdot, 4)
-                + 16.*(1. - 4.*eta)*sq(m/r));
+                + 16.*(1. - 4.*eta)*sq((SI_G*m)/r));
     return edotPN;
 
 }
@@ -525,12 +525,12 @@ mass edot_2PostNewtonian(dynamicalParams const& dp, initParams const& ip){
     mass const& rdot = dp.rdot;
     Vector<mass, 3> const& v = dp.v;
 
-    mass edot2PN = -8./15.*sq(m*mu)/std::pow(r, 4)*(1./42.*(1692. - 5497.*eta + 4430.*sq(eta))*std::pow(length(v), 6)
-                 - 1./14.*(1719. - 10278.*eta + 6292.*sq(eta))*sq(sqlength(v)*rdot) - 1./21.*(4446. - 5237.*eta + 1393.*sq(eta))*m/r*std::pow(rdot, 4)
-                 + 1./14.*(2018. - 15207.*eta + 7572.*sq(eta))*sq(length(v)*sq(rdot)) + 1./7.*(4987. - 8513.*eta + 2165.*sq(eta))*m/r*sq(rdot*length(v))
-                 + 1./756.*(281473. + 81828.*eta + 4368.*sq(eta))*sq(m/r*length(v))
-                 - 1./42.*(2501. - 20234.*eta + 8404.*sq(eta))*std::pow(rdot, 6) - 1./63.*(33510. + 60971.*eta + 14290.*sq(eta))*m/r*std::pow(rdot, 4)
-                 - 1./252.*(106319. + 9798.*eta + 5376.*sq(eta))*sq(m/r*rdot) + 2./63.*(-253. + 1026.*eta - 56.*sq(eta))*cb(m/r));
+    mass edot2PN = -8./15.*(cb(SI_G)*sq(m*mu))/(std::pow(SI_c, 9)*std::pow(r, 4))*(1./42.*(1692. - 5497.*eta + 4430.*sq(eta))*std::pow(length(v), 6)
+                 - 1./14.*(1719. - 10278.*eta + 6292.*sq(eta))*sq(sqlength(v)*rdot) - 1./21.*(4446. - 5237.*eta + 1393.*sq(eta))*(SI_G*m)/r*std::pow(rdot, 4)
+                 + 1./14.*(2018. - 15207.*eta + 7572.*sq(eta))*sq(length(v)*sq(rdot)) + 1./7.*(4987. - 8513.*eta + 2165.*sq(eta))*(SI_G*m)/r*sq(rdot*length(v))
+                 + 1./756.*(281473. + 81828.*eta + 4368.*sq(eta))*sq((SI_G*m)/r*length(v))
+                 - 1./42.*(2501. - 20234.*eta + 8404.*sq(eta))*std::pow(rdot, 6) - 1./63.*(33510. + 60971.*eta + 14290.*sq(eta))*(SI_G*m)/r*std::pow(rdot, 4)
+                 - 1./252.*(106319. + 9798.*eta + 5376.*sq(eta))*sq((SI_G*m)/r*rdot) + 2./63.*(-253. + 1026.*eta - 56.*sq(eta))*cb((SI_G*m)/r));
     return edot2PN;
 
 }
@@ -544,9 +544,9 @@ mass edot_25PostNewtonian(dynamicalParams const& dp, initParams const& ip){
     mass const& rdot = dp.rdot;
     Vector<mass, 3> const& v = dp.v;
 
-    mass edot25PN = -32./5.*sq(m*mu)/std::pow(r, 4)*rdot*eta*(-12349./210.*m/r*std::pow(rdot, 4)
-                  + 4524./35.*m/r*sq(length(v)*rdot) + 2753./126.*sq(m/r*length(v)) - 985./14.*m/r*std::pow(rdot, 4)
-                  + 13981./630.*sq(m/r*rdot) - 1./315.*cb(m/r));
+    mass edot25PN = -32./5.*(cb(SI_G)*sq(m*mu))/(std::pow(SI_c, 10)*std::pow(r, 4))*rdot*eta*(-12349./210.*(SI_G*m)/r*std::pow(rdot, 4)
+                  + 4524./35.*(SI_G*m)/r*sq(length(v)*rdot) + 2753./126.*sq((SI_G*m)/r*length(v)) - 985./14.*(SI_G*m)/r*std::pow(rdot, 4)
+                  + 13981./630.*sq((SI_G*m)/r*rdot) - 1./315.*cb((SI_G*m)/r));
     return edot25PN;
 
 }
@@ -563,8 +563,8 @@ mass edot_SpinOrbit(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& Delta = dp.Delta;
     Vector<mass, 3> const& LN = dp.LN;
 
-    mass edotSO = -8./15.*sq(m*mu)/std::pow(r, 6)*dot(LN, Spin*(78.*sq(rdot) - 80.*sqlength(v) - 8.*m/r)
-                + dm/m*Delta*(51.*sq(rdot) - 43.*sqlength(v) + 4.*m/r));
+    mass edotSO = -8./15.*(cb(SI_G)*m*mu)/(std::pow(SI_c, 7)*std::pow(r, 6))*dot(LN, Spin*(78.*sq(rdot) - 80.*sqlength(v) - 8.*(SI_G*m)/r)
+                + dm/m*Delta*(51.*sq(rdot) - 43.*sqlength(v) + 4.*(SI_G*m)/r));
     return edotSO;
 
 }
@@ -580,7 +580,7 @@ mass edot_SpinSpin(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& Spin1 = dp.Spin1;
     Vector<mass, 3> const& Spin2 = dp.Spin2;
 
-    mass edotSS = -4./15.*sq(m*mu)/std::pow(r, 6)*(-3.*dot(n, Spin1)*dot(n, Spin2)*(168.*sqlength(v) - 269.*sq(rdot))
+    mass edotSS = -4./15.*(cb(SI_G)*m*mu)/(std::pow(SI_c, 7)*std::pow(r, 6))*(-3.*dot(n, Spin1)*dot(n, Spin2)*(168.*sqlength(v) - 269.*sq(rdot))
                 + 3*dot(Spin1, Spin2)*(47*sqlength(v) - 55*sq(rdot)) + 71*dot(v, Spin1)*dot(v, Spin2) 
                 - 171.*rdot*(dot(v, Spin1)*dot(n, Spin2) + dot(n, Spin1)*dot(v, Spin2)));
     return edotSS;
@@ -600,12 +600,12 @@ mass edot_PostNewtonianSO(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& Spin = dp.Spin;
     Vector<mass, 3> const& Delta = dp.Delta;
 
-    mass edotPNSO = -8./105.*sq(m*mu)/std::pow(r, 5)*(dot(cross(n, v), Spin)*(std::pow(rdot, 4)*(3144.*eta - 2244.)
-                  + sq(m/r)*(944. + 390.*eta) + m/r*sq(rdot)*(526.*eta - 3223.) + sq(rdot*length(v))*(3519. - 5004.*eta)
-                  + m/r*sqlength(v)*(3805. - 224.*eta) + std::pow(length(v), 4)*(1810.*eta - 1207.))
-                  + dot(cross(n, v), Delta)*dm/m*(std::pow(rdot, 4)*(2676.*eta - 7941./4.) + sq(m/r)*(238.*eta - 137.) 
-                  + m/r*sq(rdot)*(1199.*eta - 7327.) + sq(rdot*length(v))*(2364. - 3621.*eta)
-                  + m/r*sqlength(v)*(5387./2. - 497.*eta) + std::pow(length(v), 4.)*(1040.*eta - 2603./4.)));
+    mass edotPNSO = -8./105.*(cb(SI_G)*sq(m)*mu)/(std::pow(SI_c, 10)*std::pow(r, 5))*(dot(cross(n, v), Spin)*(std::pow(rdot, 4)*(3144.*eta - 2244.)
+                  + sq((SI_G*m)/r)*(944. + 390.*eta) + (SI_G*m)/r*sq(rdot)*(526.*eta - 3223.) + sq(rdot*length(v))*(3519. - 5004.*eta)
+                  + (SI_G*m)/r*sqlength(v)*(3805. - 224.*eta) + std::pow(length(v), 4)*(1810.*eta - 1207.))
+                  + dot(cross(n, v), Delta)*dm/m*(std::pow(rdot, 4)*(2676.*eta - 7941./4.) + sq((SI_G*m)/r)*(238.*eta - 137.) 
+                  + (SI_G*m)/r*sq(rdot)*(1199.*eta - 7327.) + sq(rdot*length(v))*(2364. - 3621.*eta)
+                  + (SI_G*m)/r*sqlength(v)*(5387./2. - 497.*eta) + std::pow(length(v), 4.)*(1040.*eta - 2603./4.)));
     return edotPNSO;
 
 }
@@ -622,7 +622,7 @@ Vector<mass, 3> l_PostNewtonian(dynamicalParams const& dp, initParams const& ip)
     Vector<mass, 3> const& v = dp.v;
     Vector<mass, 3> const& LN = dp.LN;
 
-    Vector<mass, 3> lPN= LN*(1./2.*sq(length(v))*(1. - 3.*eta) + (3. + eta)*m/r);
+    Vector<mass, 3> lPN= LN/SI_c2*(1./2.*sq(length(v))*(1. - 3.*eta) + (3. + eta)*(SI_G*m)/r);
     return  lPN;
 
 }
@@ -636,8 +636,8 @@ Vector<mass, 3> l_2PostNewtonian(dynamicalParams const& dp, initParams const& ip
     Vector<mass, 3> const& v = dp.v;
     Vector<mass, 3> const& LN = dp.LN;
 
-    Vector<mass, 3> l2PN = LN*(3./8.*(1. - 7.*eta + 13.*sq(eta))*std::pow(length(v), 4) - 1./2.*eta*(2. + 5.*eta)*m/r*sq(rdot) 
-                         + 1./2.*(7 - 10.*eta  - 9.*sq(eta))*m/r*sq(length(v)) + 1./4.*(14. - 41.*eta + 4.*sq(eta))*sq(m/r));
+    Vector<mass, 3> l2PN = LN/sq(SI_c2)*(3./8.*(1. - 7.*eta + 13.*sq(eta))*std::pow(length(v), 4) - 1./2.*eta*(2. + 5.*eta)*(SI_G*m)/r*sq(rdot) 
+                         + 1./2.*(7 - 10.*eta  - 9.*sq(eta))*(SI_G*m)/r*sq(length(v)) + 1./4.*(14. - 41.*eta + 4.*sq(eta))*sq((SI_G*m)/r));
     return l2PN;
 
 }
@@ -651,13 +651,13 @@ Vector<mass, 3> l_3PostNewtonian(dynamicalParams const& dp, initParams const& ip
     Vector<mass, 3> const& v = dp.v;
     Vector<mass, 3> const& LN = dp.LN;
 
-    Vector<mass, 3> l3PN = LN*((5./2. - (5199./280. - 41./32.*sq(PI))*eta - 7.*sq(eta) + cb(eta))*cb(m/r)
+    Vector<mass, 3> l3PN = LN/cb(SI_c2)*((5./2. - (5199./280. - 41./32.*sq(PI))*eta - 7.*sq(eta) + cb(eta))*cb((SI_G*m)/r)
                          + 1./16.*(5 - 59.*eta + 238.*sq(eta) - 323.*cb(eta))*std::pow(length(v),6)
-                         + 1./12.*(135. - 322.*eta + 315.*sq(eta) - 108.*cb(eta))*sq(m/r*length(v)) 
-                         + 1./24.*(12. - 287.*eta - 951.*sq(eta) - 324.*cb(eta))*sq(m/r*rdot)
-                         + 1./8.*(33. - 142.*eta + 106.*sq(eta) + 195.*cb(eta))*m/r*std::pow(length(v), 4)
-                         - 1./4.*eta*(12. - 7.*eta - 75.*sq(eta))*m/r*sq(length(v)*rdot)
-                         + 3./8.*eta*(2. - 2.*eta - 11.*sq(eta))*m/r*std::pow(rdot, 4));
+                         + 1./12.*(135. - 322.*eta + 315.*sq(eta) - 108.*cb(eta))*sq((SI_G*m)/r*length(v)) 
+                         + 1./24.*(12. - 287.*eta - 951.*sq(eta) - 324.*cb(eta))*sq((SI_G*m)/r*rdot)
+                         + 1./8.*(33. - 142.*eta + 106.*sq(eta) + 195.*cb(eta))*(SI_G*m)/r*std::pow(length(v), 4)
+                         - 1./4.*eta*(12. - 7.*eta - 75.*sq(eta))*(SI_G*m)/r*sq(length(v)*rdot)
+                         + 3./8.*eta*(2. - 2.*eta - 11.*sq(eta))*(SI_G*m)/r*std::pow(rdot, 4));
     return l3PN;
 
 }
@@ -673,21 +673,21 @@ Vector<mass, 3> l_4PostNewtonian(dynamicalParams const& dp, initParams const& ip
 
     mass L4PN0 = (35./128. - 605./128.*eta + 3925./128.*sq(eta) - 5635./54.*cb(eta) + 12075./128.*std::pow(eta, 4))*std::pow(length(v), 8);
 
-    mass L4PN1 = m/r*((-5/8*eta + 15/8*sq(eta) + 45/16*cb(eta) - 85/16*std::pow(eta, 4))*std::pow(rdot, 6)
+    mass L4PN1 = (SI_G*m)/r*((-5/8*eta + 15/8*sq(eta) + 45/16*cb(eta) - 85/16*std::pow(eta, 4))*std::pow(rdot, 6)
                + (3.*eta - 45./4.*sq(eta) - 135./16.*cb(eta) + 693./16.*std::pow(eta, 4))*sq(length(v)*sq(rdot))
                - (53./8.*eta - 423./16.*sq(eta) - 299./16.*cb(eta) + 1995./16.*std::pow(eta, 4))*sq(sqlength(v)*rdot)
                + (75./16. - 151./4.*eta + 1553./16.*sq(eta) - 425./16.*cb(eta) - 2261./16.*std::pow(eta, 4))*std::pow(length(v), 6));
 
-    mass L4PN2 = sq(m/r)*((14773./320.*eta + 3235./48.*sq(eta) - 155./4.*cb(eta) - 27.*std::pow(eta, 4))*std::pow(rdot, 4)
+    mass L4PN2 = sq((SI_G*m)/r)*((14773./320.*eta + 3235./48.*sq(eta) - 155./4.*cb(eta) - 27.*std::pow(eta, 4))*std::pow(rdot, 4)
                + (3./4. - 5551./60.*eta - 256./3.*sq(eta) + 4459./16.*cb(eta) + 569./4.*std::pow(eta, 4))*sq(rdot*length(v))
                + (345./26. - 65491./960.*eta + 12427./96.*sq(eta) - 3845./32.*cb(eta) + 585./8.*std::pow(eta, 4))*std::pow(length(v), 4));
 
-    mass L4PN3 = cb(m/r)*((7./2. + (7775977./16800. + 447./256.*sq(PI))*eta + 121449./560.*sq(eta) - 1025./8.*cb(eta) - 47.*std::pow(eta, 4))*sq(rdot)
+    mass L4PN3 = cb((SI_G*m)/r)*((7./2. + (7775977./16800. + 447./256.*sq(PI))*eta + 121449./560.*sq(eta) - 1025./8.*cb(eta) - 47.*std::pow(eta, 4))*sq(rdot)
                + (91./4. - (13576009./50400. - 469./256.*sq(PI))*eta + (276433./5040. - 41./16.*sq(PI))*sq(eta) + 637./8.*cb(eta) - 15.*std::pow(eta, 4))*sqlength(v));
 
-    mass L4PN4 = std::pow(m/r, 4)*(15./8. + (3809041./25200. - 85./8.*sq(PI))*eta - (20131./420. - 663./32.*sq(PI))*sq(eta) - 15./4.*cb(eta) + std::pow(eta, 4));
+    mass L4PN4 = std::pow((SI_G*m)/r, 4)*(15./8. + (3809041./25200. - 85./8.*sq(PI))*eta - (20131./420. - 663./32.*sq(PI))*sq(eta) - 15./4.*cb(eta) + std::pow(eta, 4));
 
-    Vector<mass, 3> l4PN = LN*(L4PN0 + L4PN1 + L4PN2 + L4PN3 + L4PN4);
+    Vector<mass, 3> l4PN = LN/std::pow(SI_c, 8)*(L4PN0 + L4PN1 + L4PN2 + L4PN3 + L4PN4);
     return l4PN;
 
 }
@@ -702,7 +702,7 @@ Vector<mass, 3> l_SpinOrbit(dynamicalParams const& dp, initParams const& ip){
     Vector<mass, 3> const& Spin = dp.Spin;
     Vector<mass, 3> const& sigma = dp.sigma;
 
-    Vector<mass, 3> lSO = mu/m*(m/r*cross(n, cross(n, (2.*Spin + sigma))) - 1./2.*cross(v, cross(v, sigma)));
+    Vector<mass, 3> lSO = mu/(sq(SI_c)*m)*((SI_G*m)/r*cross(n, cross(n, (2.*Spin + sigma))) - 1./2.*cross(v, cross(v, sigma)));
     return lSO;
 
 }

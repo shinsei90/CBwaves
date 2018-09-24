@@ -34,7 +34,7 @@ int main(){
     myfile.open("debug.dat");
 
     // mass risco = 44310;
-    initParams iparams(10., 2., 1772400, 0.);
+    initParams iparams(2., 2., 54770., 0.);
     mass rmin = (6.* SI_G * iparams.m)/SI_c2;
     double printstep = 1000.;
     // double T = 2.*PI*iparams.r0/(std::sqrt(SI_G*(iparams.m1 + iparams.m2)/iparams.r0));
