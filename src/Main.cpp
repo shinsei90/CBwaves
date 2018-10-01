@@ -38,7 +38,7 @@ int main(){
     mass rmin = (6.* SI_G * iparams.m)/SI_c2;
     double printstep = 1000.;
     // double T = 2.*PI*iparams.r0/(std::sqrt(SI_G*(iparams.m1 + iparams.m2)/iparams.r0));
-    solver_internal dt = 1./std::pow(2., 12);
+    solver_internal dt = 1./std::pow(2., 11);
     // solver_internal dt = T/printstep;
 
     // Model switches (Compile time constants)
