@@ -38,7 +38,7 @@ int main(){
     mass rmin = (6.* SI_G * iparams.m)/SI_c2;
     double printstep = 1000.;
     // double T = 2.*PI*iparams.r0/(std::sqrt(SI_G*(iparams.m1 + iparams.m2)/iparams.r0));
-    solver_internal dt = 1./std::pow(2., 11);
+    solver_internal dt = 1./std::pow(2., 3);
     // solver_internal dt = T/printstep;
 
     // Model switches (Compile time constants)
@@ -124,7 +124,7 @@ int main(){
     // (val * 1) type expressions to nop (no-operation).
 
     auto corrs = [&](dynamicalParams const& dp) -> state { // capture clause could be reference
-        return c_Newtonian(dp, iparams); //+ c_PostNewtonian(dp, iparams);
+        return c_Newtonian(dp, iparams); + c_PostNewtonian(dp, iparams);
         // return (use_c_Newtonian ? c_Newtonian(dp, iparams) : nullState) +              
         //        (use_c_PostNewtonian ? c_PostNewtonian(dp, iparams) : nullState ) + 
         //        (use_c_2PostNewtonian ? c_2PostNewtonian(dp, iparams) : nullState ) +
