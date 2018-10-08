@@ -42,19 +42,19 @@ int main(){
     // solver_internal dt = T/printstep;
 
     // Model switches (Compile time constants)
-    constexpr bool use_c_Newtonian = true,
-                   use_c_PostNewtonian = true,
-                   use_c_2PostNewtonian = true, 
-                   use_c_3PostNewtonian = true, 
-                   use_c_4PostNewtonian = true, 
-                   use_c_SpinOrbit = false,
-                   use_c_SpinSpin = false,
-                   use_c_BT_RR = false, 
-                   use_c_PostNewtonianSO = false, 
-                   use_c_2PostNewtonianSO = false, 
-                   use_c_RR1PostNewtonian = false,
-                   use_c_RRSO = false, 
-                   use_c_RRSS = false; 
+    // constexpr bool use_c_Newtonian = true,
+    //                use_c_PostNewtonian = true,
+    //                use_c_2PostNewtonian = true, 
+    //                use_c_3PostNewtonian = true, 
+    //                use_c_4PostNewtonian = true, 
+    //                use_c_SpinOrbit = false,
+    //                use_c_SpinSpin = false,
+    //                use_c_BT_RR = false, 
+    //                use_c_PostNewtonianSO = false, 
+    //                use_c_2PostNewtonianSO = false, 
+    //                use_c_RR1PostNewtonian = false,
+    //                use_c_RRSO = false, 
+    //                use_c_RRSS = false; 
     
     // constexpr bool use_h_Q = false,
     //                use_h_P05Q = false,
@@ -138,7 +138,7 @@ int main(){
     //            (use_c_RR1PostNewtonian ? c_RR1PostNewtonian(dp, iparams) : nullState ) +
     //            (use_c_RRSO ? c_RRSO(dp, iparams) : nullState ) +
     //            (use_c_RRSS ? c_RRSS(dp, iparams) : nullState );
-    // };
+    };
 
     // auto hterms = [=](dynamicalParams const& dp){
     //     return (use_h_Q ? h_Q(dp, iparams) : (mass)0. ) +
