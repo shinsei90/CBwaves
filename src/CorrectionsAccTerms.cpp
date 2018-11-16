@@ -132,7 +132,7 @@ state c_4PostNewtonian(dynamicalParams const& dp, initParams const& ip){
     mass b3 = cb(m/r)*(2. - (619267./525. - 791./16.*sq(PI))*eta - (28406./45. + 2201./32.*sq(PI))*sq(eta) + 66.*cb(eta) + 16.*std::pow(eta, 4));
     mass B_4PN = b0 + b1 + b2 + b3;
 
-    Vector<mass, 3> a4PN = -(SI_G*m)/sq(r)*((1. + A_4PN)*n + B_4PN*v);
+    Vector<mass, 3> a4PN = -(SI_G*m)/sq(r)*(A_4PN*n + B_4PN*v);
     return state{a4PN , dp.v};
 
 }

@@ -6,7 +6,7 @@ using solver_internal = double;         // scalars used inside the solver
 // If we are using c = G = 1 
 #define SI_G      1                         // The universal gravitational constant
 #define SI_c      1                         // The speed of light
-#define MSUN      1477.                     // The mass of the sun in meters
+#define MSUN      1477.1                     // The mass of the sun in meters
 
 // If we are not using c = G = 1 system
 // #define SI_G      6.67428E-11               // The universal gravitational constant in [m^3 kg^-1 s^-2]
