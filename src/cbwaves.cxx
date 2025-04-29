@@ -1166,7 +1166,7 @@ static FUNCDEF(E_2PNSO) {			// Boh� etal CQG30(13)075017, Eq. (3.9d)
 }
 
 static FUNCDEF(E_4PN) {			// Mora, Will PRD69(04)104021, Eq. (2.11d)
-    if(ode.corrections & C_3PN) {
+    if(ode.corrections & C_4PN) {
         REAL eta = ode.eta;
         REAL eta2 = eta*eta;
         REAL eta3 = eta*eta*eta;
@@ -1826,14 +1826,14 @@ const string CBwaveODE::COMPONENT_NAMES[] = {
     "r2PNx", "r2PNy", "r2PNz", "v2PNx", "v2PNy", "v2PNz", "E_2PNrad",
     "rSOx", "rSOy", "rSOz", "vSOx", "vSOy", "vSOz", "E_SOrad",
     "rSSx", "rSSy", "rSSz", "vSSx", "vSSy", "vSSz", "E_SSrad",
-    "rRRx", "rRRy", "rRRz", "vRRx", "vRRy", "vRRz", "E_Nrad", "Jx_Nrad", "Jy_Nrad", "Jz_Nrad", "E_25PNrad",
-    "s1x", "s1y", "s1z", "s2x", "s2y", "s2z", "orbits",
-    "rPNSOx", "rPNSOy", "rPNSOz", "vPNSOx", "vPNSOy", "vPNSOz", "E_PNSOrad",
+    "rRRx", "rRRy", "rRRz", "vRRx", "vRRy", "vRRz", "E_Nrad", "Jx_Nrad", "Jy_Nrad", "Jz_Nrad", 
+    "s1x", "s1y", "s1z", "s2x", "s2y", "s2z", "orbits", 
     "r3PNx", "r3PNy", "r3PNz", "v3PNx", "v3PNy", "v3PNz",
     "r1RRx", "r1RRy", "r1RRz", "v1RRx", "v1RRy", "v1RRz",
     "rRRSOx", "rRRSOy", "rRRSOz", "vRRSOx", "vRRSOy", "vRRSOz",
     "rRRSSx", "rRRSSy", "rRRSSz", "vRRSSx", "vRRSSy", "vRRSSz",
-    "r2PNSOx", "r2PNSOy", "r2PNSOz", "v2PNSOx", "v2PNSOy", "v2PNSOz",
+    "rPNSOx", "rPNSOy", "rPNSOz", "vPNSOx", "vPNSOy", "vPNSOz",
+    "r2PNSOx", "r2PNSOy", "r2PNSOz", "v2PNSOx", "v2PNSOy", "v2PNSOz","E_PNSOrad", "E_25PNrad",
     "r4PNx", "r4PNy", "r4PNz", "v4PNx", "v4PNy", "v4PNz"
 };
 
