@@ -3,7 +3,8 @@ cmake_minimum_required(VERSION 3.5)
 project(CBwaves LANGUAGES CXX)
 
 find_package(Threads REQUIRED)
-find_package(Boost REQUIRED)
+find_package(Boost 1.83 COMPONENTS program_options REQUIRED)
+# find_package(Boost REQUIRED)
 find_package(Perl)
 
 add_executable(${PROJECT_NAME} src/cbwaves.cxx
